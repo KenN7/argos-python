@@ -31,6 +31,8 @@ add_library (
 
 target_link_libraries (py_controller_interface
     argos3core_simulator
+    argos3plugin_simulator_footbot
+    argos3plugin_simulator_genericrobot
     ${PYTHON_LIBRARIES}
     ${Boost_LIBRARIES}
 )

@@ -6,6 +6,7 @@
  */
 #include "py_wrapper.h"
 
+
 using namespace argos;
 using namespace boost::python;
 
@@ -21,11 +22,12 @@ void ActusensorsWrapper::Init()
 
 void ActusensorsWrapper::InitSteeringWheels()
 {
+    m_pcWheels = GetActuator<CCI_DifferentialSteeringActuator>("differential_steering");
 
 }
 
-void ActusensorsWrapper::wheels(float a, float b)
+void ActusensorsWrapper::wheels(Real fLeftWheelSpeed, Real fRightWheelSpeed)
 {
-    std::cout << "go for " << a << b << std::endl;
-
+    //std::cout << "go for " << a << b << std::endl;
+    m_pcWheels->SetLinearVelocity(fLeftWheelSpeed, fRightWheelSpeed);
 }
