@@ -2,11 +2,6 @@
 
 using namespace argos;
 
-int add(int x)
-{
-  return x+1;
-}
-
 using namespace boost::python;
 
 #if PY_MAJOR_VERSION >= 3
@@ -22,7 +17,6 @@ typedef boost::shared_ptr<CPyController> cpy_ptr;
 
 BOOST_PYTHON_MODULE(libpy_controller_interface)
 {
-  def("add", add);
   class_<CPyController, cpy_ptr>("CPyController", no_init)
     .def("getid", &CPyController::GetId_2)
     //.def("controlstep", &CPyController::GetId)

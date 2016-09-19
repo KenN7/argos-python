@@ -29,10 +29,6 @@ add_library (
     py_controller_interface SHARED py_controller.cpp py_wrapper.cpp
 )
 
-#add_library (
-#    py_wrapper SHARED py_wrapper.h py_wrapper.cpp
-#)
-
 target_link_libraries (py_controller_interface
     argos3core_simulator
     ${PYTHON_LIBRARIES}
