@@ -8,17 +8,9 @@
 #ifndef PY_CONTROLLER_H
 #define PY_CONTROLLER_H
 
-#include <boost/python.hpp>
 #include <boost/make_shared.hpp>
 
-#include <argos3/core/control_interface/ci_controller.h>
-
-#include <argos3/core/utility/logging/argos_log.h>
-
 #include "py_wrapper.h"
-
-#include <string>
-#include <iostream>
 
 namespace argos {
 
@@ -62,20 +54,12 @@ public:
 
   void InitSensorsActuators();
 
-  std::string GetId_2();
 
 private:
-
-  //CCI_DifferentialSteeringActuator* m_pcWheels;
-  //CCI_FootBotProximitySensor* m_pcProximity;
-  //CCI_ColoredBlobOmnidirectionalCameraSensor* m_pcOmniCam;
 
   boost::python::object m_main;
   boost::python::object m_namesp;
   boost::python::object m_script;
-
-  boost::python::dict m_sensors_dict;
-  boost::python::dict m_actuators_dict;
 
   boost::shared_ptr< ActusensorsWrapper > m_actusensors;
 
