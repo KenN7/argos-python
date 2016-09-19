@@ -68,7 +68,7 @@ void CPyController::InitSensorsActuators()
       it != m_mapActuators.end();
       ++it)
   {
-    m_actusensors->CreateActu(it->first, this);//it->second);
+    m_actusensors->CreateActu(it->first, it->second); //this);
   }
 
   for(CCI_Sensor::TMap::iterator it = m_mapSensors.begin();

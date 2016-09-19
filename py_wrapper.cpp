@@ -35,6 +35,8 @@ void ActusensorsWrapper::InitSteeringWheels()
 void ActusensorsWrapper::wheels(Real fLeftWheelSpeed, Real fRightWheelSpeed)
 {
     //std::cout << "go for " << a << b << std::endl;
+
+    //mthis->mpc->SetLinearVelocity(fLeftWheelSpeed, fRightWheelSpeed);
     m_pcWheels->SetLinearVelocity(fLeftWheelSpeed, fRightWheelSpeed);
 }
 
@@ -52,6 +54,7 @@ void ActusensorsWrapper::CreateActu(std::string name, CCI_Actuator* actu)
   if (name == "differential_steering")
   {
     m_pcWheels = (CCI_DifferentialSteeringActuator*)actu;
+    //mthis = actu;
   }
 
 }
