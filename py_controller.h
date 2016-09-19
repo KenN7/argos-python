@@ -61,7 +61,8 @@ private:
   boost::python::object m_namesp;
   boost::python::object m_script;
 
-  boost::shared_ptr< ActusensorsWrapper > m_actusensors;
+  //boost::shared_ptr< ActusensorsWrapper > m_actusensors;
+  ActusensorsWrapper* m_actusensors;
 
   int m_state;
   int m_id;

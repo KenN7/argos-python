@@ -60,3 +60,13 @@ void ActusensorsWrapper::CreateSensor(std::string name, CCI_Sensor* sensor)
 {
 
 }
+
+
+BOOST_PYTHON_MODULE(libpy_controller_interface)
+{
+  //class_< ActusensorsWrapper, boost::shared_ptr<ActusensorsWrapper>, boost::noncopyable >("robot", no_init)
+  class_< ActusensorsWrapper >("robot", no_init)
+    .def("logprint", &ActusensorsWrapper::logprint)
+    .def("wheels", &ActusensorsWrapper::wheels)
+  ;
+}
