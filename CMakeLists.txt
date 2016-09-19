@@ -1,0 +1,36 @@
+project (pythonwrapper CXX)
+cmake_minimum_required (VERSION 2.8)
+
+set(BOOST_INCLUDEDIR /usr/include)
+
+set(Python_ADDITIONAL_VERSIONS 3.5)
+find_package(PythonLibs)
+include_directories (${PYTHON_INCLUDE_DIRS})
+link_directories(${PYTHON_LIBRARIES})
+
+find_package(Boost 1.61.0 COMPONENTS python3)
+include_directories (${Boost_INCLUDE_DIRS})
+link_directories(${Boost_LIBRARY_DIR})
+
+find_package(PkgConfig)
+pkg_check_modules(ARGOS REQUIRED argos3_simulator)
+set(ARGOS_PREFIX ${ARGOS_PREFIX} CACHE INTERNAL "")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ARGOS_PREFIX}/share/argos3/cmake)
+
+# Set ARGoS include dir
+include_directories(${catkin_INCLUDE_DIRS} ${CMAKE_SOURCE_DIR} ${ARGOS_INCLUDE_DIRS} ${GSL_INCLUDE_DIR} ${LUA_INCLUDE_DIR})
+
+# Set ARGoS link dir
+link_directories(${ARGOS_LIBRARY_DIRS})
+
+include_directories(${CMAKE_SOURCE_DIR}/controllers)
+
+add_library (
+    py_controller_interface SHARED py_controller.h py_controller.cpp
+)
+
+target_link_libraries (py_controller_interface
+    argos3core_simulator
+    ${PYTHON_LIBRARIES}
+    ${Boost_LIBRARIES}
+)
