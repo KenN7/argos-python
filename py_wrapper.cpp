@@ -4,24 +4,36 @@
  * Connects ARGoS to python
  *
  */
+#include "py_wrapper.h"
 
-#ifndef PY_WRAPPER_H
-#define PY_WRAPPER_H
+using namespace argos;
+using namespace boost::python;
 
-#include <argos3/plugins/robots/generic/control_interface/ci_differential_steering_actuator.h>
-#include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_proximity_sensor.h>
-#include <argos3/plugins/robots/generic/control_interface/ci_colored_blob_omnidirectional_camera_sensor.h>
-#include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_gripper_actuator.h>
+ActusensorsWrapper::ActusensorsWrapper() :
+m_pcWheels(NULL)
+{
+}
+
+void ActusensorsWrapper::Init()
+{
+
+}
+
+void ActusensorsWrapper::InitSteeringWheels()
+{
+
+}
+
+void ActusensorsWrapper::wheels(float a, float b)
+{
+
+}
 
 
+BOOST_PYTHON_MODULE(robot)
+{
+  class_<ActusensorsWrapper>("robot", no_init)
+    .def("wheels", &ActusensorsWrapper::wheels)
+  ;
 
-class Actusensors_Wrapper {
-
-public:
-
-  
-
-private:
-
-
-#endif
+}
