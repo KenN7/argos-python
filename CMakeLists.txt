@@ -26,12 +26,12 @@ link_directories(${ARGOS_LIBRARY_DIRS})
 include_directories(${CMAKE_SOURCE_DIR}/controllers)
 
 add_library (
-    py_controller_interface SHARED py_controller.h py_controller.cpp
+    py_controller_interface SHARED py_controller.cpp py_wrapper.cpp
 )
 
-add_library (
-    py_wrapper SHARED py_wrapper.h py_wrapper.cpp
-)
+#add_library (
+#    py_wrapper SHARED py_wrapper.h py_wrapper.cpp
+#)
 
 target_link_libraries (py_controller_interface
     argos3core_simulator

@@ -9,11 +9,13 @@
 #define PY_CONTROLLER_H
 
 #include <boost/python.hpp>
+#include <boost/make_shared.hpp>
 
 #include <argos3/core/control_interface/ci_controller.h>
 
-
 #include <argos3/core/utility/logging/argos_log.h>
+
+#include "py_wrapper.h"
 
 #include <string>
 #include <iostream>
@@ -74,6 +76,8 @@ private:
 
   boost::python::dict m_sensors_dict;
   boost::python::dict m_actuators_dict;
+
+  boost::shared_ptr< ActusensorsWrapper > m_actusensors;
 
   int m_state;
   int m_id;

@@ -20,13 +20,10 @@
 #include <string>
 #include <iostream>
 
-#   define INIT_WRAPPER PyInit_libpy_wrapper
-extern "C" PyObject* INIT_WRAPPER();
-
 namespace argos {
 
-class ActusensorsWrapper {
-
+class ActusensorsWrapper
+{
     public:
 
         ActusensorsWrapper();

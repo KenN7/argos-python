@@ -17,6 +17,7 @@ using namespace boost::python;
     extern "C" void INIT_MODULE();
 #endif
 
+
 typedef boost::shared_ptr<CPyController> cpy_ptr;
 
 BOOST_PYTHON_MODULE(libpy_controller_interface)
@@ -26,11 +27,10 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
     .def("getid", &CPyController::GetId_2)
     //.def("controlstep", &CPyController::GetId)
   ;
-  //class_<CCI_Actuator>("")
-
-  //class_<CCI_Sensor>("")
+  class_< ActusensorsWrapper, boost::shared_ptr<ActusensorsWrapper>, boost::noncopyable >("robot", no_init)
+    .def("wheels", &ActusensorsWrapper::wheels)
+  ;
 }
-
 
 CPyController::CPyController() :
   m_state(0),
@@ -38,6 +38,7 @@ CPyController::CPyController() :
   // m_pcWheels(NULL),
   // m_pcProximity(NULL),
   // m_pcOmniCam(NULL),
+  m_actusensors(NULL),
   m_main(NULL),
   m_namesp(NULL),
   m_script(NULL)
@@ -71,7 +72,7 @@ void CPyController::InitSensorsActuators()
       it != m_mapActuators.end();
       ++it)
   {
-     m_actuators_dict[it->first] = it->second;
+     m_actuators_dict[it->first] = 1;//it->second;
   }
   m_main.attr("actuators") = m_actuators_dict;
 
@@ -79,7 +80,7 @@ void CPyController::InitSensorsActuators()
       it != m_mapSensors.end();
       ++it)
   {
-     m_sensors_dict[it->first] = it->second;
+     m_sensors_dict[it->first] = 1;//it->second;
   }
   m_main.attr("sensors") = m_sensors_dict;
 
@@ -93,9 +94,12 @@ void CPyController::Init(TConfigurationNode& t_node)
   //m_pcWheels = GetActuator<CCI_DifferentialSteeringActuator>("differential_steering");
   //m_pcProximity = GetSensor<CCI_FootBotProximitySensor>("footbot_proximity");
   //m_pcOmniCam = GetSensor<CCI_ColoredBlobOmnidirectionalCameraSensor>("colored_blob_omnidirectional_camera");
+  //m_actusensors = boost::shared_ptr< ActusensorsWrapper >(new ActusensorsWrapper());
+  m_actusensors = boost::make_shared< ActusensorsWrapper >();
 
   //init python
   PyImport_AppendInittab((char*)"libpy_controller_interface", INIT_MODULE);
+
   Py_Initialize();
 
   m_main = import("__main__");
@@ -118,23 +122,22 @@ void CPyController::Init(TConfigurationNode& t_node)
   {
 
     //cpy_ptr aacpy_pt = (cpy_ptr)this;
-    PyRun_SimpleString("import libpy_controller_interface as l");
+    PyRun_SimpleString("import libpy_controller_interface as lib");
 
-    PyRun_SimpleString("print(l.add(41))");
+    //PyRun_SimpleString("print(l.add(41))");
+
     PyRun_SimpleString(
-            "foo = []\n"
+            "foo = None\n"
             "def setup(a_foo_from_cxx):\n"
             "    print('setup called with', a_foo_from_cxx)\n"
             "    global foo\n"
-            "    foo.append(a_foo_from_cxx)\n"
+            "    foo =a_foo_from_cxx\n"
         );
 
-    // object main = object(handle<>(borrowed(
-    //         PyImport_AddModule("__main__")
-    //     )));
-
     object setup_func = m_main.attr("setup");
-    setup_func(ptr(this));
+    setup_func(m_actusensors);
+
+    PyRun_SimpleString("foo.wheels(1.2,25)");
 
     //m_main.attr("yama") = ptr(this);
     InitSensorsActuators();
@@ -155,9 +158,6 @@ void CPyController::Init(TConfigurationNode& t_node)
 
 void CPyController::ControlStep()
 {
-
-  // PyRun_SimpleString("print(foo)");
-
   // PyRun_SimpleString("import random\n"
   //                    "def rand():\n"
   //                    "    i = random.randint(1,10)\n"

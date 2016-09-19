@@ -26,14 +26,6 @@ void ActusensorsWrapper::InitSteeringWheels()
 
 void ActusensorsWrapper::wheels(float a, float b)
 {
-
-}
-
-
-BOOST_PYTHON_MODULE(robot)
-{
-  class_<ActusensorsWrapper>("robot", no_init)
-    .def("wheels", &ActusensorsWrapper::wheels)
-  ;
+    std::cout << "go for " << a << b << std::endl;
 
 }
