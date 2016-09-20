@@ -10,7 +10,8 @@ using namespace argos;
 using namespace boost::python;
 
 ActusensorsWrapper::ActusensorsWrapper() :
-m_pcWheels(NULL)
+m_pcWheels(NULL),
+m_pcWheels_bool(false)
 // m_pcProximity(NULL),
 // m_pcOmniCam(NULL),
 {
@@ -35,9 +36,14 @@ void ActusensorsWrapper::InitSteeringWheels()
 void ActusensorsWrapper::wheels(Real fLeftWheelSpeed, Real fRightWheelSpeed)
 {
     //std::cout << "go for " << a << b << std::endl;
-
-    //mthis->mpc->SetLinearVelocity(fLeftWheelSpeed, fRightWheelSpeed);
-    m_pcWheels->SetLinearVelocity(fLeftWheelSpeed, fRightWheelSpeed);
+    if (m_pcWheels_bool)
+    {
+        m_pcWheels->SetLinearVelocity(fLeftWheelSpeed, fRightWheelSpeed);
+    }
+    else
+    {
+        logprint("Actuator not implemented or not stated in XML config.");
+    }
 }
 
 
@@ -54,7 +60,7 @@ void ActusensorsWrapper::CreateActu(std::string name, CCI_Actuator* actu)
   if (name == "differential_steering")
   {
     m_pcWheels = (CCI_DifferentialSteeringActuator*)actu;
-    //mthis = actu;
+    m_pcWheels_bool = true;
   }
 
 }

@@ -51,6 +51,9 @@ class ActusensorsWrapper
         //CCI_DifferentialSteeringActuator* m_pcWheels;
         //CCI_FootBotProximitySensor* m_pcProximity;
         //CCI_ColoredBlobOmnidirectionalCameraSensor* m_pcOmniCam;
+
+        //variables to activate a actuator/sensors
+        bool m_pcWheels_bool;
 };
 
 }
