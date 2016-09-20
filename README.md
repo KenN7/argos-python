@@ -23,7 +23,7 @@ don't forget to also add :
 at the end of controller section
 
 ### python script
-based on the test.py file, use the embedded functions (controlstep, init, destroy, reset)
-the global object "robot" is the one where there should be all the metthods for the robot.
+based on the test.py file, use the embedded functions (controlstep, init, destroy, reset...)
+the global object "robot" is the one where there should be all the methods for the robot.
 
 For now only the steering actuator works so it's kind of useless ;) ^^
