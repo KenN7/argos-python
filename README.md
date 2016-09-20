@@ -5,6 +5,8 @@ copy all files in the plugin folder of argos simulator
 then build.
 
 ### Building instructions
+You need at least boost, boost-libs, cmake, gcc, python3.
+Compliling tested on archlinux only.
 ```bash
 cd argos-python
 cmake .
