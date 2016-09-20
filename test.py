@@ -5,11 +5,11 @@ def controlstep():
     robot.wheels(1,5)
 
 def init():
-    print("init")
+    robot.logprint("init")
 
 def destroy():
-    print("destroy")
+    robot.logprint("destroy")
 
 def reset():
-    print("reset")
+    robot.logprint("reset")
 
