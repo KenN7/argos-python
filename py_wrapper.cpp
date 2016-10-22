@@ -9,17 +9,16 @@
 using namespace argos;
 using namespace boost::python;
 
-ActusensorsWrapper::ActusensorsWrapper() :
-m_pcWheels(NULL),
-m_pcWheels_bool(false)
-// m_pcProximity(NULL),
+ActusensorsWrapper::ActusensorsWrapper() : m_pcWheels(NULL),
+                                           m_pcWheels_bool(false),
+                                           m_pcProximity(NULL),
+                                           m_pcProximity_bool(false)
 // m_pcOmniCam(NULL),
 {
 }
 
 void ActusensorsWrapper::Init()
 {
-
 }
 
 void ActusensorsWrapper::logprint(std::string message)
@@ -29,23 +28,27 @@ void ActusensorsWrapper::logprint(std::string message)
 
 void ActusensorsWrapper::InitSteeringWheels()
 {
-
-
 }
 
 void ActusensorsWrapper::wheels(Real fLeftWheelSpeed, Real fRightWheelSpeed)
 {
-    //std::cout << "go for " << a << b << std::endl;
-    if (m_pcWheels_bool)
-    {
-        m_pcWheels->SetLinearVelocity(fLeftWheelSpeed, fRightWheelSpeed);
-    }
-    else
-    {
-        logprint("Actuator not implemented or not stated in XML config.");
-    }
+  //std::cout << "go for " << a << b << std::endl;
+  if (m_pcWheels_bool)
+  {
+    m_pcWheels->SetLinearVelocity(fLeftWheelSpeed, fRightWheelSpeed);
+  }
+  else
+  {
+    logprint("Actuator not implemented or not stated in XML config.");
+  }
 }
 
+boost::python::object ActusensorsWrapper::proximity()
+{
+   const CCI_FootBotProximitySensor::TReadings& tProxReads = m_pcProximity->GetReadings();
+
+   return object(toPythonList(tProxReads));
+}
 
 //those 2 following functions serve as wrappers for Actuators and Sensors
 //the if are based on the options of the XML
@@ -55,27 +58,37 @@ void ActusensorsWrapper::wheels(Real fLeftWheelSpeed, Real fRightWheelSpeed)
 //m_pcProximity = GetSensor<CCI_FootBotProximitySensor>("footbot_proximity");
 //m_pcOmniCam = GetSensor<CCI_ColoredBlobOmnidirectionalCameraSensor>("colored_blob_omnidirectional_camera");
 
-void ActusensorsWrapper::CreateActu(std::string name, CCI_Actuator* actu)
+void ActusensorsWrapper::CreateActu(std::string name, CCI_Actuator *actu)
 {
   if (name == "differential_steering")
   {
-    m_pcWheels = (CCI_DifferentialSteeringActuator*)actu;
+    m_pcWheels = (CCI_DifferentialSteeringActuator *)actu;
     m_pcWheels_bool = true;
   }
-
 }
 
-void ActusensorsWrapper::CreateSensor(std::string name, CCI_Sensor* sensor)
+void ActusensorsWrapper::CreateSensor(std::string name, CCI_Sensor *sensor)
 {
-
+  if (name == "footbot_proximity")
+  {
+    m_pcProximity = (CCI_FootBotProximitySensor *)sensor;
+    m_pcProximity_bool = true;
+  }
 }
-
 
 BOOST_PYTHON_MODULE(libpy_controller_interface)
 {
-    //class_< ActusensorsWrapper >("robot", no_init)
-  class_< ActusensorsWrapper, boost::shared_ptr<ActusensorsWrapper>, boost::noncopyable >("robot", no_init)
-    .def("logprint", &ActusensorsWrapper::logprint)
-    .def("wheels", &ActusensorsWrapper::wheels)
-  ;
+  //class_< ActusensorsWrapper >("robot", no_init)
+  class_<ActusensorsWrapper, boost::shared_ptr<ActusensorsWrapper>, boost::noncopyable>("robot", no_init)
+      .def("logprint", &ActusensorsWrapper::logprint)
+      .def("wheels", &ActusensorsWrapper::wheels)
+      .def("proximity", &ActusensorsWrapper::proximity);
+
+  class_<argos::CRadians>("radians", init<>())
+    .def(init<float>())
+    .def("value", &argos::CRadians::GetValue);
+
+  class_<argos::CCI_FootBotProximitySensor::SReading>("proximity_reading", no_init)
+    .def_readonly("value", &argos::CCI_FootBotProximitySensor::SReading::Value)
+    .def_readonly("angle", &argos::CCI_FootBotProximitySensor::SReading::Angle);
 }

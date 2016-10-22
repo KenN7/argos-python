@@ -49,7 +49,7 @@
         - library: the path to the compiled library containing you
           controller.
     -->
-    <python_controller id="fdc" library="libpy_controller_interface.so">
+    <python_controller id="fdc" library="../libpy_controller_interface.so">
       <!--
           The <actuators> section contains a list of the actuators used by
           this controller.
@@ -91,7 +91,7 @@
           controller's header file in
           controllers/footbot_diffusion/footbot_diffusion.h.
       -->
-      <params alpha="7.5" delta="0.1" velocity="5" script="test.py"/>
+      <params alpha="7.5" delta="0.1" velocity="5" script="diffusion_1_controller.py"/>
     </python_controller>
 
   </controllers>
@@ -130,16 +130,11 @@
       <body position="-1,0,0" orientation="0,0,0" />
     </box>
 
-    <!-- Place a foot-bot in the origin and bind it to the controller -->
-    <foot-bot id="fb_0">
-      <body position="0,0,0" orientation="0,0,0" />
-      <controller config="fdc"/>
-    </foot-bot>
     
     <distribute>
-      <position method="uniform" min="-2,-2,0" max="2,2,0" />
+      <position method="uniform" min="-1,-1,0" max="1,1,0" />
       <orientation method="gaussian" mean="0,0,0" std_dev="360,0,0" />
-      <entity quantity="10" max_trials="100">
+      <entity quantity="2" max_trials="100">
         <foot-bot id="fb">
           <controller config="fdc" />
         </foot-bot>

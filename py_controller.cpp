@@ -102,14 +102,22 @@ void CPyController::Init(TConfigurationNode& t_node)
     THROW_ARGOSEXCEPTION("Error loading python script \"" << strScriptFileName << "\"" << std::endl);
   }
   //exec user script
-  m_script = exec_file(strScriptFileName.c_str(), m_namesp);
-  //std::cout << "strScript:" << strScriptFileName << std::endl;
-  std::cout << GetId().c_str() << std::endl;
-
+  try 
+  {
+	  m_script = exec_file(strScriptFileName.c_str(), m_namesp, m_namesp);
+		  
+	  std::cout << "strScript:" << strScriptFileName << std::endl;
+	  std::cout << GetId().c_str() << std::endl;
+	  }
+  catch(error_already_set)
+  {
+	  PyErr_Print();
+  }
+  
   try
   {
     //import the wrappers's lib
-    //PyRun_SimpleString("import libpy_controller_interface as lib");
+    PyRun_SimpleString("import libpy_controller_interface as lib");
     object lib = import("libpy_controller_interface");
     m_namesp["robot"] = m_actusensors;
     //m_namesp["robot"] = ptr(m_actusensors);

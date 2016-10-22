@@ -23,39 +23,51 @@
 #include <string>
 #include <iostream>
 
-namespace argos {
+namespace argos
+{
 
 class ActusensorsWrapper
 {
-    public:
+  public:
+    ActusensorsWrapper();
+    ~ActusensorsWrapper(){};
 
-        ActusensorsWrapper();
-        ~ActusensorsWrapper() {};
+    void Init();
+    void logprint(std::string message);
 
-        void Init();
-        void logprint(std::string message);
+    //Sensors
+    void CreateSensor(std::string name, CCI_Sensor *sensor);
 
-        //Sensors
-        void CreateSensor(std::string name, CCI_Sensor* sensor);
+    //Actuators
+    void CreateActu(std::string name, CCI_Actuator *actu);
 
-        //Actuators
-        void CreateActu(std::string name, CCI_Actuator* actu);
+    void InitSteeringWheels();
+    void wheels(Real a, Real b);
+    boost::python::object proximity();
 
-        void InitSteeringWheels();
-        void wheels(Real a, Real b);
+  private:
+    CCI_DifferentialSteeringActuator *m_pcWheels;
+    //maybe those if you want :
+    //CCI_DifferentialSteeringActuator* m_pcWheels;
+    CCI_FootBotProximitySensor *m_pcProximity;
+    //CCI_ColoredBlobOmnidirectionalCameraSensor* m_pcOmniCam;
 
-    private:
+    //variables to activate a actuator/sensors
+    bool m_pcWheels_bool;
+    bool m_pcProximity_bool;
 
-        CCI_DifferentialSteeringActuator* m_pcWheels;
-        //maybe those if you want :
-        //CCI_DifferentialSteeringActuator* m_pcWheels;
-        //CCI_FootBotProximitySensor* m_pcProximity;
-        //CCI_ColoredBlobOmnidirectionalCameraSensor* m_pcOmniCam;
-
-        //variables to activate a actuator/sensors
-        bool m_pcWheels_bool;
+    template <class T>
+    boost::python::list toPythonList(std::vector<T> vector)
+    {
+        typename std::vector<T>::iterator iter;
+        boost::python::list list;
+        for (iter = vector.begin(); iter != vector.end(); ++iter)
+        {
+            list.append(*iter);
+        }
+        return list;
+    }
 };
-
 }
 
 #endif

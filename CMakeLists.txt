@@ -8,6 +8,9 @@ find_package(PythonLibs)
 include_directories (${PYTHON_INCLUDE_DIRS})
 link_directories(${PYTHON_LIBRARIES})
 
+SET(LUA_CONST "-I/usr/include/lua5.3 -I/usr/include/python3.5 -I/usr/local/include -lboost_python3  -lpython3.5m -o -shared -fPIC")
+add_definitions(${LUA_CONST})
+
 find_package(Boost 1.61.0 COMPONENTS python3)
 include_directories (${Boost_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIR})
