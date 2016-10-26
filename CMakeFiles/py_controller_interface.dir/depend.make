@@ -15,13 +15,17 @@ CMakeFiles/py_controller_interface.dir/py_controller.cpp.o: /usr/local/include/a
 CMakeFiles/py_controller_interface.dir/py_controller.cpp.o: /usr/local/include/argos3/core/utility/configuration/tinyxml/ticpprc.h
 CMakeFiles/py_controller_interface.dir/py_controller.cpp.o: /usr/local/include/argos3/core/utility/configuration/tinyxml/tinystr.h
 CMakeFiles/py_controller_interface.dir/py_controller.cpp.o: /usr/local/include/argos3/core/utility/configuration/tinyxml/tinyxml.h
+CMakeFiles/py_controller_interface.dir/py_controller.cpp.o: /usr/local/include/argos3/core/utility/datatypes/byte_array.h
 CMakeFiles/py_controller_interface.dir/py_controller.cpp.o: /usr/local/include/argos3/core/utility/datatypes/color.h
 CMakeFiles/py_controller_interface.dir/py_controller.cpp.o: /usr/local/include/argos3/core/utility/datatypes/datatypes.h
 CMakeFiles/py_controller_interface.dir/py_controller.cpp.o: /usr/local/include/argos3/core/utility/logging/argos_colored_text.h
 CMakeFiles/py_controller_interface.dir/py_controller.cpp.o: /usr/local/include/argos3/core/utility/logging/argos_log.h
 CMakeFiles/py_controller_interface.dir/py_controller.cpp.o: /usr/local/include/argos3/core/utility/math/angles.h
 CMakeFiles/py_controller_interface.dir/py_controller.cpp.o: /usr/local/include/argos3/core/utility/math/general.h
+CMakeFiles/py_controller_interface.dir/py_controller.cpp.o: /usr/local/include/argos3/core/utility/math/quaternion.h
 CMakeFiles/py_controller_interface.dir/py_controller.cpp.o: /usr/local/include/argos3/core/utility/math/range.h
+CMakeFiles/py_controller_interface.dir/py_controller.cpp.o: /usr/local/include/argos3/core/utility/math/vector2.h
+CMakeFiles/py_controller_interface.dir/py_controller.cpp.o: /usr/local/include/argos3/core/utility/math/vector3.h
 CMakeFiles/py_controller_interface.dir/py_controller.cpp.o: /usr/local/include/argos3/core/utility/plugins/factory.h
 CMakeFiles/py_controller_interface.dir/py_controller.cpp.o: /usr/local/include/argos3/core/utility/plugins/factory_impl.h
 CMakeFiles/py_controller_interface.dir/py_controller.cpp.o: /usr/local/include/argos3/core/utility/string_utilities.h
@@ -29,6 +33,9 @@ CMakeFiles/py_controller_interface.dir/py_controller.cpp.o: /usr/local/include/a
 CMakeFiles/py_controller_interface.dir/py_controller.cpp.o: /usr/local/include/argos3/plugins/robots/foot-bot/control_interface/ci_footbot_proximity_sensor.h
 CMakeFiles/py_controller_interface.dir/py_controller.cpp.o: /usr/local/include/argos3/plugins/robots/generic/control_interface/ci_colored_blob_omnidirectional_camera_sensor.h
 CMakeFiles/py_controller_interface.dir/py_controller.cpp.o: /usr/local/include/argos3/plugins/robots/generic/control_interface/ci_differential_steering_actuator.h
+CMakeFiles/py_controller_interface.dir/py_controller.cpp.o: /usr/local/include/argos3/plugins/robots/generic/control_interface/ci_leds_actuator.h
+CMakeFiles/py_controller_interface.dir/py_controller.cpp.o: /usr/local/include/argos3/plugins/robots/generic/control_interface/ci_range_and_bearing_actuator.h
+CMakeFiles/py_controller_interface.dir/py_controller.cpp.o: /usr/local/include/argos3/plugins/robots/generic/control_interface/ci_range_and_bearing_sensor.h
 
 CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o: py_wrapper.cpp
 CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o: py_wrapper.h
@@ -43,13 +50,17 @@ CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o: /usr/local/include/argo
 CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o: /usr/local/include/argos3/core/utility/configuration/tinyxml/ticpprc.h
 CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o: /usr/local/include/argos3/core/utility/configuration/tinyxml/tinystr.h
 CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o: /usr/local/include/argos3/core/utility/configuration/tinyxml/tinyxml.h
+CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o: /usr/local/include/argos3/core/utility/datatypes/byte_array.h
 CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o: /usr/local/include/argos3/core/utility/datatypes/color.h
 CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o: /usr/local/include/argos3/core/utility/datatypes/datatypes.h
 CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o: /usr/local/include/argos3/core/utility/logging/argos_colored_text.h
 CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o: /usr/local/include/argos3/core/utility/logging/argos_log.h
 CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o: /usr/local/include/argos3/core/utility/math/angles.h
 CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o: /usr/local/include/argos3/core/utility/math/general.h
+CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o: /usr/local/include/argos3/core/utility/math/quaternion.h
 CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o: /usr/local/include/argos3/core/utility/math/range.h
+CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o: /usr/local/include/argos3/core/utility/math/vector2.h
+CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o: /usr/local/include/argos3/core/utility/math/vector3.h
 CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o: /usr/local/include/argos3/core/utility/plugins/factory.h
 CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o: /usr/local/include/argos3/core/utility/plugins/factory_impl.h
 CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o: /usr/local/include/argos3/core/utility/string_utilities.h
@@ -57,4 +68,7 @@ CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o: /usr/local/include/argo
 CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o: /usr/local/include/argos3/plugins/robots/foot-bot/control_interface/ci_footbot_proximity_sensor.h
 CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o: /usr/local/include/argos3/plugins/robots/generic/control_interface/ci_colored_blob_omnidirectional_camera_sensor.h
 CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o: /usr/local/include/argos3/plugins/robots/generic/control_interface/ci_differential_steering_actuator.h
+CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o: /usr/local/include/argos3/plugins/robots/generic/control_interface/ci_leds_actuator.h
+CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o: /usr/local/include/argos3/plugins/robots/generic/control_interface/ci_range_and_bearing_actuator.h
+CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o: /usr/local/include/argos3/plugins/robots/generic/control_interface/ci_range_and_bearing_sensor.h
 

@@ -6,5 +6,5 @@ CXX_FLAGS = -fPIC   -I/usr/include/lua5.3 -I/usr/include/python3.5 -I/usr/local/
 
 CXX_DEFINES = -Dpy_controller_interface_EXPORTS
 
-CXX_INCLUDES = -I/usr/include/python3.5m -I/mnt/c/Users/albyr/Documents/argos3/build_simulator/plugins/simulator/argos-python -I/usr/local/include -I/mnt/c/Users/albyr/Documents/argos3/build_simulator/plugins/simulator/argos-python/controllers 
+CXX_INCLUDES = -I/usr/include/python3.5m -I/mnt/c/Users/albyr/Documents/argos-python -I/usr/local/include -I/mnt/c/Users/albyr/Documents/argos-python/controllers 
 

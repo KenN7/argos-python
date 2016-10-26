@@ -52,7 +52,7 @@ public:
    */
   virtual void Destroy();
 
-  void InitSensorsActuators();
+  void InitSensorsActuators(TConfigurationNode& t_node);
 
 
 private:

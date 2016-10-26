@@ -24,21 +24,25 @@ def init():
 def controlstep():
     global alpha, delta, wheel_velocity, go_straight_angle_range
 
-    accumulator = {"tot_value": 0, "tot_angle": 0}
+    accumulator = {"x": 0, "y": 0}
     # Get readings from the proximity sensors
-    proximity_readings = robot.proximity()
-    for proximity_reading_i in proximity_readings:
-        accumulator["tot_value"] += proximity_reading_i.value / len(proximity_readings)
-        accumulator["tot_angle"] += proximity_reading_i.angle.value() / len(proximity_readings)
+    proximity_readings = robot.proximity.get_readings()
     
-    if (go_straight_angle_range[0] <= accumulator["tot_angle"] and accumulator["tot_angle"] <= go_straight_angle_range[1] and \
-        accumulator["tot_value"] < delta):
-        robot.wheels(wheel_velocity, wheel_velocity)
+    for proximity_reading_i in proximity_readings:
+        accumulator["x"] += proximity_reading_i.value * math.cos(proximity_reading_i.angle.value()) 
+        accumulator["y"] += proximity_reading_i.value * math.sin(proximity_reading_i.angle.value())
+
+    tot_angle = math.atan2(accumulator["y"], accumulator["x"])
+    tot_length = math.sqrt(accumulator["x"] * accumulator["x"] + accumulator["y"] * accumulator["y"]) / 24
+
+    if (go_straight_angle_range[0] <= tot_angle and tot_angle <= go_straight_angle_range[1] and \
+       tot_length < delta):
+        robot.wheels.set_speed(wheel_velocity, wheel_velocity)
     else:
-        if accumulator["tot_angle"] > 0:
-            robot.wheels(wheel_velocity, 0)
+        if tot_angle > 0:
+            robot.wheels.set_speed(wheel_velocity, 0)
         else:
-            robot.wheels(0, wheel_velocity)
+            robot.wheels.set_speed(0, wheel_velocity)
 
 def reset():
 	robot.logprint("reset")

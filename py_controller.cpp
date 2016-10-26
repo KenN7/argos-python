@@ -66,21 +66,21 @@ void CPyController::Reset() {
   }
 }
 
-
-void CPyController::InitSensorsActuators()
+// TODO: PASS TNODE
+void CPyController::InitSensorsActuators(TConfigurationNode& t_node)
 {
   for(CCI_Actuator::TMap::iterator it = m_mapActuators.begin();
       it != m_mapActuators.end();
       ++it)
   {
-    m_actusensors->CreateActu(it->first, it->second); //this);
+    m_actusensors->CreateActu(it->first, it->second, t_node); //this);
   }
 
   for(CCI_Sensor::TMap::iterator it = m_mapSensors.begin();
       it != m_mapSensors.end();
       ++it)
   {
-     m_actusensors->CreateSensor(it->first, it->second);
+     m_actusensors->CreateSensor(it->first, it->second, t_node);
   }
 
 }
@@ -91,7 +91,7 @@ void CPyController::Init(TConfigurationNode& t_node)
   //get instances of actuators and sensors and pass them to the wrapper
   m_actusensors = boost::make_shared< ActusensorsWrapper >();
   //m_actusensors = new ActusensorsWrapper();
-  InitSensorsActuators();
+  InitSensorsActuators(t_node);
   //printf("%s\n", this);
 
   /* Load script */
