@@ -69,6 +69,13 @@ void ActusensorsWrapper::CreateSensor(std::string name, CCI_Sensor *sensor, TCon
     range_and_bearing_wrapper.m_pcRABS_bool = true;
     //range_and_bearing_wrapper.m_pcRABS->Init(t_node);
   }
+
+  if (name == "footbot_motor_ground")
+  {
+    ground_sensor_wrapper.m_pcGround = (CCI_FootBotMotorGroundSensor *)sensor;
+    ground_sensor_wrapper.m_pcGround_bool = true;
+    ground_sensor_wrapper.m_pcGround->Init(t_node);
+  }
 }
 
 BOOST_PYTHON_MODULE(libpy_controller_interface)
@@ -81,7 +88,8 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
       .add_property("colored_blob_omnidirectional_camera", &ActusensorsWrapper::omnidirectional_camera_wrapper)
       .add_property("proximity", &ActusensorsWrapper::proximity_sensor_wrapper)
       .add_property("leds", &ActusensorsWrapper::leds_wrapper)
-      .add_property("range_and_bearing", &ActusensorsWrapper::range_and_bearing_wrapper);
+      .add_property("range_and_bearing", &ActusensorsWrapper::range_and_bearing_wrapper)
+      .add_property("motor_ground", &ActusensorsWrapper::ground_sensor_wrapper);
 
   // Export "WheelsWrapper", wrapper of CCI_DifferentialSteeringActuator.
   class_<ActusensorsWrapper::WheelsWrapper, boost::noncopyable>("wheels_wrapper_wrapper", no_init)
@@ -111,6 +119,10 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
       .def("set_data", &ActusensorsWrapper::RangeAndBearingWrapper::SetData)
       .def("get_readings", &ActusensorsWrapper::RangeAndBearingWrapper::GetReadings);
 
+  // Export GroundSensorWrapper, wrapper of CCI_FootBotMotorGroundSensor. 
+  class_<ActusensorsWrapper::GroundSensorWrapper, boost::noncopyable>("ground_sensor_wrapper", no_init)
+    .def("get_readings", &ActusensorsWrapper::GroundSensorWrapper::GetReadings);
+
   // Export the CRadians class, used by the readings of various sensors.
   // TODO: add more properties
   class_<argos::CRadians>("radians", init<>())
@@ -134,6 +146,20 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
       .add_property("horizontal_bearing", &argos::CCI_RangeAndBearingSensor::SPacket::HorizontalBearing)
       .add_property("vertical_bearing", &argos::CCI_RangeAndBearingSensor::SPacket::VerticalBearing)
       .add_property("data", &argos::CCI_RangeAndBearingSensor::SPacket::Data);
+
+  // Export the SReading class, used to store the readings of the motor ground sensor. 
+  // Each reading contains a value and the offset, expressed in x/y coordinates.
+  class_<argos::CCI_FootBotMotorGroundSensor::SReading>("motor_ground_sensor_wrapper", no_init)
+      .def_readonly("value", &argos::CCI_FootBotMotorGroundSensor::SReading::Value)
+      .def_readonly("offset", &argos::CCI_FootBotMotorGroundSensor::SReading::Offset);
+
+  class_<argos::CVector2>("vector2", init<>())
+      .def(init<double, double>())
+      .add_property("x", &argos::CVector2::GetX, &argos::CVector2::SetX)
+      .add_property("y", &argos::CVector2::GetY, &argos::CVector2::SetY)
+      .def_readonly("length", &argos::CVector2::Length)
+      .def_readonly("angle", &argos::CVector2::Angle)
+      .def_readonly("square_length", &argos::CVector2::SquareLength);
 
   // Export the ColorWrapper class.
   class_<ActusensorsWrapper::ColorWrapper>("color", init<std::string>())
