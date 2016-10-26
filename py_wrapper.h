@@ -23,6 +23,8 @@
 #include <argos3/plugins/robots/generic/control_interface/ci_range_and_bearing_sensor.h>
 /* Definition of the foot-bot motor ground sensor */
 #include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_motor_ground_sensor.h>
+/* Definition of the foot-bot gripper actuator */
+#include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_gripper_actuator.h>
 
 #include <argos3/core/utility/logging/argos_log.h>
 #include <argos3/core/utility/math/general.h>
@@ -76,6 +78,36 @@ class ActusensorsWrapper
         }
     };
 
+    // Wrapper for the Gripper Actuator
+    struct GripperWrapper
+    {
+        argos::CCI_FootBotGripperActuator *m_pcGripper;
+        bool m_pcGripper_bool;
+
+        void Lock()
+        {
+            if (m_pcGripper_bool)
+            {
+                m_pcGripper->LockPositive();
+            }
+            else
+            {
+                ActusensorsWrapper::logprint("Gripper Actuator not implemented or not stated in XML config.");
+            }
+        }
+        void Unlock()
+        {
+            if (m_pcGripper_bool)
+            {
+                m_pcGripper->Unlock();
+            }
+            else
+            {
+                ActusensorsWrapper::logprint("Gripper Actuator not implemented or not stated in XML config.");
+            }
+        }
+    };
+
     // Wrapper for the Omnidirectional Camera.
     // It is possible to enable/disable the camera, get the number of readings, and get the readings of the camera.
     struct OmnidirectionalCameraWrapper
@@ -115,7 +147,7 @@ class ActusensorsWrapper
         }
     };
 
-    // Wrapper for the Range and Bearing Sensor and Actuator. 
+    // Wrapper for the Range and Bearing Sensor and Actuator.
     // Both of them are exposed as a single property of the robot, for simplicity.
     struct RangeAndBearingWrapper
     {
@@ -136,9 +168,9 @@ class ActusensorsWrapper
         }
         // TODO: Set all bits at once
 
-        // Return the readings obtained at this control step. 
-        // Each reading contains the range, the horizontal bearing, the vertical bearing and the data table. 
-        // The data table is exposed as a c_byte_array. 
+        // Return the readings obtained at this control step.
+        // Each reading contains the range, the horizontal bearing, the vertical bearing and the data table.
+        // The data table is exposed as a c_byte_array.
         boost::python::list GetReadings()
         {
             return ToPythonList(m_pcRABS->GetReadings());
@@ -173,7 +205,7 @@ class ActusensorsWrapper
         }
     };
 
-     // Wrapper for the Proximity Sensor.
+    // Wrapper for the Proximity Sensor.
     struct FootBotProximitySensorWrapper
     {
         argos::CCI_FootBotProximitySensor *m_pcProximity;
@@ -196,9 +228,11 @@ class ActusensorsWrapper
         }
     };
 
+    // Wrapper for the Ground Motor Sensor.
+    // Allows to get a list of readings from the ground.
     struct GroundSensorWrapper
     {
-        argos::CCI_FootBotMotorGroundSensor* m_pcGround;
+        argos::CCI_FootBotMotorGroundSensor *m_pcGround;
         bool m_pcGround_bool;
 
         boost::python::list GetReadings()
@@ -215,7 +249,7 @@ class ActusensorsWrapper
         }
     };
 
-    // Wrapper for the CColor class. 
+    // Wrapper for the CColor class.
     struct ColorWrapper
     {
         argos::CColor color;
@@ -238,6 +272,7 @@ class ActusensorsWrapper
 
     // Define a wrapper for each actuator and sensor
     WheelsWrapper wheels_wrapper = WheelsWrapper();
+    GripperWrapper gripper_wrapper = GripperWrapper();
     OmnidirectionalCameraWrapper omnidirectional_camera_wrapper = OmnidirectionalCameraWrapper();
     FootBotProximitySensorWrapper proximity_sensor_wrapper = FootBotProximitySensorWrapper();
     LedsActuatorWrapper leds_wrapper = LedsActuatorWrapper();

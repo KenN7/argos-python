@@ -18,7 +18,7 @@ current_fwd_steps = 0
 def init():
     global current_state
     current_state = WALK
-    robot.logprint("started synchronization_python")
+    robot.logprint("started aggregation_1_python")
 
 def controlstep():
     global current_state, current_fwd_steps, current_turn_steps, is_black_sensed, is_obstacle_sensed

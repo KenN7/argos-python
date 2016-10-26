@@ -33,6 +33,12 @@ void ActusensorsWrapper::CreateActu(std::string name, CCI_Actuator *actu, TConfi
     wheels_wrapper.m_pcWheels_bool = true;
     wheels_wrapper.m_pcWheels->Init(t_node);
   }
+  if (name == "footbot_gripper")
+  {
+    gripper_wrapper.m_pcGripper = dynamic_cast<CCI_FootBotGripperActuator *>(actu);
+    gripper_wrapper.m_pcGripper_bool = true;
+    gripper_wrapper.m_pcGripper->Init(t_node);
+  }
   if (name == "leds")
   {
     leds_wrapper.m_pcLeds = (CCI_LEDsActuator *)actu;
@@ -89,11 +95,17 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
       .add_property("proximity", &ActusensorsWrapper::proximity_sensor_wrapper)
       .add_property("leds", &ActusensorsWrapper::leds_wrapper)
       .add_property("range_and_bearing", &ActusensorsWrapper::range_and_bearing_wrapper)
-      .add_property("motor_ground", &ActusensorsWrapper::ground_sensor_wrapper);
+      .add_property("motor_ground", &ActusensorsWrapper::ground_sensor_wrapper)
+      .add_property("gripper", &ActusensorsWrapper::gripper_wrapper);
 
   // Export "WheelsWrapper", wrapper of CCI_DifferentialSteeringActuator.
   class_<ActusensorsWrapper::WheelsWrapper, boost::noncopyable>("wheels_wrapper_wrapper", no_init)
       .def("set_speed", &ActusensorsWrapper::WheelsWrapper::set_speed);
+
+  // Export "GripperWrapper", wrapper of CFootBotGripping. 
+  class_<ActusensorsWrapper::GripperWrapper, boost::noncopyable>("gripper_wrapper", no_init)
+      .def("lock", &ActusensorsWrapper::GripperWrapper::Lock)
+      .def("unlock", &ActusensorsWrapper::GripperWrapper::Unlock);
 
   // Export "OmnidirectionalCameraWrapper" , wrapper of CCI_ColoredBlobOmnidirectionalCameraSensor.
   class_<ActusensorsWrapper::OmnidirectionalCameraWrapper, boost::noncopyable>("omnidirectional_camera_wrapper_wrapper", no_init)
