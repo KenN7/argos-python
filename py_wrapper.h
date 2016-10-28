@@ -25,6 +25,8 @@
 #include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_motor_ground_sensor.h>
 /* Definition of the foot-bot gripper actuator */
 #include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_gripper_actuator.h>
+/* Definition of the foot-bot light sensor */
+#include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_light_sensor.h>
 
 #include <argos3/core/utility/logging/argos_log.h>
 #include <argos3/core/utility/math/general.h>
@@ -249,6 +251,26 @@ class ActusensorsWrapper
         }
     };
 
+    // Wrapper for the Light Sensor
+    struct LightSensorWrapper
+    {
+        argos::CCI_FootBotLightSensor *m_pcLight;
+        bool m_pcLight_bool;
+
+        boost::python::list GetReadings()
+        {
+            if (m_pcLight_bool)
+            {
+                return ToPythonList(m_pcLight->GetReadings());
+            }
+            else
+            {
+                ActusensorsWrapper::logprint("Light Sensor not implemented or not stated in XML config.");
+                // TODO: add exception?
+            }
+        }
+    };
+
     // Wrapper for the CColor class.
     struct ColorWrapper
     {
@@ -278,6 +300,7 @@ class ActusensorsWrapper
     LedsActuatorWrapper leds_wrapper = LedsActuatorWrapper();
     RangeAndBearingWrapper range_and_bearing_wrapper = RangeAndBearingWrapper();
     GroundSensorWrapper ground_sensor_wrapper = GroundSensorWrapper();
+    LightSensorWrapper light_sensor_wrapper = LightSensorWrapper();
 
     // Define functions to access the elements the argos::CByteArray class.
     // Original source: https://mail.python.org/pipermail/cplusplus-sig/2003-June/004024.html

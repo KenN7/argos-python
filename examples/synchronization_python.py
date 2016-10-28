@@ -19,6 +19,8 @@ def controlstep():
     i = 0
     while (not someone_flashed and i < len(readings)):
         someone_flashed = (readings[i].color == lib.color("red").raw_color)
+        if someone_flashed:
+            print(someone_flashed)
         i += 1
     
     if someone_flashed:
