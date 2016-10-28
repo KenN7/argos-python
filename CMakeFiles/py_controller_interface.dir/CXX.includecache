@@ -45,6 +45,8 @@ argos3/plugins/robots/foot-bot/control_interface/ci_footbot_gripper_actuator.h
 -
 argos3/plugins/robots/foot-bot/control_interface/ci_footbot_light_sensor.h
 -
+argos3/plugins/robots/foot-bot/control_interface/ci_footbot_base_ground_sensor.h
+-
 argos3/core/utility/logging/argos_log.h
 -
 argos3/core/utility/math/general.h
@@ -318,6 +320,14 @@ string
 vector
 -
 sstream
+-
+
+/usr/local/include/argos3/plugins/robots/foot-bot/control_interface/ci_footbot_base_ground_sensor.h
+argos3/core/control_interface/ci_sensor.h
+-
+argos3/core/utility/math/vector2.h
+-
+vector
 -
 
 /usr/local/include/argos3/plugins/robots/foot-bot/control_interface/ci_footbot_gripper_actuator.h

@@ -27,7 +27,7 @@
 #include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_gripper_actuator.h>
 /* Definition of the foot-bot light sensor */
 #include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_light_sensor.h>
-
+#include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_base_ground_sensor.h>
 #include <argos3/core/utility/logging/argos_log.h>
 #include <argos3/core/utility/math/general.h>
 
@@ -251,6 +251,27 @@ class ActusensorsWrapper
         }
     };
 
+    // Wrapper for the Base Ground Sensor.
+    // Allows to get a list of readings from the ground.
+    struct BaseGroundSensorWrapper
+    {
+        argos::CCI_FootBotBaseGroundSensor *m_pcBaseGround;
+        bool m_pcBaseGround_bool;
+
+        boost::python::list GetReadings()
+        {
+            if (m_pcBaseGround_bool)
+            {
+                return ToPythonList(m_pcBaseGround->GetReadings());
+            }
+            else
+            {
+                ActusensorsWrapper::logprint("Base Ground Sensor not implemented or not stated in XML config.");
+                // TODO: add exception?
+            }
+        }
+    };
+
     // Wrapper for the Light Sensor
     struct LightSensorWrapper
     {
@@ -300,6 +321,7 @@ class ActusensorsWrapper
     LedsActuatorWrapper leds_wrapper = LedsActuatorWrapper();
     RangeAndBearingWrapper range_and_bearing_wrapper = RangeAndBearingWrapper();
     GroundSensorWrapper ground_sensor_wrapper = GroundSensorWrapper();
+    BaseGroundSensorWrapper base_ground_sensor_wrapper = BaseGroundSensorWrapper();
     LightSensorWrapper light_sensor_wrapper = LightSensorWrapper();
 
     // Define functions to access the elements the argos::CByteArray class.

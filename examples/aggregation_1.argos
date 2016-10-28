@@ -22,7 +22,7 @@
       </actuators>
       <sensors>
         <footbot_proximity implementation="default" show_rays="true" />
-        <footbot_motor_ground implementation="rot_z_only" />
+        <footbot_base_ground implementation="rot_z_only" />
         <range_and_bearing implementation="medium" medium="rab" />
       </sensors>
       <!-- No required configuration -->

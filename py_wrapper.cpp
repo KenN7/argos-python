@@ -83,6 +83,13 @@ void ActusensorsWrapper::CreateSensor(std::string name, CCI_Sensor *sensor, TCon
     ground_sensor_wrapper.m_pcGround->Init(t_node);
   }
 
+  if (name == "footbot_base_ground")
+  {
+    base_ground_sensor_wrapper.m_pcBaseGround = dynamic_cast<CCI_FootBotBaseGroundSensor *>(sensor);
+    base_ground_sensor_wrapper.m_pcBaseGround_bool = true;
+    base_ground_sensor_wrapper.m_pcBaseGround->Init(t_node);
+  }
+
   if (name == "footbot_light")
   {
     light_sensor_wrapper.m_pcLight = (CCI_FootBotLightSensor *)sensor;
@@ -103,6 +110,7 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
       .add_property("leds", &ActusensorsWrapper::leds_wrapper)
       .add_property("range_and_bearing", &ActusensorsWrapper::range_and_bearing_wrapper)
       .add_property("motor_ground", &ActusensorsWrapper::ground_sensor_wrapper)
+      .add_property("base_ground", &ActusensorsWrapper::base_ground_sensor_wrapper)
       .add_property("gripper", &ActusensorsWrapper::gripper_wrapper)
       .add_property("light_sensor", &ActusensorsWrapper::light_sensor_wrapper);
 
@@ -143,6 +151,10 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
   class_<ActusensorsWrapper::GroundSensorWrapper, boost::noncopyable>("ground_sensor_wrapper", no_init)
       .def("get_readings", &ActusensorsWrapper::GroundSensorWrapper::GetReadings);
 
+  // Export BaseGroundSensorWrapper, wrapper of CCI_FootBotBaseGroundSensor .
+  class_<ActusensorsWrapper::BaseGroundSensorWrapper, boost::noncopyable>("ground_sensor_wrapper", no_init)
+      .def("get_readings", &ActusensorsWrapper::BaseGroundSensorWrapper::GetReadings);
+
   // Export LightSensorWrapper, wrapper of CCI_FootBotLightSensor.
   class_<ActusensorsWrapper::LightSensorWrapper, boost::noncopyable>("light_sensor_wrapper", no_init)
       .def("get_readings", &ActusensorsWrapper::LightSensorWrapper::GetReadings);
@@ -182,6 +194,12 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
       .def_readonly("value", &argos::CCI_FootBotMotorGroundSensor::SReading::Value)
       .def_readonly("offset", &argos::CCI_FootBotMotorGroundSensor::SReading::Offset);
 
+  // Export the SReading class, used to store the readings of the base ground sensor.
+  // Each reading contains a value and the offset, expressed in x/y coordinates.
+  class_<argos::CCI_FootBotBaseGroundSensor::SReading>("motor_ground_sensor_wrapper", no_init)
+      .def_readonly("value", &argos::CCI_FootBotBaseGroundSensor::SReading::Value)
+      .def_readonly("offset", &argos::CCI_FootBotBaseGroundSensor::SReading::Offset);
+
   class_<argos::CVector2>("vector2", init<>())
       .def(init<double, double>())
       .add_property("x", &argos::CVector2::GetX, &argos::CVector2::SetX)
@@ -199,7 +217,7 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
   // Export the CColor class. This class is not directly usable in python,
   // but it is exported to simplify the usage of colors in python.
   class_<argos::CColor>("raw_color", no_init)
-   .def("__eq__", &argos::CColor::operator==);
+      .def("__eq__", &argos::CColor::operator==);
 
   // Export the CByteArray class, and define new functions on it to access its data.
   class_<argos::CByteArray>("c_byte_array", no_init)

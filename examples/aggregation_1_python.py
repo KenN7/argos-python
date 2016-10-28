@@ -61,7 +61,7 @@ def process_prox():
 def process_ground():
     global is_black_sensed
     is_black_sensed = False
-    ground_readings = robot.motor_ground.get_readings()
+    ground_readings = robot.base_ground.get_readings()
     min_reading = min(ground_readings, key = lambda x: x.value)
     if min_reading.value == 0:
         is_black_sensed = True
