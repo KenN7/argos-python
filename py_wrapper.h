@@ -9,6 +9,7 @@
 #define PY_WRAPPER_H
 
 #include <boost/python.hpp>
+#include <boost/python/suite/indexing/map_indexing_suite.hpp>
 
 #include <argos3/core/control_interface/ci_controller.h>
 
@@ -28,6 +29,11 @@
 /* Definition of the foot-bot light sensor */
 #include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_light_sensor.h>
 #include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_base_ground_sensor.h>
+#include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_distance_scanner_actuator.h>
+#include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_distance_scanner_sensor.h>
+#include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_turret_encoder_sensor.h>
+#include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_turret_actuator.h>
+
 #include <argos3/core/utility/logging/argos_log.h>
 #include <argos3/core/utility/math/general.h>
 
@@ -292,6 +298,214 @@ class ActusensorsWrapper
         }
     };
 
+    // Wrapper for the Distance Scanner Sensor and Actuator
+    struct DistanceScannerWrapper
+    {
+        argos::CCI_FootBotDistanceScannerActuator *m_pcScannerActuator;
+        argos::CCI_FootBotDistanceScannerSensor *m_pcScannerSensor;
+        bool m_pcScannerActuator_bool;
+        bool m_pcScannerSensor_bool;
+
+        void Enable()
+        {
+            if (m_pcScannerActuator_bool)
+            {
+                m_pcScannerActuator->Enable();
+            }
+            else
+            {
+                ActusensorsWrapper::logprint("Distance Scanner Actuator not implemented or not stated in XML config.");
+            }
+        }
+
+        void Disable()
+        {
+            if (m_pcScannerActuator_bool)
+            {
+                m_pcScannerActuator->Disable();
+            }
+            else
+            {
+                ActusensorsWrapper::logprint("Distance Scanner Actuator not implemented or not stated in XML config.");
+            }
+        }
+
+        void SetRPM(float rpm)
+        {
+            if (m_pcScannerActuator_bool)
+            {
+                if (rpm < 0)
+                    rpm = 0;
+                m_pcScannerActuator->SetRPM(rpm);
+            }
+            else
+            {
+                ActusensorsWrapper::logprint("Distance Scanner Actuator not implemented or not stated in XML config.");
+            }
+        }
+
+        void SetAngle(float angle)
+        {
+            if (m_pcScannerActuator_bool)
+            {
+                m_pcScannerActuator->SetAngle(CRadians(angle));
+            }
+            else
+            {
+                ActusensorsWrapper::logprint("Distance Scanner Actuator not implemented or not stated in XML config.");
+            }
+        }
+
+        std::map<CRadians, double> GetReadings()
+        {
+            if (m_pcScannerSensor_bool)
+            {
+                return m_pcScannerSensor->GetReadingsMap();
+            }
+            else
+            {
+                ActusensorsWrapper::logprint("Distance Scanner Sensor not implemented or not stated in XML config.");
+            }
+        }
+
+        std::map<CRadians, double> GetShortReadings()
+        {
+            if (m_pcScannerSensor_bool)
+            {
+                return m_pcScannerSensor->GetShortReadingsMap();
+            }
+            else
+            {
+                ActusensorsWrapper::logprint("Distance Scanner Sensor not implemented or not stated in XML config.");
+            }
+        }
+
+        std::map<CRadians, double> GetLongReadings()
+        {
+            if (m_pcScannerSensor_bool)
+            {
+                return m_pcScannerSensor->GetLongReadingsMap();
+            }
+            else
+            {
+                ActusensorsWrapper::logprint("Distance Scanner Sensor not implemented or not stated in XML config.");
+            }
+        }
+    };
+
+    // Wrapper for the Turret Actuator and Sensor
+    struct TurretWrapper
+    {
+        CCI_FootBotTurretEncoderSensor *m_pcTurretSensor;
+        CCI_FootBotTurretActuator *m_pcTurretActuator;
+        bool m_pcTurretSensor_bool;
+        bool m_pcTurretActuator_bool;
+
+        CRadians GetRotation()
+        {
+            if (m_pcTurretSensor_bool)
+            {
+                return m_pcTurretSensor->GetRotation();
+            }
+            else
+            {
+                ActusensorsWrapper::logprint("Turret Sensor not implemented or not stated in XML config.");
+            }
+        }
+        void SetRotation(double angle)
+        {
+            if (m_pcTurretActuator_bool)
+            {
+                m_pcTurretActuator->SetRotation(argos::CRadians(angle));
+            }
+            else
+            {
+                ActusensorsWrapper::logprint("Turret Actuator not implemented or not stated in XML config.");
+            }
+        }
+        void SetRotationSpeed(int n_speed_pulses)
+        {
+            if (m_pcTurretActuator_bool)
+            {
+                m_pcTurretActuator->SetRotationSpeed(n_speed_pulses);
+            }
+            else
+            {
+                ActusensorsWrapper::logprint("Turret Actuator not implemented or not stated in XML config.");
+            }
+        }
+        void SetMode(std::string mode_name)
+        {
+            if (m_pcTurretActuator_bool)
+            {
+                if (mode_name == "off")
+                {
+                    m_pcTurretActuator->SetMode(argos::CCI_FootBotTurretActuator::ETurretModes::MODE_OFF);
+                }
+                if (mode_name == "passive")
+                {
+                    m_pcTurretActuator->SetMode(argos::CCI_FootBotTurretActuator::ETurretModes::MODE_PASSIVE);
+                }
+                if (mode_name == "speed_control")
+                {
+                    m_pcTurretActuator->SetMode(argos::CCI_FootBotTurretActuator::ETurretModes::MODE_SPEED_CONTROL);
+                }
+                if (mode_name == "position_control")
+                {
+                    m_pcTurretActuator->SetMode(argos::CCI_FootBotTurretActuator::ETurretModes::MODE_POSITION_CONTROL);
+                }
+            }
+            else
+            {
+                ActusensorsWrapper::logprint("Turret Actuator not implemented or not stated in XML config.");
+            }
+        }
+        void SetActiveWithRotation(double angle)
+        {
+            if (m_pcTurretActuator_bool)
+            {
+                m_pcTurretActuator->SetActiveWithRotation(argos::CRadians(angle));
+            }
+            else
+            {
+                ActusensorsWrapper::logprint("Turret Actuator not implemented or not stated in XML config.");
+            }
+        }
+        void SetSpeedControlMode()
+        {
+            if (m_pcTurretActuator_bool)
+            {
+                m_pcTurretActuator->SetSpeedControlMode();
+            }
+            else
+            {
+                ActusensorsWrapper::logprint("Turret Actuator not implemented or not stated in XML config.");
+            }
+        }
+        void SetPositionControlMode()
+        {
+            if (m_pcTurretActuator_bool)
+            {
+                m_pcTurretActuator->SetPositionControlMode();
+            }
+            else
+            {
+                ActusensorsWrapper::logprint("Turret Actuator not implemented or not stated in XML config.");
+            }
+        }
+        void SetPassiveMode()
+        {
+            if (m_pcTurretActuator_bool)
+            {
+                m_pcTurretActuator->SetPassiveMode();
+            }
+            else
+            {
+                ActusensorsWrapper::logprint("Turret Actuator not implemented or not stated in XML config.");
+            }
+        }
+    };
+
     // Wrapper for the CColor class.
     struct ColorWrapper
     {
@@ -323,6 +537,8 @@ class ActusensorsWrapper
     GroundSensorWrapper ground_sensor_wrapper = GroundSensorWrapper();
     BaseGroundSensorWrapper base_ground_sensor_wrapper = BaseGroundSensorWrapper();
     LightSensorWrapper light_sensor_wrapper = LightSensorWrapper();
+    DistanceScannerWrapper distance_scanner_wrapper = DistanceScannerWrapper();
+    TurretWrapper turret_wrapper = TurretWrapper();
 
     // Define functions to access the elements the argos::CByteArray class.
     // Original source: https://mail.python.org/pipermail/cplusplus-sig/2003-June/004024.html

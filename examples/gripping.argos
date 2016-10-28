@@ -20,8 +20,11 @@
       <actuators>
         <differential_steering implementation="default" />
         <footbot_gripper       implementation="default" />
+        <footbot_turret  implementation="default" />  
       </actuators>
-      <sensors />
+      <sensors>
+        <footbot_turret_encoder  implementation="default" /> 
+      </sensors> 
       <params script="/mnt/c/Users/albyr/Documents/argos-python/examples/gripping_python.py" />/>
     </python_controller>
 
