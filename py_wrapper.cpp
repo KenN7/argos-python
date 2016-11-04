@@ -13,10 +13,16 @@ ActusensorsWrapper::ActusensorsWrapper()
 {
 }
 
-void ActusensorsWrapper::logprint(std::string message)
+/****************************************/
+/****************************************/	
+
+void ActusensorsWrapper::Logprint(const std::string str_message)
 {
-    std::cout << message << std::endl;
+    std::cout << str_message << std::endl;
 }
+
+/****************************************/
+/****************************************/	
 
 // Initialize the actuator specified by the provided name.
 
@@ -25,100 +31,103 @@ void ActusensorsWrapper::logprint(std::string message)
 //    [FATAL] Error parsing attribute "medium"
 //    Attribute does not exist <ticpp.h@1791>
 // The sensors/actuators seem to work even without it, so for now it has been disabled.
-void ActusensorsWrapper::CreateActu(std::string name, CCI_Actuator *actu, TConfigurationNode &t_node)
+void ActusensorsWrapper::CreateActu(const std::string str_name, CCI_Actuator *pc_actu, TConfigurationNode &t_node)
 {
-    if (name == "differential_steering")
+    if (str_name == "differential_steering")
     {
-        wheels_wrapper.m_pcWheels = (CCI_DifferentialSteeringActuator *)actu;
-        wheels_wrapper.m_pcWheels_bool = true;
-        wheels_wrapper.m_pcWheels->Init(t_node);
+        m_cWheelsWrapper.m_pcWheels = (CCI_DifferentialSteeringActuator *)pc_actu;
+        m_cWheelsWrapper.m_bWheels = true;
+        m_cWheelsWrapper.m_pcWheels->Init(t_node);
     }
-    if (name == "footbot_gripper")
+    if (str_name == "footbot_gripper")
     {
-        gripper_wrapper.m_pcGripper = dynamic_cast<CCI_FootBotGripperActuator *>(actu);
-        gripper_wrapper.m_pcGripper_bool = true;
-        gripper_wrapper.m_pcGripper->Init(t_node);
+        m_cGripperWrapper.m_pcGripper = dynamic_cast<CCI_FootBotGripperActuator *>(pc_actu);
+        m_cGripperWrapper.m_bGripper = true;
+        m_cGripperWrapper.m_pcGripper->Init(t_node);
     }
-    if (name == "leds")
+    if (str_name == "leds")
     {
-        leds_wrapper.m_pcLeds = (CCI_LEDsActuator *)actu;
-        leds_wrapper.m_pcLeds_bool = true;
-        //leds_wrapper.m_pcLeds->Init(t_node);
+        m_cLedsWrapper.m_pcLeds = (CCI_LEDsActuator *)pc_actu;
+        m_cLedsWrapper.m_bLeds = true;
+        //m_cLedsWrapper.m_pcLeds->Init(t_node);
     }
-    if (name == "range_and_bearing")
+    if (str_name == "range_and_bearing")
     {
-        range_and_bearing_wrapper.m_pcRABA = (CCI_RangeAndBearingActuator *)actu;
-        range_and_bearing_wrapper.m_pcRABA_bool = true;
-        //range_and_bearing_wrapper.m_pcRABA->Init(t_node);
+        m_cRangeAndBearingWrapper.m_pcRABA = (CCI_RangeAndBearingActuator *)pc_actu;
+        m_cRangeAndBearingWrapper.m_bRABA = true;
+        //m_cRangeAndBearingWrapper.m_pcRABA->Init(t_node);
     }
-    if (name == "footbot_distance_scanner")
+    if (str_name == "footbot_distance_scanner")
     {
-        distance_scanner_wrapper.m_pcScannerActuator = dynamic_cast<CCI_FootBotDistanceScannerActuator *>(actu);
-        distance_scanner_wrapper.m_pcScannerActuator_bool = true;
-        distance_scanner_wrapper.m_pcScannerActuator->Init(t_node);
+        m_cDistanceScannerWrapper.m_pcScannerActuator = dynamic_cast<CCI_FootBotDistanceScannerActuator *>(pc_actu);
+        m_cDistanceScannerWrapper.m_bScannerActuator = true;
+        m_cDistanceScannerWrapper.m_pcScannerActuator->Init(t_node);
     }
-    if (name == "footbot_turret")
+    if (str_name == "footbot_turret")
     {
-        turret_wrapper.m_pcTurretActuator = dynamic_cast<CCI_FootBotTurretActuator *>(actu);
-        turret_wrapper.m_pcTurretActuator_bool = true;
-        turret_wrapper.m_pcTurretActuator->Init(t_node);
+        m_cTurretWrapper.m_pcTurretActuator = dynamic_cast<CCI_FootBotTurretActuator *>(pc_actu);
+        m_cTurretWrapper.m_bTurretActuator = true;
+        m_cTurretWrapper.m_pcTurretActuator->Init(t_node);
     }
 }
 
+/****************************************/
+/****************************************/	
+
 // Initialize the sensor specified by the provided name.
-void ActusensorsWrapper::CreateSensor(std::string name, CCI_Sensor *sensor, TConfigurationNode &t_node)
+void ActusensorsWrapper::CreateSensor(const std::string str_name, CCI_Sensor *pc_sensor, TConfigurationNode &t_node)
 {
-    if (name == "footbot_proximity")
+    if (str_name == "footbot_proximity")
     {
-        proximity_sensor_wrapper.m_pcProximity = (CCI_FootBotProximitySensor *)sensor;
-        proximity_sensor_wrapper.m_pcProximity_bool = true;
-        proximity_sensor_wrapper.m_pcProximity->Init(t_node);
+        m_cProximitySensorWrapper.m_pcProximity = (CCI_FootBotProximitySensor *)pc_sensor;
+        m_cProximitySensorWrapper.m_bProximity = true;
+        m_cProximitySensorWrapper.m_pcProximity->Init(t_node);
     }
 
-    if (name == "colored_blob_omnidirectional_camera")
+    if (str_name == "colored_blob_omnidirectional_camera")
     {
-        omnidirectional_camera_wrapper.m_pcOmniCam = (CCI_ColoredBlobOmnidirectionalCameraSensor *)sensor;
-        omnidirectional_camera_wrapper.m_pcOmniCam_bool = true;
-        //omnidirectional_camera_wrapper.m_pcOmniCam->Init(t_node);
+        m_cOmnidirectionalCameraWrapper.m_pcOmniCam = (CCI_ColoredBlobOmnidirectionalCameraSensor *)pc_sensor;
+        m_cOmnidirectionalCameraWrapper.m_bOmniCam = true;
+        //m_cOmnidirectionalCameraWrapper.m_pcOmniCam->Init(t_node);
     }
-    if (name == "range_and_bearing")
+    if (str_name == "range_and_bearing")
     {
-        range_and_bearing_wrapper.m_pcRABS = (CCI_RangeAndBearingSensor *)sensor;
-        range_and_bearing_wrapper.m_pcRABS_bool = true;
-        //range_and_bearing_wrapper.m_pcRABS->Init(t_node);
-    }
-
-    if (name == "footbot_motor_ground")
-    {
-        ground_sensor_wrapper.m_pcGround = (CCI_FootBotMotorGroundSensor *)sensor;
-        ground_sensor_wrapper.m_pcGround_bool = true;
-        ground_sensor_wrapper.m_pcGround->Init(t_node);
+        m_cRangeAndBearingWrapper.m_pcRABS = (CCI_RangeAndBearingSensor *)pc_sensor;
+        m_cRangeAndBearingWrapper.m_bRABS = true;
+        //m_cRangeAndBearingWrapper.m_pcRABS->Init(t_node);
     }
 
-    if (name == "footbot_base_ground")
+    if (str_name == "footbot_motor_ground")
     {
-        base_ground_sensor_wrapper.m_pcBaseGround = dynamic_cast<CCI_FootBotBaseGroundSensor *>(sensor);
-        base_ground_sensor_wrapper.m_pcBaseGround_bool = true;
-        base_ground_sensor_wrapper.m_pcBaseGround->Init(t_node);
+        m_cGroundSensorWrapper.m_pcGround = (CCI_FootBotMotorGroundSensor *)pc_sensor;
+        m_cGroundSensorWrapper.m_bGround = true;
+        m_cGroundSensorWrapper.m_pcGround->Init(t_node);
     }
 
-    if (name == "footbot_light")
+    if (str_name == "footbot_base_ground")
     {
-        light_sensor_wrapper.m_pcLight = (CCI_FootBotLightSensor *)sensor;
-        light_sensor_wrapper.m_pcLight_bool = true;
-        light_sensor_wrapper.m_pcLight->Init(t_node);
+        m_cBaseGroundSensorWrapper.m_pcBaseGround = dynamic_cast<CCI_FootBotBaseGroundSensor *>(pc_sensor);
+        m_cBaseGroundSensorWrapper.m_bBaseGround = true;
+        m_cBaseGroundSensorWrapper.m_pcBaseGround->Init(t_node);
     }
-    if (name == "footbot_distance_scanner")
+
+    if (str_name == "footbot_light")
     {
-        distance_scanner_wrapper.m_pcScannerSensor = (CCI_FootBotDistanceScannerSensor *)sensor;
-        distance_scanner_wrapper.m_pcScannerSensor_bool = true;
-        distance_scanner_wrapper.m_pcScannerSensor->Init(t_node);
+        m_cLightSensorWrapper.m_pcLight = (CCI_FootBotLightSensor *)pc_sensor;
+        m_cLightSensorWrapper.m_bLight = true;
+        m_cLightSensorWrapper.m_pcLight->Init(t_node);
     }
-    if (name == "footbot_turret_encoder")
+    if (str_name == "footbot_distance_scanner")
     {
-        turret_wrapper.m_pcTurretSensor = dynamic_cast<CCI_FootBotTurretEncoderSensor *>(sensor);
-        turret_wrapper.m_pcTurretSensor_bool = true;
-        turret_wrapper.m_pcTurretSensor->Init(t_node);
+        m_cDistanceScannerWrapper.m_pcScannerSensor = (CCI_FootBotDistanceScannerSensor *)pc_sensor;
+        m_cDistanceScannerWrapper.m_bScannerSensor = true;
+        m_cDistanceScannerWrapper.m_pcScannerSensor->Init(t_node);
+    }
+    if (str_name == "footbot_turret_encoder")
+    {
+        m_cTurretWrapper.m_pcTurretSensor = dynamic_cast<CCI_FootBotTurretEncoderSensor *>(pc_sensor);
+        m_cTurretWrapper.m_bTurretSensor = true;
+        m_cTurretWrapper.m_pcTurretSensor->Init(t_node);
     }
 }
 
@@ -126,26 +135,26 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
 {
     // Export the main "robot" class, and define the various actuators and sensors as property of the class.
     class_<ActusensorsWrapper, boost::shared_ptr<ActusensorsWrapper>, boost::noncopyable>("robot", no_init)
-        .def("logprint", &ActusensorsWrapper::logprint)
+         .def("logprint", &ActusensorsWrapper::Logprint)
         .staticmethod("logprint")
-        .add_property("wheels", &ActusensorsWrapper::wheels_wrapper)
-        .add_property("colored_blob_omnidirectional_camera", &ActusensorsWrapper::omnidirectional_camera_wrapper)
-        .add_property("proximity", &ActusensorsWrapper::proximity_sensor_wrapper)
-        .add_property("leds", &ActusensorsWrapper::leds_wrapper)
-        .add_property("range_and_bearing", &ActusensorsWrapper::range_and_bearing_wrapper)
-        .add_property("motor_ground", &ActusensorsWrapper::ground_sensor_wrapper)
-        .add_property("base_ground", &ActusensorsWrapper::base_ground_sensor_wrapper)
-        .add_property("gripper", &ActusensorsWrapper::gripper_wrapper)
-        .add_property("light_sensor", &ActusensorsWrapper::light_sensor_wrapper)
-        .add_property("distance_scanner", &ActusensorsWrapper::distance_scanner_wrapper)
-        .add_property("turret", &ActusensorsWrapper::turret_wrapper);
+        .add_property("wheels", &ActusensorsWrapper::m_cWheelsWrapper)
+        .add_property("colored_blob_omnidirectional_camera", &ActusensorsWrapper::m_cOmnidirectionalCameraWrapper)
+        .add_property("proximity", &ActusensorsWrapper::m_cProximitySensorWrapper)
+        .add_property("leds", &ActusensorsWrapper::m_cLedsWrapper)
+        .add_property("range_and_bearing", &ActusensorsWrapper::m_cRangeAndBearingWrapper)
+        .add_property("motor_ground", &ActusensorsWrapper::m_cGroundSensorWrapper)
+        .add_property("base_ground", &ActusensorsWrapper::m_cBaseGroundSensorWrapper)
+        .add_property("gripper", &ActusensorsWrapper::m_cGripperWrapper)
+        .add_property("light_sensor", &ActusensorsWrapper::m_cLightSensorWrapper)
+        .add_property("distance_scanner", &ActusensorsWrapper::m_cDistanceScannerWrapper)
+        .add_property("turret", &ActusensorsWrapper::m_cTurretWrapper);
 
     // Export "WheelsWrapper", wrapper of CCI_DifferentialSteeringActuator.
     class_<ActusensorsWrapper::WheelsWrapper, boost::noncopyable>("wheels_wrapper_wrapper", no_init)
-        .def("set_speed", &ActusensorsWrapper::WheelsWrapper::set_speed);
+        .def("set_speed", &ActusensorsWrapper::WheelsWrapper::SetSpeed);
 
     // Export "GripperWrapper", wrapper of CFootBotGripping.
-    class_<ActusensorsWrapper::GripperWrapper, boost::noncopyable>("gripper_wrapper", no_init)
+    class_<ActusensorsWrapper::GripperWrapper, boost::noncopyable>("m_cGripperWrapper", no_init)
         .def("lock", &ActusensorsWrapper::GripperWrapper::Lock)
         .def("unlock", &ActusensorsWrapper::GripperWrapper::Unlock);
 
@@ -154,7 +163,7 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
         .def("enable", &ActusensorsWrapper::OmnidirectionalCameraWrapper::Enable)
         .def("disable", &ActusensorsWrapper::OmnidirectionalCameraWrapper::Disable)
         .def("get_readings", &ActusensorsWrapper::OmnidirectionalCameraWrapper::GetReadings)
-        .def("get_counter", &ActusensorsWrapper::OmnidirectionalCameraWrapper::get_counter);
+        .def("get_counter", &ActusensorsWrapper::OmnidirectionalCameraWrapper::GetCounter);
 
     // Export "FootBotProximitySensorWrapper", wrapper of CCI_FootBotProximitySensor.
     class_<ActusensorsWrapper::FootBotProximitySensorWrapper, boost::noncopyable>("footbot_proximity_sensor_wrapper", no_init)
@@ -168,25 +177,25 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
         .def("set_all_colors", &ActusensorsWrapper::LedsActuatorWrapper::SetAllColorsRGB);
 
     // Export RangeAndBearingWrapper, wrapper of CCI_RangeAndBearingActuator and CCI_RangeAndBearingSensor.
-    class_<ActusensorsWrapper::RangeAndBearingWrapper, boost::noncopyable>("range_and_bearing_wrapper", no_init)
+    class_<ActusensorsWrapper::RangeAndBearingWrapper, boost::noncopyable>("m_cRangeAndBearingWrapper", no_init)
         .def("clear_data", &ActusensorsWrapper::RangeAndBearingWrapper::ClearData)
         .def("set_data", &ActusensorsWrapper::RangeAndBearingWrapper::SetData)
         .def("get_readings", &ActusensorsWrapper::RangeAndBearingWrapper::GetReadings);
 
     // Export GroundSensorWrapper, wrapper of CCI_FootBotMotorGroundSensor.
-    class_<ActusensorsWrapper::GroundSensorWrapper, boost::noncopyable>("ground_sensor_wrapper", no_init)
+    class_<ActusensorsWrapper::GroundSensorWrapper, boost::noncopyable>("m_cGroundSensorWrapper", no_init)
         .def("get_readings", &ActusensorsWrapper::GroundSensorWrapper::GetReadings);
 
     // Export BaseGroundSensorWrapper, wrapper of CCI_FootBotBaseGroundSensor .
-    class_<ActusensorsWrapper::BaseGroundSensorWrapper, boost::noncopyable>("ground_sensor_wrapper", no_init)
+    class_<ActusensorsWrapper::BaseGroundSensorWrapper, boost::noncopyable>("m_cGroundSensorWrapper", no_init)
         .def("get_readings", &ActusensorsWrapper::BaseGroundSensorWrapper::GetReadings);
 
     // Export LightSensorWrapper, wrapper of CCI_FootBotLightSensor.
-    class_<ActusensorsWrapper::LightSensorWrapper, boost::noncopyable>("light_sensor_wrapper", no_init)
+    class_<ActusensorsWrapper::LightSensorWrapper, boost::noncopyable>("m_cLightSensorWrapper", no_init)
         .def("get_readings", &ActusensorsWrapper::LightSensorWrapper::GetReadings);
 
     // Export DistanceScannerWrapper, wrapper of CCI_FootBotDistanceScannerActuator and CCI_FootBotDistanceScannerSensor.
-    class_<ActusensorsWrapper::DistanceScannerWrapper, boost::noncopyable>("distance_scanner_wrapper", no_init)
+    class_<ActusensorsWrapper::DistanceScannerWrapper, boost::noncopyable>("m_cDistanceScannerWrapper", no_init)
         .def("enable", &ActusensorsWrapper::DistanceScannerWrapper::Enable)
         .def("disable", &ActusensorsWrapper::DistanceScannerWrapper::Disable)
         .def("set_rpm", &ActusensorsWrapper::DistanceScannerWrapper::SetRPM)
@@ -196,7 +205,7 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
         .def("get_long_readings", &ActusensorsWrapper::DistanceScannerWrapper::GetLongReadings);
 
     // Export TurretWrapper, wrapper of CCI_FootBotTurretEncoderSensor and CCI_FootBotTurretActuator. 
-    class_<ActusensorsWrapper::TurretWrapper, boost::noncopyable>("turret_wrapper", no_init)
+    class_<ActusensorsWrapper::TurretWrapper, boost::noncopyable>("m_cTurretWrapper", no_init)
         .def("get_rotation", &ActusensorsWrapper::TurretWrapper::GetRotation)
         .def("set_rotation", &ActusensorsWrapper::TurretWrapper::SetRotation)
         .def("set_rotation_speed", &ActusensorsWrapper::TurretWrapper::SetRotationSpeed)
@@ -210,13 +219,13 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
     // The map can be iterated. For a given map entry, get the key with map_entry.key()
     // (map_entry.key().value() to get the actual angle value),
     // and the value with map_entry.data()
-    class_<std::map<argos::CRadians, double>>("distance_sensor_readings_map")
-        .def(boost::python::map_indexing_suite<std::map<argos::CRadians, double>>());
+    class_<std::map<argos::CRadians, Real>>("distance_sensor_readings_map")
+        .def(boost::python::map_indexing_suite<std::map<argos::CRadians, Real>>());
 
     // Export the CRadians class, used by the readings of various sensors.
     // TODO: add more properties
     class_<argos::CRadians>("radians", init<>())
-        .def(init<double>())
+        .def(init<Real>())
         .def("value", &argos::CRadians::GetValue);
 
     // Export the SReading class, used to store the readings of the proximity sensor.
@@ -255,7 +264,7 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
         .def_readonly("offset", &argos::CCI_FootBotBaseGroundSensor::SReading::Offset);
 
     class_<argos::CVector2>("vector2", init<>())
-        .def(init<double, double>())
+        .def(init<Real, Real>())
         .add_property("x", &argos::CVector2::GetX, &argos::CVector2::SetX)
         .add_property("y", &argos::CVector2::GetY, &argos::CVector2::SetY)
         .def_readonly("length", &argos::CVector2::Length)
@@ -264,8 +273,8 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
 
     // Export the ColorWrapper class.
     class_<ActusensorsWrapper::ColorWrapper>("color", init<std::string>())
-        .def(init<int, int, int>())
-        .add_property("raw_color", &ActusensorsWrapper::ColorWrapper::color);
+        .def(init<UInt8, UInt8, UInt8>())
+        .add_property("raw_color", &ActusensorsWrapper::ColorWrapper::m_cColor);
     // TODO: add other color stuff
 
     // Export the CColor class. This class is not directly usable in python,
@@ -275,6 +284,6 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
 
     // Export the CByteArray class, and define new functions on it to access its data.
     class_<argos::CByteArray>("c_byte_array", no_init)
-        .def("__getitem__", &ActusensorsWrapper::c_byte_array_getitem)
-        .def("__setitem__", &ActusensorsWrapper::c_byte_array_setitem);
+        .def("__getitem__", &ActusensorsWrapper::CByteArrayGetItem)
+        .def("__setitem__", &ActusensorsWrapper::CByteArraySetItem);
 }
