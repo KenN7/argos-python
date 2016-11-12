@@ -123,6 +123,60 @@ py_controller_interface/fast:
 	$(MAKE) -f CMakeFiles/py_controller_interface.dir/build.make CMakeFiles/py_controller_interface.dir/build
 .PHONY : py_controller_interface/fast
 
+py_actusensor_wrapper_footbot.o: py_actusensor_wrapper_footbot.cpp.o
+
+.PHONY : py_actusensor_wrapper_footbot.o
+
+# target to build an object file
+py_actusensor_wrapper_footbot.cpp.o:
+	$(MAKE) -f CMakeFiles/py_controller_interface.dir/build.make CMakeFiles/py_controller_interface.dir/py_actusensor_wrapper_footbot.cpp.o
+.PHONY : py_actusensor_wrapper_footbot.cpp.o
+
+py_actusensor_wrapper_footbot.i: py_actusensor_wrapper_footbot.cpp.i
+
+.PHONY : py_actusensor_wrapper_footbot.i
+
+# target to preprocess a source file
+py_actusensor_wrapper_footbot.cpp.i:
+	$(MAKE) -f CMakeFiles/py_controller_interface.dir/build.make CMakeFiles/py_controller_interface.dir/py_actusensor_wrapper_footbot.cpp.i
+.PHONY : py_actusensor_wrapper_footbot.cpp.i
+
+py_actusensor_wrapper_footbot.s: py_actusensor_wrapper_footbot.cpp.s
+
+.PHONY : py_actusensor_wrapper_footbot.s
+
+# target to generate assembly for a file
+py_actusensor_wrapper_footbot.cpp.s:
+	$(MAKE) -f CMakeFiles/py_controller_interface.dir/build.make CMakeFiles/py_controller_interface.dir/py_actusensor_wrapper_footbot.cpp.s
+.PHONY : py_actusensor_wrapper_footbot.cpp.s
+
+py_actusensor_wrapper_generic.o: py_actusensor_wrapper_generic.cpp.o
+
+.PHONY : py_actusensor_wrapper_generic.o
+
+# target to build an object file
+py_actusensor_wrapper_generic.cpp.o:
+	$(MAKE) -f CMakeFiles/py_controller_interface.dir/build.make CMakeFiles/py_controller_interface.dir/py_actusensor_wrapper_generic.cpp.o
+.PHONY : py_actusensor_wrapper_generic.cpp.o
+
+py_actusensor_wrapper_generic.i: py_actusensor_wrapper_generic.cpp.i
+
+.PHONY : py_actusensor_wrapper_generic.i
+
+# target to preprocess a source file
+py_actusensor_wrapper_generic.cpp.i:
+	$(MAKE) -f CMakeFiles/py_controller_interface.dir/build.make CMakeFiles/py_controller_interface.dir/py_actusensor_wrapper_generic.cpp.i
+.PHONY : py_actusensor_wrapper_generic.cpp.i
+
+py_actusensor_wrapper_generic.s: py_actusensor_wrapper_generic.cpp.s
+
+.PHONY : py_actusensor_wrapper_generic.s
+
+# target to generate assembly for a file
+py_actusensor_wrapper_generic.cpp.s:
+	$(MAKE) -f CMakeFiles/py_controller_interface.dir/build.make CMakeFiles/py_controller_interface.dir/py_actusensor_wrapper_generic.cpp.s
+.PHONY : py_actusensor_wrapper_generic.cpp.s
+
 py_controller.o: py_controller.cpp.o
 
 .PHONY : py_controller.o
@@ -186,6 +240,12 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... py_controller_interface"
+	@echo "... py_actusensor_wrapper_footbot.o"
+	@echo "... py_actusensor_wrapper_footbot.i"
+	@echo "... py_actusensor_wrapper_footbot.s"
+	@echo "... py_actusensor_wrapper_generic.o"
+	@echo "... py_actusensor_wrapper_generic.i"
+	@echo "... py_actusensor_wrapper_generic.s"
 	@echo "... py_controller.o"
 	@echo "... py_controller.i"
 	@echo "... py_controller.s"

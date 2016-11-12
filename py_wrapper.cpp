@@ -14,7 +14,7 @@ ActusensorsWrapper::ActusensorsWrapper()
 }
 
 /****************************************/
-/****************************************/	
+/****************************************/
 
 void ActusensorsWrapper::Logprint(const std::string str_message)
 {
@@ -22,7 +22,7 @@ void ActusensorsWrapper::Logprint(const std::string str_message)
 }
 
 /****************************************/
-/****************************************/	
+/****************************************/
 
 // Initialize the actuator specified by the provided name.
 
@@ -72,7 +72,7 @@ void ActusensorsWrapper::CreateActu(const std::string str_name, CCI_Actuator *pc
 }
 
 /****************************************/
-/****************************************/	
+/****************************************/
 
 // Initialize the sensor specified by the provided name.
 void ActusensorsWrapper::CreateSensor(const std::string str_name, CCI_Sensor *pc_sensor, TConfigurationNode &t_node)
@@ -131,11 +131,62 @@ void ActusensorsWrapper::CreateSensor(const std::string str_name, CCI_Sensor *pc
     }
 }
 
+/****************************************/
+/****************************************/
+
+// Create a color by providing its name.
+ActusensorsWrapper::CColorWrapper::CColorWrapper(const std::string str_color_name)
+{
+    if (str_color_name == "red")
+        m_cColor = argos::CColor::RED;
+    else if (str_color_name == "black")
+        m_cColor = argos::CColor::BLACK;
+    // TODO: more colors
+}
+// Create a color by providing its RGB values.
+ActusensorsWrapper::CColorWrapper::CColorWrapper(const UInt8 un_red, const UInt8 un_green, const UInt8 un_blue)
+{
+    m_cColor = argos::CColor((const UInt8)un_red, (const UInt8)un_green, (const UInt8)un_blue, 0);
+}
+
+/****************************************/
+/****************************************/
+
+void ActusensorsWrapper::CByteArraySetItem(argos::CByteArray &c_vec, const UInt32 un_index, const UInt8 un_value)
+{
+    if (un_index >= 0 && un_index < c_vec.Size())
+    {
+        c_vec[un_index] = un_value;
+    }
+    else
+    {
+        PyErr_SetString(PyExc_IndexError, "index out of range");
+        boost::python::throw_error_already_set();
+    }
+}
+
+UInt8 ActusensorsWrapper::CByteArrayGetItem(const argos::CByteArray &c_vec, const UInt32 un_index)
+{
+    if (un_index >= 0 && un_index < c_vec.Size())
+    {
+        return c_vec[un_index];
+    }
+    else
+    {
+        PyErr_SetString(PyExc_IndexError, "index out of range");
+        boost::python::throw_error_already_set();
+    }
+}
+
+
+/****************************************/
+/****************************************/
+
 BOOST_PYTHON_MODULE(libpy_controller_interface)
 {
     // Export the main "robot" class, and define the various actuators and sensors as property of the class.
     class_<ActusensorsWrapper, boost::shared_ptr<ActusensorsWrapper>, boost::noncopyable>("robot", no_init)
-         .def("logprint", &ActusensorsWrapper::Logprint)
+        .def("logprint", &ActusensorsWrapper::Logprint)
         .staticmethod("logprint")
         .add_property("wheels", &ActusensorsWrapper::m_cWheelsWrapper)
         .add_property("colored_blob_omnidirectional_camera", &ActusensorsWrapper::m_cOmnidirectionalCameraWrapper)
@@ -150,70 +201,70 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
         .add_property("turret", &ActusensorsWrapper::m_cTurretWrapper);
 
     // Export "WheelsWrapper", wrapper of CCI_DifferentialSteeringActuator.
-    class_<ActusensorsWrapper::WheelsWrapper, boost::noncopyable>("wheels_wrapper_wrapper", no_init)
-        .def("set_speed", &ActusensorsWrapper::WheelsWrapper::SetSpeed);
+    class_<CWheelsWrapper, boost::noncopyable>("wheels_wrapper_wrapper", no_init)
+        .def("set_speed", &CWheelsWrapper::SetSpeed);
 
     // Export "GripperWrapper", wrapper of CFootBotGripping.
-    class_<ActusensorsWrapper::GripperWrapper, boost::noncopyable>("m_cGripperWrapper", no_init)
-        .def("lock", &ActusensorsWrapper::GripperWrapper::Lock)
-        .def("unlock", &ActusensorsWrapper::GripperWrapper::Unlock);
+    class_<CGripperWrapper, boost::noncopyable>("m_cGripperWrapper", no_init)
+        .def("lock", &CGripperWrapper::Lock)
+        .def("unlock", &CGripperWrapper::Unlock);
 
     // Export "OmnidirectionalCameraWrapper" , wrapper of CCI_ColoredBlobOmnidirectionalCameraSensor.
-    class_<ActusensorsWrapper::OmnidirectionalCameraWrapper, boost::noncopyable>("omnidirectional_camera_wrapper_wrapper", no_init)
-        .def("enable", &ActusensorsWrapper::OmnidirectionalCameraWrapper::Enable)
-        .def("disable", &ActusensorsWrapper::OmnidirectionalCameraWrapper::Disable)
-        .def("get_readings", &ActusensorsWrapper::OmnidirectionalCameraWrapper::GetReadings)
-        .def("get_counter", &ActusensorsWrapper::OmnidirectionalCameraWrapper::GetCounter);
+    class_<COmnidirectionalCameraWrapper, boost::noncopyable>("omnidirectional_camera_wrapper_wrapper", no_init)
+        .def("enable", &COmnidirectionalCameraWrapper::Enable)
+        .def("disable", &COmnidirectionalCameraWrapper::Disable)
+        .def("get_readings", &COmnidirectionalCameraWrapper::GetReadings)
+        .def("get_counter", &COmnidirectionalCameraWrapper::GetCounter);
 
     // Export "FootBotProximitySensorWrapper", wrapper of CCI_FootBotProximitySensor.
-    class_<ActusensorsWrapper::FootBotProximitySensorWrapper, boost::noncopyable>("footbot_proximity_sensor_wrapper", no_init)
-        .def("get_readings", &ActusensorsWrapper::FootBotProximitySensorWrapper::GetReadings);
+    class_<CFootBotProximitySensorWrapper, boost::noncopyable>("footbot_proximity_sensor_wrapper", no_init)
+        .def("get_readings", &CFootBotProximitySensorWrapper::GetReadings);
 
     // Export "LedsActuatorWrapper", wrapper of CCI_LEDsActuator.
-    class_<ActusensorsWrapper::LedsActuatorWrapper, boost::noncopyable>("leds_actuator_wrapper", no_init)
-        .def("set_single_color", &ActusensorsWrapper::LedsActuatorWrapper::SetSingleColorString)
-        .def("set_single_color", &ActusensorsWrapper::LedsActuatorWrapper::SetSingleColorRGB)
-        .def("set_all_colors", &ActusensorsWrapper::LedsActuatorWrapper::SetAllColorsString)
-        .def("set_all_colors", &ActusensorsWrapper::LedsActuatorWrapper::SetAllColorsRGB);
+    class_<CLedsActuatorWrapper, boost::noncopyable>("leds_actuator_wrapper", no_init)
+        .def("set_single_color", &CLedsActuatorWrapper::SetSingleColorString)
+        .def("set_single_color", &CLedsActuatorWrapper::SetSingleColorRGB)
+        .def("set_all_colors", &CLedsActuatorWrapper::SetAllColorsString)
+        .def("set_all_colors", &CLedsActuatorWrapper::SetAllColorsRGB);
 
     // Export RangeAndBearingWrapper, wrapper of CCI_RangeAndBearingActuator and CCI_RangeAndBearingSensor.
-    class_<ActusensorsWrapper::RangeAndBearingWrapper, boost::noncopyable>("m_cRangeAndBearingWrapper", no_init)
-        .def("clear_data", &ActusensorsWrapper::RangeAndBearingWrapper::ClearData)
-        .def("set_data", &ActusensorsWrapper::RangeAndBearingWrapper::SetData)
-        .def("get_readings", &ActusensorsWrapper::RangeAndBearingWrapper::GetReadings);
+    class_<CRangeAndBearingWrapper, boost::noncopyable>("m_cRangeAndBearingWrapper", no_init)
+        .def("clear_data", &CRangeAndBearingWrapper::ClearData)
+        .def("set_data", &CRangeAndBearingWrapper::SetData)
+        .def("get_readings", &CRangeAndBearingWrapper::GetReadings);
 
     // Export GroundSensorWrapper, wrapper of CCI_FootBotMotorGroundSensor.
-    class_<ActusensorsWrapper::GroundSensorWrapper, boost::noncopyable>("m_cGroundSensorWrapper", no_init)
-        .def("get_readings", &ActusensorsWrapper::GroundSensorWrapper::GetReadings);
+    class_<CGroundSensorWrapper, boost::noncopyable>("m_cGroundSensorWrapper", no_init)
+        .def("get_readings", &CGroundSensorWrapper::GetReadings);
 
     // Export BaseGroundSensorWrapper, wrapper of CCI_FootBotBaseGroundSensor .
-    class_<ActusensorsWrapper::BaseGroundSensorWrapper, boost::noncopyable>("m_cGroundSensorWrapper", no_init)
-        .def("get_readings", &ActusensorsWrapper::BaseGroundSensorWrapper::GetReadings);
+    class_<CBaseGroundSensorWrapper, boost::noncopyable>("m_cGroundSensorWrapper", no_init)
+        .def("get_readings", &CBaseGroundSensorWrapper::GetReadings);
 
     // Export LightSensorWrapper, wrapper of CCI_FootBotLightSensor.
-    class_<ActusensorsWrapper::LightSensorWrapper, boost::noncopyable>("m_cLightSensorWrapper", no_init)
-        .def("get_readings", &ActusensorsWrapper::LightSensorWrapper::GetReadings);
+    class_<CLightSensorWrapper, boost::noncopyable>("m_cLightSensorWrapper", no_init)
+        .def("get_readings", &CLightSensorWrapper::GetReadings);
 
     // Export DistanceScannerWrapper, wrapper of CCI_FootBotDistanceScannerActuator and CCI_FootBotDistanceScannerSensor.
-    class_<ActusensorsWrapper::DistanceScannerWrapper, boost::noncopyable>("m_cDistanceScannerWrapper", no_init)
-        .def("enable", &ActusensorsWrapper::DistanceScannerWrapper::Enable)
-        .def("disable", &ActusensorsWrapper::DistanceScannerWrapper::Disable)
-        .def("set_rpm", &ActusensorsWrapper::DistanceScannerWrapper::SetRPM)
-        .def("set_angle", &ActusensorsWrapper::DistanceScannerWrapper::SetAngle)
-        .def("get_readings", &ActusensorsWrapper::DistanceScannerWrapper::GetReadings)
-        .def("get_short_readings", &ActusensorsWrapper::DistanceScannerWrapper::GetShortReadings)
-        .def("get_long_readings", &ActusensorsWrapper::DistanceScannerWrapper::GetLongReadings);
+    class_<CDistanceScannerWrapper, boost::noncopyable>("m_cDistanceScannerWrapper", no_init)
+        .def("enable", &CDistanceScannerWrapper::Enable)
+        .def("disable", &CDistanceScannerWrapper::Disable)
+        .def("set_rpm", &CDistanceScannerWrapper::SetRPM)
+        .def("set_angle", &CDistanceScannerWrapper::SetAngle)
+        .def("get_readings", &CDistanceScannerWrapper::GetReadings)
+        .def("get_short_readings", &CDistanceScannerWrapper::GetShortReadings)
+        .def("get_long_readings", &CDistanceScannerWrapper::GetLongReadings);
 
-    // Export TurretWrapper, wrapper of CCI_FootBotTurretEncoderSensor and CCI_FootBotTurretActuator. 
-    class_<ActusensorsWrapper::TurretWrapper, boost::noncopyable>("m_cTurretWrapper", no_init)
-        .def("get_rotation", &ActusensorsWrapper::TurretWrapper::GetRotation)
-        .def("set_rotation", &ActusensorsWrapper::TurretWrapper::SetRotation)
-        .def("set_rotation_speed", &ActusensorsWrapper::TurretWrapper::SetRotationSpeed)
-        .def("set_mode", &ActusensorsWrapper::TurretWrapper::SetMode)
-        .def("set_active_with_rotation", &ActusensorsWrapper::TurretWrapper::SetActiveWithRotation)
-        .def("set_speed_control_mode", &ActusensorsWrapper::TurretWrapper::SetSpeedControlMode)
-        .def("set_position_control_mode", &ActusensorsWrapper::TurretWrapper::SetPositionControlMode)
-        .def("set_passive_mode", &ActusensorsWrapper::TurretWrapper::SetPassiveMode);
+    // Export TurretWrapper, wrapper of CCI_FootBotTurretEncoderSensor and CCI_FootBotTurretActuator.
+    class_<CTurretWrapper, boost::noncopyable>("m_cTurretWrapper", no_init)
+        .def("get_rotation", &CTurretWrapper::GetRotation)
+        .def("set_rotation", &CTurretWrapper::SetRotation)
+        .def("set_rotation_speed", &CTurretWrapper::SetRotationSpeed)
+        .def("set_mode", &CTurretWrapper::SetMode)
+        .def("set_active_with_rotation", &CTurretWrapper::SetActiveWithRotation)
+        .def("set_speed_control_mode", &CTurretWrapper::SetSpeedControlMode)
+        .def("set_position_control_mode", &CTurretWrapper::SetPositionControlMode)
+        .def("set_passive_mode", &CTurretWrapper::SetPassiveMode);
 
     // Export a CRadians - float map, used for the readings of the Distance Scanner Sensor.
     // The map can be iterated. For a given map entry, get the key with map_entry.key()
@@ -272,9 +323,9 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
         .def_readonly("square_length", &argos::CVector2::SquareLength);
 
     // Export the ColorWrapper class.
-    class_<ActusensorsWrapper::ColorWrapper>("color", init<std::string>())
+    class_<ActusensorsWrapper::CColorWrapper>("color", init<std::string>())
         .def(init<UInt8, UInt8, UInt8>())
-        .add_property("raw_color", &ActusensorsWrapper::ColorWrapper::m_cColor);
+        .add_property("raw_color", &ActusensorsWrapper::CColorWrapper::m_cColor);
     // TODO: add other color stuff
 
     // Export the CColor class. This class is not directly usable in python,
