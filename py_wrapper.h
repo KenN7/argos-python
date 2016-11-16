@@ -15,6 +15,7 @@
 
 #include "py_actusensor_wrapper_generic.h"
 #include "py_actusensor_wrapper_footbot.h"
+#include "py_actusensor_wrapper_epuck.h"
 
 #include <argos3/core/utility/logging/argos_log.h>
 #include <argos3/core/utility/math/general.h>
@@ -55,17 +56,26 @@ class ActusensorsWrapper
     /****************************************/
 
     // Define a wrapper for each actuator and sensor
+
+    // Generic actusensors
     CWheelsWrapper m_cWheelsWrapper;
-    CGripperWrapper m_cGripperWrapper;
-    COmnidirectionalCameraWrapper m_cOmnidirectionalCameraWrapper;
-    CFootBotProximitySensorWrapper m_cProximitySensorWrapper;
+    COmnidirectionalCameraWrapper m_cOmnidirectionalCameraWrapper; 
     CLedsActuatorWrapper m_cLedsWrapper;
     CRangeAndBearingWrapper m_cRangeAndBearingWrapper;
+    
+    // Footbot Actusensors
+    CGripperWrapper m_cGripperWrapper;
+    CFootBotProximitySensorWrapper m_cProximitySensorWrapper;
+    CTurretWrapper m_cTurretWrapper;
+    CDistanceScannerWrapper m_cDistanceScannerWrapper;
+    CLightSensorWrapper m_cLightSensorWrapper;
     CGroundSensorWrapper m_cGroundSensorWrapper;
     CBaseGroundSensorWrapper m_cBaseGroundSensorWrapper;
-    CLightSensorWrapper m_cLightSensorWrapper;
-    CDistanceScannerWrapper m_cDistanceScannerWrapper;
-    CTurretWrapper m_cTurretWrapper;
+
+    // E-Puck actusensors
+    CEPuckWheelsWrapper m_cEPuckWheelsWrapper;
+    CEPuckProximitySensorWrapper m_cEPuckProximitySensorWrapper;
+    
 
     /****************************************/
     /****************************************/

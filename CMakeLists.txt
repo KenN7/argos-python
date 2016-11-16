@@ -29,7 +29,7 @@ link_directories(${ARGOS_LIBRARY_DIRS})
 include_directories(${CMAKE_SOURCE_DIR}/controllers)
 
 add_library (
-    py_controller_interface SHARED py_controller.cpp py_wrapper.cpp py_actusensor_wrapper_generic.cpp py_actusensor_wrapper_footbot.cpp
+    py_controller_interface SHARED py_controller.cpp py_wrapper.cpp py_actusensor_wrapper_generic.cpp py_actusensor_wrapper_footbot.cpp py_actusensor_wrapper_epuck.cpp
 )
 
 target_link_libraries (py_controller_interface

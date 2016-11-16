@@ -26,6 +26,7 @@ namespace argos
 // and a series of functions to interact with it.
 // Each wrapper is then exported in python as a property of the "robot" class,
 // and the functions of each wrapper can be used from python as methods or class properties
+
 // TODO: add m_pc_..._bool error checkin
 // Wrapper for the Differential Steering Actuator.
 class CWheelsWrapper

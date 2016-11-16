@@ -69,6 +69,14 @@ void ActusensorsWrapper::CreateActu(const std::string str_name, CCI_Actuator *pc
         m_cTurretWrapper.m_bTurretActuator = true;
         m_cTurretWrapper.m_pcTurretActuator->Init(t_node);
     }
+
+    // E-Puck actuators.
+    if (str_name == "epuck_wheels")
+    {
+        m_cEPuckWheelsWrapper.m_pcEPuckWheels = dynamic_cast<CCI_EPuckWheelsActuator *>(pc_actu);
+        m_cEPuckWheelsWrapper.m_bEPuckWheels = true;
+        m_cEPuckWheelsWrapper.m_pcEPuckWheels->Init(t_node);
+    }
 }
 
 /****************************************/
@@ -128,6 +136,12 @@ void ActusensorsWrapper::CreateSensor(const std::string str_name, CCI_Sensor *pc
         m_cTurretWrapper.m_pcTurretSensor = dynamic_cast<CCI_FootBotTurretEncoderSensor *>(pc_sensor);
         m_cTurretWrapper.m_bTurretSensor = true;
         m_cTurretWrapper.m_pcTurretSensor->Init(t_node);
+    }
+    if (str_name == "epuck_proximity")
+    {
+        m_cEPuckProximitySensorWrapper.m_pcEPuckProximity = dynamic_cast<CCI_EPuckProximitySensor *>(pc_sensor);
+        m_cEPuckProximitySensorWrapper.m_bEPuckProximity = true;
+        m_cEPuckProximitySensorWrapper.m_pcEPuckProximity->Init(t_node);
     }
 }
 
@@ -198,11 +212,18 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
         .add_property("gripper", &ActusensorsWrapper::m_cGripperWrapper)
         .add_property("light_sensor", &ActusensorsWrapper::m_cLightSensorWrapper)
         .add_property("distance_scanner", &ActusensorsWrapper::m_cDistanceScannerWrapper)
-        .add_property("turret", &ActusensorsWrapper::m_cTurretWrapper);
+        .add_property("turret", &ActusensorsWrapper::m_cTurretWrapper)
+        .add_property("epuck_wheels", &ActusensorsWrapper::m_cEPuckWheelsWrapper)
+        .add_property("epuck_proximity", &ActusensorsWrapper::m_cEPuckProximitySensorWrapper);
 
     // Export "WheelsWrapper", wrapper of CCI_DifferentialSteeringActuator.
-    class_<CWheelsWrapper, boost::noncopyable>("wheels_wrapper_wrapper", no_init)
+    class_<CWheelsWrapper, boost::noncopyable>("wheels_wrapper", no_init)
         .def("set_speed", &CWheelsWrapper::SetSpeed);
+
+    // Export "EPuckWheelsWrapper", wrapper of CCI_EPuckWheelsActuator.
+    class_<CEPuckWheelsWrapper, boost::noncopyable>("epuck_wheels_wrapper", no_init)
+        .def("set_speed", &CEPuckWheelsWrapper::SetSpeed);
+
 
     // Export "GripperWrapper", wrapper of CFootBotGripping.
     class_<CGripperWrapper, boost::noncopyable>("m_cGripperWrapper", no_init)
@@ -210,7 +231,7 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
         .def("unlock", &CGripperWrapper::Unlock);
 
     // Export "OmnidirectionalCameraWrapper" , wrapper of CCI_ColoredBlobOmnidirectionalCameraSensor.
-    class_<COmnidirectionalCameraWrapper, boost::noncopyable>("omnidirectional_camera_wrapper_wrapper", no_init)
+    class_<COmnidirectionalCameraWrapper, boost::noncopyable>("omnidirectional_camera_wrapper", no_init)
         .def("enable", &COmnidirectionalCameraWrapper::Enable)
         .def("disable", &COmnidirectionalCameraWrapper::Disable)
         .def("get_readings", &COmnidirectionalCameraWrapper::GetReadings)
@@ -219,6 +240,10 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
     // Export "FootBotProximitySensorWrapper", wrapper of CCI_FootBotProximitySensor.
     class_<CFootBotProximitySensorWrapper, boost::noncopyable>("footbot_proximity_sensor_wrapper", no_init)
         .def("get_readings", &CFootBotProximitySensorWrapper::GetReadings);
+
+    // Export "CEPuckProximitySensorWrapper", wrapper of CCI_EPuckProximitySensor.
+    class_<CEPuckProximitySensorWrapper, boost::noncopyable>("epuck_proximity_sensor_wrapper", no_init)
+        .def("get_readings", &CEPuckProximitySensorWrapper::GetReadings);
 
     // Export "LedsActuatorWrapper", wrapper of CCI_LEDsActuator.
     class_<CLedsActuatorWrapper, boost::noncopyable>("leds_actuator_wrapper", no_init)
@@ -280,12 +305,17 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
         .def("value", &argos::CRadians::GetValue);
 
     // Export the SReading class, used to store the readings of the proximity sensor.
-    class_<argos::CCI_FootBotProximitySensor::SReading>("proximity_reading", no_init)
+    class_<argos::CCI_FootBotProximitySensor::SReading>("footbot_proximity_reading", no_init)
         .def_readonly("value", &argos::CCI_FootBotProximitySensor::SReading::Value)
         .def_readonly("angle", &argos::CCI_FootBotProximitySensor::SReading::Angle);
 
+     // Export the SReading class, used to store the readings of the proximity sensor.
+    class_<argos::CCI_EPuckProximitySensor::SReading>("epuck_proximity_reading", no_init)
+        .def_readonly("value", &argos::CCI_EPuckProximitySensor::SReading::Value)
+        .def_readonly("angle", &argos::CCI_EPuckProximitySensor::SReading::Angle);
+
     // Export the SReading class, used to store the readings of the light sensor.
-    class_<argos::CCI_FootBotLightSensor::SReading>("proximity_reading", no_init)
+    class_<argos::CCI_FootBotLightSensor::SReading>("footbot_light_reading", no_init)
         .def_readonly("value", &argos::CCI_FootBotLightSensor::SReading::Value)
         .def_readonly("angle", &argos::CCI_FootBotLightSensor::SReading::Angle);
 
@@ -304,13 +334,13 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
 
     // Export the SReading class, used to store the readings of the motor ground sensor.
     // Each reading contains a value and the offset, expressed in x/y coordinates.
-    class_<argos::CCI_FootBotMotorGroundSensor::SReading>("motor_ground_sensor_wrapper", no_init)
+    class_<argos::CCI_FootBotMotorGroundSensor::SReading>("motor_ground_sensor_wrapper_reading", no_init)
         .def_readonly("value", &argos::CCI_FootBotMotorGroundSensor::SReading::Value)
         .def_readonly("offset", &argos::CCI_FootBotMotorGroundSensor::SReading::Offset);
 
     // Export the SReading class, used to store the readings of the base ground sensor.
     // Each reading contains a value and the offset, expressed in x/y coordinates.
-    class_<argos::CCI_FootBotBaseGroundSensor::SReading>("motor_ground_sensor_wrapper", no_init)
+    class_<argos::CCI_FootBotBaseGroundSensor::SReading>("motor_ground_sensor_wrapper_reading", no_init)
         .def_readonly("value", &argos::CCI_FootBotBaseGroundSensor::SReading::Value)
         .def_readonly("offset", &argos::CCI_FootBotBaseGroundSensor::SReading::Offset);
 
