@@ -32,7 +32,11 @@ CMakeFiles/py_controller_interface.dir/py_actusensor_wrapper_epuck.cpp.o
  /usr/local/include/argos3/core/utility/plugins/factory.h
  /usr/local/include/argos3/core/utility/plugins/factory_impl.h
  /usr/local/include/argos3/core/utility/string_utilities.h
+ /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_ground_sensor.h
  /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_proximity_sensor.h
+ /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_range_and_bearing_actuator.h
+ /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_range_and_bearing_sensor.h
+ /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_rgb_leds_actuator.h
  /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_wheels_actuator.h
  /usr/local/include/argos3/plugins/robots/foot-bot/control_interface/ci_footbot_base_ground_sensor.h
  /usr/local/include/argos3/plugins/robots/foot-bot/control_interface/ci_footbot_distance_scanner_actuator.h
@@ -79,7 +83,11 @@ CMakeFiles/py_controller_interface.dir/py_actusensor_wrapper_footbot.cpp.o
  /usr/local/include/argos3/core/utility/plugins/factory.h
  /usr/local/include/argos3/core/utility/plugins/factory_impl.h
  /usr/local/include/argos3/core/utility/string_utilities.h
+ /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_ground_sensor.h
  /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_proximity_sensor.h
+ /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_range_and_bearing_actuator.h
+ /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_range_and_bearing_sensor.h
+ /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_rgb_leds_actuator.h
  /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_wheels_actuator.h
  /usr/local/include/argos3/plugins/robots/foot-bot/control_interface/ci_footbot_base_ground_sensor.h
  /usr/local/include/argos3/plugins/robots/foot-bot/control_interface/ci_footbot_distance_scanner_actuator.h
@@ -126,7 +134,11 @@ CMakeFiles/py_controller_interface.dir/py_actusensor_wrapper_generic.cpp.o
  /usr/local/include/argos3/core/utility/plugins/factory.h
  /usr/local/include/argos3/core/utility/plugins/factory_impl.h
  /usr/local/include/argos3/core/utility/string_utilities.h
+ /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_ground_sensor.h
  /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_proximity_sensor.h
+ /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_range_and_bearing_actuator.h
+ /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_range_and_bearing_sensor.h
+ /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_rgb_leds_actuator.h
  /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_wheels_actuator.h
  /usr/local/include/argos3/plugins/robots/foot-bot/control_interface/ci_footbot_base_ground_sensor.h
  /usr/local/include/argos3/plugins/robots/foot-bot/control_interface/ci_footbot_distance_scanner_actuator.h
@@ -174,7 +186,11 @@ CMakeFiles/py_controller_interface.dir/py_controller.cpp.o
  /usr/local/include/argos3/core/utility/plugins/factory.h
  /usr/local/include/argos3/core/utility/plugins/factory_impl.h
  /usr/local/include/argos3/core/utility/string_utilities.h
+ /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_ground_sensor.h
  /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_proximity_sensor.h
+ /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_range_and_bearing_actuator.h
+ /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_range_and_bearing_sensor.h
+ /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_rgb_leds_actuator.h
  /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_wheels_actuator.h
  /usr/local/include/argos3/plugins/robots/foot-bot/control_interface/ci_footbot_base_ground_sensor.h
  /usr/local/include/argos3/plugins/robots/foot-bot/control_interface/ci_footbot_distance_scanner_actuator.h
@@ -221,7 +237,11 @@ CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o
  /usr/local/include/argos3/core/utility/plugins/factory.h
  /usr/local/include/argos3/core/utility/plugins/factory_impl.h
  /usr/local/include/argos3/core/utility/string_utilities.h
+ /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_ground_sensor.h
  /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_proximity_sensor.h
+ /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_range_and_bearing_actuator.h
+ /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_range_and_bearing_sensor.h
+ /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_rgb_leds_actuator.h
  /usr/local/include/argos3/plugins/robots/e-puck/control_interface/ci_epuck_wheels_actuator.h
  /usr/local/include/argos3/plugins/robots/foot-bot/control_interface/ci_footbot_base_ground_sensor.h
  /usr/local/include/argos3/plugins/robots/foot-bot/control_interface/ci_footbot_distance_scanner_actuator.h

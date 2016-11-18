@@ -19,23 +19,24 @@ def controlstep():
     counter += 1
 
     if counter < top:
-        robot.range_and_bearing.set_data(1, 0)
+        #robot.range_and_bearing.set_data(1, 0)
+        robot.epuck_range_and_bearing.set_data([1,0,0,0])
         if number_robot_sensed > 0:
             counter += alpha * counter / beta
             if counter >= top:
                 counter = top - 1
     if counter >= top:
-        robot.range_and_bearing.set_data(1, 1)
-        robot.leds.set_all_colors("red")
+        robot.epuck_range_and_bearing.set_data([1,0,0,0])
+        robot.epuck_leds.set_all_colors("red")
     if counter >= total:
         counter = 0
-        robot.leds.set_all_colors("black")
-        robot.range_and_bearing.set_data(1, 0)   
+        robot.epuck_leds.set_all_colors("black")
+        robot.epuck_range_and_bearing.set_data([0,0,0,0])
 
 def process_rab():
     global number_robot_sensed 
     number_robot_sensed = 0
-    for reading_i in robot.range_and_bearing.get_readings():
+    for reading_i in robot.epuck_range_and_bearing.get_readings():
         if reading_i.data[1] == 1:
             number_robot_sensed += 1
 

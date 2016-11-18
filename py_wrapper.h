@@ -75,6 +75,9 @@ class ActusensorsWrapper
     // E-Puck actusensors
     CEPuckWheelsWrapper m_cEPuckWheelsWrapper;
     CEPuckProximitySensorWrapper m_cEPuckProximitySensorWrapper;
+    CEPuckGroundSensorWrapper m_cEPuckGroundSensorWrapper;
+    CEPuckRangeAndBearingWrapper m_cEPuckRangeAndBearingWrapper;
+    CEPuckLedsActuatorWrapper m_cEPuckLedsWrapper;
     
 
     /****************************************/
@@ -85,6 +88,9 @@ class ActusensorsWrapper
     static void CByteArraySetItem(argos::CByteArray &c_vec, const UInt32 un_index, const UInt8 un_value);
 
     static UInt8 CByteArrayGetItem(const argos::CByteArray &c_vec, const UInt32 un_index);
+
+    // Define getter for the EPuck ground sensor readings.
+    static Real EPuckGroundReadingsGetItem(const argos::CCI_EPuckGroundSensor::SReadings &c_readings, const UInt32 un_index);
 
     /****************************************/
     /****************************************/
