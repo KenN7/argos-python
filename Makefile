@@ -58,8 +58,8 @@ CMAKE_BINARY_DIR = /mnt/c/Users/albyr/Documents/argos-python
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -122,33 +122,6 @@ py_controller_interface: cmake_check_build_system
 py_controller_interface/fast:
 	$(MAKE) -f CMakeFiles/py_controller_interface.dir/build.make CMakeFiles/py_controller_interface.dir/build
 .PHONY : py_controller_interface/fast
-
-py_actusensor_wrapper_epuck.o: py_actusensor_wrapper_epuck.cpp.o
-
-.PHONY : py_actusensor_wrapper_epuck.o
-
-# target to build an object file
-py_actusensor_wrapper_epuck.cpp.o:
-	$(MAKE) -f CMakeFiles/py_controller_interface.dir/build.make CMakeFiles/py_controller_interface.dir/py_actusensor_wrapper_epuck.cpp.o
-.PHONY : py_actusensor_wrapper_epuck.cpp.o
-
-py_actusensor_wrapper_epuck.i: py_actusensor_wrapper_epuck.cpp.i
-
-.PHONY : py_actusensor_wrapper_epuck.i
-
-# target to preprocess a source file
-py_actusensor_wrapper_epuck.cpp.i:
-	$(MAKE) -f CMakeFiles/py_controller_interface.dir/build.make CMakeFiles/py_controller_interface.dir/py_actusensor_wrapper_epuck.cpp.i
-.PHONY : py_actusensor_wrapper_epuck.cpp.i
-
-py_actusensor_wrapper_epuck.s: py_actusensor_wrapper_epuck.cpp.s
-
-.PHONY : py_actusensor_wrapper_epuck.s
-
-# target to generate assembly for a file
-py_actusensor_wrapper_epuck.cpp.s:
-	$(MAKE) -f CMakeFiles/py_controller_interface.dir/build.make CMakeFiles/py_controller_interface.dir/py_actusensor_wrapper_epuck.cpp.s
-.PHONY : py_actusensor_wrapper_epuck.cpp.s
 
 py_actusensor_wrapper_footbot.o: py_actusensor_wrapper_footbot.cpp.o
 
@@ -267,9 +240,6 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... py_controller_interface"
-	@echo "... py_actusensor_wrapper_epuck.o"
-	@echo "... py_actusensor_wrapper_epuck.i"
-	@echo "... py_actusensor_wrapper_epuck.s"
 	@echo "... py_actusensor_wrapper_footbot.o"
 	@echo "... py_actusensor_wrapper_footbot.i"
 	@echo "... py_actusensor_wrapper_footbot.s"

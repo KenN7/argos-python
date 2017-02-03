@@ -62,7 +62,7 @@ private:
   boost::python::object m_script;
   PyThreadState* m_interpreter;
 
-  boost::shared_ptr< ActusensorsWrapper > m_actusensors;
+  boost::shared_ptr<ActusensorsWrapper> m_actusensors;
   //ActusensorsWrapper* m_actusensors;
 
   int m_state;

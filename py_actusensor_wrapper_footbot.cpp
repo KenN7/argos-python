@@ -254,19 +254,19 @@ void CTurretWrapper::SetMode(const std::string str_mode_name)
     {
         if (str_mode_name == "off")
         {
-            m_pcTurretActuator->SetMode(argos::CCI_FootBotTurretActuator::ETurretModes::MODE_OFF);
+            m_pcTurretActuator->SetMode(argos::CCI_FootBotTurretActuator::MODE_OFF);
         }
         if (str_mode_name == "passive")
         {
-            m_pcTurretActuator->SetMode(argos::CCI_FootBotTurretActuator::ETurretModes::MODE_PASSIVE);
+            m_pcTurretActuator->SetMode(argos::CCI_FootBotTurretActuator::MODE_PASSIVE);
         }
         if (str_mode_name == "speed_control")
         {
-            m_pcTurretActuator->SetMode(argos::CCI_FootBotTurretActuator::ETurretModes::MODE_SPEED_CONTROL);
+            m_pcTurretActuator->SetMode(argos::CCI_FootBotTurretActuator::MODE_SPEED_CONTROL);
         }
         if (str_mode_name == "position_control")
         {
-            m_pcTurretActuator->SetMode(argos::CCI_FootBotTurretActuator::ETurretModes::MODE_POSITION_CONTROL);
+            m_pcTurretActuator->SetMode(argos::CCI_FootBotTurretActuator::MODE_POSITION_CONTROL);
         }
     }
     else

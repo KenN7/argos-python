@@ -28,7 +28,7 @@
       <!-- No required configuration -->
       
       <!-- Optionally, you can pass a script as a controller parameter: -->
-      <params script="/mnt/c/Users/albyr/Documents/argos-python/examples/aggregation_1_python.py" />
+      <params script="/mnt/c/Users/albyr/Documents/argos-python/Examples/aggregation_1_python.py" />
     </python_controller>
 
   </controllers>
@@ -37,7 +37,7 @@
   <!-- * Arena configuration * -->
   <!-- *********************** -->
   <arena size="5, 5, 1" center="0,0,0.5">
-    <floor id="f" source="image" path="/mnt/c/Users/albyr/Documents/argos-python/examples/one_spot.png" />
+    <floor id="f" source="image" path="/mnt/c/Users/albyr/Documents/argos-python/Examples/one_spot.png" />
 
     <box id="bn" size="0.1, 5, 0.2" movable="false">
       <body position="2.5,0,0"  orientation="0,0,0" />

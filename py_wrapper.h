@@ -9,13 +9,14 @@
 #define PY_WRAPPER_H
 
 #include <boost/python.hpp>
+
 #include <boost/python/suite/indexing/map_indexing_suite.hpp>
 
 #include <argos3/core/control_interface/ci_controller.h>
 
 #include "py_actusensor_wrapper_generic.h"
 #include "py_actusensor_wrapper_footbot.h"
-#include "py_actusensor_wrapper_epuck.h"
+// #include "py_actusensor_wrapper_epuck.h"
 
 #include <argos3/core/utility/logging/argos_log.h>
 #include <argos3/core/utility/math/general.h>
@@ -72,12 +73,12 @@ class ActusensorsWrapper
     CGroundSensorWrapper m_cGroundSensorWrapper;
     CBaseGroundSensorWrapper m_cBaseGroundSensorWrapper;
 
-    // E-Puck actusensors
-    CEPuckWheelsWrapper m_cEPuckWheelsWrapper;
-    CEPuckProximitySensorWrapper m_cEPuckProximitySensorWrapper;
-    CEPuckGroundSensorWrapper m_cEPuckGroundSensorWrapper;
-    CEPuckRangeAndBearingWrapper m_cEPuckRangeAndBearingWrapper;
-    CEPuckLedsActuatorWrapper m_cEPuckLedsWrapper;
+    //E-Puck actusensors
+    // CEPuckWheelsWrapper m_cEPuckWheelsWrapper;
+    // CEPuckProximitySensorWrapper m_cEPuckProximitySensorWrapper;
+    // CEPuckGroundSensorWrapper m_cEPuckGroundSensorWrapper;
+    // CEPuckRangeAndBearingWrapper m_cEPuckRangeAndBearingWrapper;
+    // CEPuckLedsActuatorWrapper m_cEPuckLedsWrapper;
     
 
     /****************************************/
@@ -90,7 +91,7 @@ class ActusensorsWrapper
     static UInt8 CByteArrayGetItem(const argos::CByteArray &c_vec, const UInt32 un_index);
 
     // Define getter for the EPuck ground sensor readings.
-    static Real EPuckGroundReadingsGetItem(const argos::CCI_EPuckGroundSensor::SReadings &c_readings, const UInt32 un_index);
+    // static Real EPuckGroundReadingsGetItem(const argos::CCI_EPuckGroundSensor::SReadings &c_readings, const UInt32 un_index);
 
     /****************************************/
     /****************************************/

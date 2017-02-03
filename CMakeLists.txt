@@ -8,8 +8,10 @@ find_package(PythonLibs)
 include_directories (${PYTHON_INCLUDE_DIRS})
 link_directories(${PYTHON_LIBRARIES})
 
-SET(LUA_CONST "-I/usr/include/lua5.3 -I/usr/include/python3.5 -I/usr/local/include -lboost_python3  -lpython3.5m -o -shared -fPIC")
-add_definitions(${LUA_CONST})
+set(Boost_DEBUG 1)
+
+SET(LUA_PYTHON_CONST "-I/usr/include -I/usr/include/lua5.2 -I/usr/include/python3.5 -lboost_python3  -lpython3.5m -shared -fPIC")
+add_definitions(${LUA_PYTHON_CONST})
 
 find_package(Boost 1.61.0 COMPONENTS python3)
 include_directories (${Boost_INCLUDE_DIRS})
@@ -29,7 +31,7 @@ link_directories(${ARGOS_LIBRARY_DIRS})
 include_directories(${CMAKE_SOURCE_DIR}/controllers)
 
 add_library (
-    py_controller_interface SHARED py_controller.cpp py_wrapper.cpp py_actusensor_wrapper_generic.cpp py_actusensor_wrapper_footbot.cpp py_actusensor_wrapper_epuck.cpp
+    py_controller_interface SHARED py_controller.cpp py_wrapper.cpp py_actusensor_wrapper_generic.cpp py_actusensor_wrapper_footbot.cpp
 )
 
 target_link_libraries (py_controller_interface

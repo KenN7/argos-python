@@ -18,19 +18,19 @@
 Boost_DIR:PATH=Boost_DIR-NOTFOUND
 
 //Path to a file.
-Boost_INCLUDE_DIR:PATH=/usr/include
+Boost_INCLUDE_DIR:PATH=/usr/local/boost_1_61_0
 
 //Boost library directory DEBUG
-Boost_LIBRARY_DIR_DEBUG:PATH=/usr/lib
+Boost_LIBRARY_DIR_DEBUG:PATH=/usr/local/boost_1_61_0/stage/lib
 
 //Boost library directory RELEASE
-Boost_LIBRARY_DIR_RELEASE:PATH=/usr/lib
+Boost_LIBRARY_DIR_RELEASE:PATH=/usr/local/boost_1_61_0/stage/lib
 
 //Boost python3 library (debug)
-Boost_PYTHON3_LIBRARY_DEBUG:FILEPATH=/usr/lib/libboost_python3.so
+Boost_PYTHON3_LIBRARY_DEBUG:FILEPATH=/usr/local/boost_1_61_0/stage/lib/libboost_python3.so
 
 //Boost python3 library (release)
-Boost_PYTHON3_LIBRARY_RELEASE:FILEPATH=/usr/lib/libboost_python3.so
+Boost_PYTHON3_LIBRARY_RELEASE:FILEPATH=/usr/local/boost_1_61_0/stage/lib/libboost_python3.so
 
 //Choose the type of build, options are: None(CMAKE_CXX_FLAGS or
 // CMAKE_C_FLAGS used) Debug Release RelWithDebInfo MinSizeRel.
@@ -153,7 +153,7 @@ PYTHON_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libpython3.5m.so
 PYTHON_LIBRARY_DEBUG:FILEPATH=PYTHON_LIBRARY_DEBUG-NOTFOUND
 
 //Dependencies for the target
-py_controller_interface_LIB_DEPENDS:STATIC=general;argos3core_simulator;general;argos3plugin_simulator_footbot;general;argos3plugin_simulator_genericrobot;general;/usr/lib/x86_64-linux-gnu/libpython3.5m.so;general;/usr/lib/libboost_python3.so;
+py_controller_interface_LIB_DEPENDS:STATIC=general;argos3core_simulator;general;argos3plugin_simulator_footbot;general;argos3plugin_simulator_genericrobot;general;/usr/lib/x86_64-linux-gnu/libpython3.5m.so;general;/usr/local/boost_1_61_0/stage/lib/libboost_python3.so;
 
 //Value Computed by CMake
 pythonwrapper_BINARY_DIR:STATIC=/mnt/c/Users/albyr/Documents/argos-python
@@ -195,7 +195,7 @@ ARGOS_STATIC_LIBS:INTERNAL=
 ARGOS_STATIC_LIBS_L:INTERNAL=
 ARGOS_STATIC_LIBS_OTHER:INTERNAL=
 ARGOS_STATIC_LIBS_PATHS:INTERNAL=
-ARGOS_VERSION:INTERNAL=3.0.0-beta43
+ARGOS_VERSION:INTERNAL=3..-
 ARGOS_argos3_simulator_INCLUDEDIR:INTERNAL=
 ARGOS_argos3_simulator_LIBDIR:INTERNAL=
 ARGOS_argos3_simulator_PREFIX:INTERNAL=
@@ -219,7 +219,7 @@ CMAKE_CACHE_MAJOR_VERSION:INTERNAL=3
 //Minor version of cmake used to create the current loaded cache
 CMAKE_CACHE_MINOR_VERSION:INTERNAL=5
 //Patch version of cmake used to create the current loaded cache
-CMAKE_CACHE_PATCH_VERSION:INTERNAL=2
+CMAKE_CACHE_PATCH_VERSION:INTERNAL=1
 //ADVANCED property for variable: CMAKE_COLOR_MAKEFILE
 CMAKE_COLOR_MAKEFILE-ADVANCED:INTERNAL=1
 //Path to CMake executable.
@@ -238,6 +238,8 @@ CMAKE_CXX_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
 CMAKE_CXX_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_CXX_FLAGS_RELWITHDEBINFO
 CMAKE_CXX_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
+//Path to cache edit program executable.
+CMAKE_EDIT_COMMAND:INTERNAL=/usr/bin/ccmake
 //ADVANCED property for variable: CMAKE_EXE_LINKER_FLAGS
 CMAKE_EXE_LINKER_FLAGS-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_EXE_LINKER_FLAGS_DEBUG
@@ -308,7 +310,7 @@ CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Details about finding PkgConfig
 FIND_PACKAGE_MESSAGE_DETAILS_PkgConfig:INTERNAL=[/usr/bin/pkg-config][v0.26()]
 //Details about finding PythonLibs
-FIND_PACKAGE_MESSAGE_DETAILS_PythonLibs:INTERNAL=[/usr/lib/x86_64-linux-gnu/libpython3.5m.so][/usr/include/python3.5m][v3.5.2+()]
+FIND_PACKAGE_MESSAGE_DETAILS_PythonLibs:INTERNAL=[/usr/lib/x86_64-linux-gnu/libpython3.5m.so][/usr/include/python3.5m][v3.5.1+()]
 //ADVANCED property for variable: PKG_CONFIG_EXECUTABLE
 PKG_CONFIG_EXECUTABLE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: PYTHON_INCLUDE_DIR
@@ -322,11 +324,11 @@ _BOOST_INCLUDEDIR_LAST:INTERNAL=/usr/include
 //Components requested for this build tree.
 _Boost_COMPONENTS_SEARCHED:INTERNAL=python3
 //Last used Boost_INCLUDE_DIR value.
-_Boost_INCLUDE_DIR_LAST:INTERNAL=/usr/include
+_Boost_INCLUDE_DIR_LAST:INTERNAL=/usr/local/boost_1_61_0
 //Last used Boost_LIBRARY_DIR_DEBUG value.
-_Boost_LIBRARY_DIR_DEBUG_LAST:INTERNAL=/usr/lib
+_Boost_LIBRARY_DIR_DEBUG_LAST:INTERNAL=/usr/local/boost_1_61_0/stage/lib
 //Last used Boost_LIBRARY_DIR_RELEASE value.
-_Boost_LIBRARY_DIR_RELEASE_LAST:INTERNAL=/usr/lib
+_Boost_LIBRARY_DIR_RELEASE_LAST:INTERNAL=/usr/local/boost_1_61_0/stage/lib
 //Last used Boost_NAMESPACE value.
 _Boost_NAMESPACE_LAST:INTERNAL=boost
 //Last used Boost_USE_MULTITHREADED value.

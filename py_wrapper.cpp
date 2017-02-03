@@ -71,24 +71,24 @@ void ActusensorsWrapper::CreateActu(const std::string str_name, CCI_Actuator *pc
     }
 
     // E-Puck actuators.
-    if (str_name == "epuck_wheels")
-    {
-        m_cEPuckWheelsWrapper.m_pcEPuckWheels = dynamic_cast<CCI_EPuckWheelsActuator *>(pc_actu);
-        m_cEPuckWheelsWrapper.m_bEPuckWheels = true;
-        m_cEPuckWheelsWrapper.m_pcEPuckWheels->Init(t_node);
-    }
-    if (str_name == "epuck_range_and_bearing")
-    {
-        m_cEPuckRangeAndBearingWrapper.m_pcEPuckRABA = (CCI_EPuckRangeAndBearingActuator *)pc_actu;
-        m_cEPuckRangeAndBearingWrapper.m_bEPuckRABA = true;
-        //m_cRangeAndBearingWrapper.m_pcRABA->Init(t_node);
-    }
-    if (str_name == "epuck_rgb_leds")
-    {
-        m_cEPuckLedsWrapper.m_pcEPuckLeds = (CCI_EPuckRGBLEDsActuator *)pc_actu;
-        m_cEPuckLedsWrapper.m_bEPuckLeds = true;
-        //m_cLedsWrapper.m_pcLeds->Init(t_node);
-    }
+    // if (str_name == "epuck_wheels")
+    // {
+    //     m_cEPuckWheelsWrapper.m_pcEPuckWheels = dynamic_cast<CCI_EPuckWheelsActuator *>(pc_actu);
+    //     m_cEPuckWheelsWrapper.m_bEPuckWheels = true;
+    //     m_cEPuckWheelsWrapper.m_pcEPuckWheels->Init(t_node);
+    // }
+    // if (str_name == "epuck_range_and_bearing")
+    // {
+    //     m_cEPuckRangeAndBearingWrapper.m_pcEPuckRABA = (CCI_EPuckRangeAndBearingActuator *)pc_actu;
+    //     m_cEPuckRangeAndBearingWrapper.m_bEPuckRABA = true;
+    //     //m_cRangeAndBearingWrapper.m_pcRABA->Init(t_node);
+    // }
+    // if (str_name == "epuck_rgb_leds")
+    // {
+    //     m_cEPuckLedsWrapper.m_pcEPuckLeds = (CCI_EPuckRGBLEDsActuator *)pc_actu;
+    //     m_cEPuckLedsWrapper.m_bEPuckLeds = true;
+    //     //m_cLedsWrapper.m_pcLeds->Init(t_node);
+    // }
 }
 
 /****************************************/
@@ -149,24 +149,26 @@ void ActusensorsWrapper::CreateSensor(const std::string str_name, CCI_Sensor *pc
         m_cTurretWrapper.m_bTurretSensor = true;
         m_cTurretWrapper.m_pcTurretSensor->Init(t_node);
     }
-    if (str_name == "epuck_proximity")
-    {
-        m_cEPuckProximitySensorWrapper.m_pcEPuckProximity = dynamic_cast<CCI_EPuckProximitySensor *>(pc_sensor);
-        m_cEPuckProximitySensorWrapper.m_bEPuckProximity = true;
-        m_cEPuckProximitySensorWrapper.m_pcEPuckProximity->Init(t_node);
-    }
-    if (str_name == "epuck_ground")
-    {
-        m_cEPuckGroundSensorWrapper.m_pcEPuckGround = dynamic_cast<CCI_EPuckGroundSensor *>(pc_sensor);
-        m_cEPuckGroundSensorWrapper.m_bEPuckGround = true;
-        m_cEPuckGroundSensorWrapper.m_pcEPuckGround->Init(t_node);
-    }
-    if (str_name == "epuck_range_and_bearing")
-    {
-        m_cEPuckRangeAndBearingWrapper.m_pcEPuckRABS = (CCI_EPuckRangeAndBearingSensor *)pc_sensor;
-        m_cEPuckRangeAndBearingWrapper.m_bEPuckRABS = true;
-        //m_cRangeAndBearingWrapper.m_pcRABA->Init(t_node);
-    }
+
+    //E-Puck sensors.
+    // if (str_name == "epuck_proximity")
+    // {
+    //     m_cEPuckProximitySensorWrapper.m_pcEPuckProximity = dynamic_cast<CCI_EPuckProximitySensor *>(pc_sensor);
+    //     m_cEPuckProximitySensorWrapper.m_bEPuckProximity = true;
+    //     m_cEPuckProximitySensorWrapper.m_pcEPuckProximity->Init(t_node);
+    // }
+    // if (str_name == "epuck_ground")
+    // {
+    //     m_cEPuckGroundSensorWrapper.m_pcEPuckGround = dynamic_cast<CCI_EPuckGroundSensor *>(pc_sensor);
+    //     m_cEPuckGroundSensorWrapper.m_bEPuckGround = true;
+    //     m_cEPuckGroundSensorWrapper.m_pcEPuckGround->Init(t_node);
+    // }
+    // if (str_name == "epuck_range_and_bearing")
+    // {
+    //     m_cEPuckRangeAndBearingWrapper.m_pcEPuckRABS = (CCI_EPuckRangeAndBearingSensor *)pc_sensor;
+    //     m_cEPuckRangeAndBearingWrapper.m_bEPuckRABS = true;
+    //     //m_cRangeAndBearingWrapper.m_pcRABA->Init(t_node);
+    // }
 }
 
 /****************************************/
@@ -216,18 +218,18 @@ UInt8 ActusensorsWrapper::CByteArrayGetItem(const argos::CByteArray &c_vec, cons
     }
 }
 
-Real ActusensorsWrapper::EPuckGroundReadingsGetItem(const argos::CCI_EPuckGroundSensor::SReadings &c_readings, const UInt32 un_index)
-{
-    if (un_index >= 0 && un_index < 3)
-    {
-        return c_readings[un_index];
-    }
-    else
-    {
-        PyErr_SetString(PyExc_IndexError, "index out of range");
-        boost::python::throw_error_already_set();
-    }
-}
+// Real ActusensorsWrapper::EPuckGroundReadingsGetItem(const argos::CCI_EPuckGroundSensor::SReadings &c_readings, const UInt32 un_index)
+// {
+//     if (un_index >= 0 && un_index < 3)
+//     {
+//         return c_readings[un_index];
+//     }
+//     else
+//     {
+//         PyErr_SetString(PyExc_IndexError, "index out of range");
+//         boost::python::throw_error_already_set();
+//     }
+// }
 
 /****************************************/
 /****************************************/
@@ -248,20 +250,16 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
         .add_property("gripper", &ActusensorsWrapper::m_cGripperWrapper)
         .add_property("light_sensor", &ActusensorsWrapper::m_cLightSensorWrapper)
         .add_property("distance_scanner", &ActusensorsWrapper::m_cDistanceScannerWrapper)
-        .add_property("turret", &ActusensorsWrapper::m_cTurretWrapper)
-        .add_property("epuck_wheels", &ActusensorsWrapper::m_cEPuckWheelsWrapper)
-        .add_property("epuck_proximity", &ActusensorsWrapper::m_cEPuckProximitySensorWrapper)
-        .add_property("epuck_ground", &ActusensorsWrapper::m_cEPuckGroundSensorWrapper)
-        .add_property("epuck_range_and_bearing", &ActusensorsWrapper::m_cEPuckRangeAndBearingWrapper)
-        .add_property("epuck_leds", &ActusensorsWrapper::m_cEPuckLedsWrapper);
+        .add_property("turret", &ActusensorsWrapper::m_cTurretWrapper);
+        // .add_property("epuck_wheels", &ActusensorsWrapper::m_cEPuckWheelsWrapper)
+        // .add_property("epuck_proximity", &ActusensorsWrapper::m_cEPuckProximitySensorWrapper)
+        // .add_property("epuck_ground", &ActusensorsWrapper::m_cEPuckGroundSensorWrapper)
+        // .add_property("epuck_range_and_bearing", &ActusensorsWrapper::m_cEPuckRangeAndBearingWrapper)
+        // .add_property("epuck_leds", &ActusensorsWrapper::m_cEPuckLedsWrapper);
 
     // Export "WheelsWrapper", wrapper of CCI_DifferentialSteeringActuator.
     class_<CWheelsWrapper, boost::noncopyable>("wheels_wrapper", no_init)
         .def("set_speed", &CWheelsWrapper::SetSpeed);
-
-    // Export "EPuckWheelsWrapper", wrapper of CCI_EPuckWheelsActuator.
-    class_<CEPuckWheelsWrapper, boost::noncopyable>("epuck_wheels_wrapper", no_init)
-        .def("set_speed", &CEPuckWheelsWrapper::SetSpeed);
 
     // Export "GripperWrapper", wrapper of CFootBotGripping.
     class_<CGripperWrapper, boost::noncopyable>("m_cGripperWrapper", no_init)
@@ -279,35 +277,18 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
     class_<CFootBotProximitySensorWrapper, boost::noncopyable>("footbot_proximity_sensor_wrapper", no_init)
         .def("get_readings", &CFootBotProximitySensorWrapper::GetReadings);
 
-    // Export "CEPuckProximitySensorWrapper", wrapper of CCI_EPuckProximitySensor.
-    class_<CEPuckProximitySensorWrapper, boost::noncopyable>("epuck_proximity_sensor_wrapper", no_init)
-        .def("get_readings", &CEPuckProximitySensorWrapper::GetReadings);
-
     // Export "LedsActuatorWrapper", wrapper of CCI_LEDsActuator.
     class_<CLedsActuatorWrapper, boost::noncopyable>("leds_actuator_wrapper", no_init)
         .def("set_single_color", &CLedsActuatorWrapper::SetSingleColorString)
         .def("set_single_color", &CLedsActuatorWrapper::SetSingleColorRGB)
         .def("set_all_colors", &CLedsActuatorWrapper::SetAllColorsString)
         .def("set_all_colors", &CLedsActuatorWrapper::SetAllColorsRGB);
-    
-    // Export "EPuckLedsActuatorWrapper", wrapper of CCI_EPuckRGBLEDsActuator.
-    class_<CEPuckLedsActuatorWrapper, boost::noncopyable>("epuck_leds_actuator_wrapper", no_init)
-        .def("set_single_color", &CEPuckLedsActuatorWrapper::SetSingleColorString)
-        .def("set_single_color", &CEPuckLedsActuatorWrapper::SetSingleColorRGB)
-        .def("set_all_colors", &CEPuckLedsActuatorWrapper::SetAllColorsString)
-        .def("set_all_colors", &CEPuckLedsActuatorWrapper::SetAllColorsRGB);
 
     // Export RangeAndBearingWrapper, wrapper of CCI_RangeAndBearingActuator and CCI_RangeAndBearingSensor.
     class_<CRangeAndBearingWrapper, boost::noncopyable>("m_cRangeAndBearingWrapper", no_init)
         .def("clear_data", &CRangeAndBearingWrapper::ClearData)
         .def("set_data", &CRangeAndBearingWrapper::SetData)
         .def("get_readings", &CRangeAndBearingWrapper::GetReadings);
-
-    // Export RangeAndBearingWrapper, wrapper of CCI_RangeAndBearingActuator and CCI_RangeAndBearingSensor.
-    class_<CEPuckRangeAndBearingWrapper, boost::noncopyable>("m_cEPuckRangeAndBearingWrapper", no_init)
-        .def("clear_data", &CEPuckRangeAndBearingWrapper::ClearPackets)
-        .def("set_data", &CEPuckRangeAndBearingWrapper::SetData)
-        .def("get_readings", &CEPuckRangeAndBearingWrapper::GetPackets);
 
     // Export GroundSensorWrapper, wrapper of CCI_FootBotMotorGroundSensor.
     class_<CGroundSensorWrapper, boost::noncopyable>("m_cGroundSensorWrapper", no_init)
@@ -316,10 +297,6 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
     // Export BaseGroundSensorWrapper, wrapper of CCI_FootBotBaseGroundSensor .
     class_<CBaseGroundSensorWrapper, boost::noncopyable>("m_cBaseGroundSensorWrapper", no_init)
         .def("get_readings", &CBaseGroundSensorWrapper::GetReadings);
-
-    // Export EPuckGroundSensorWrapper, wrapper of CCI_EPuckGroundSensor .
-    class_<CEPuckGroundSensorWrapper, boost::noncopyable>("m_cEPuckGroundSensorWrapper", no_init)
-        .def("get_readings", &CEPuckGroundSensorWrapper::GetReadings);
 
     // Export LightSensorWrapper, wrapper of CCI_FootBotLightSensor.
     class_<CLightSensorWrapper, boost::noncopyable>("m_cLightSensorWrapper", no_init)
@@ -346,12 +323,43 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
         .def("set_position_control_mode", &CTurretWrapper::SetPositionControlMode)
         .def("set_passive_mode", &CTurretWrapper::SetPassiveMode);
 
+
+    // // EPUCK ACTUSENSORS   
+    // // Export "EPuckWheelsWrapper", wrapper of CCI_EPuckWheelsActuator.
+    // class_<CEPuckWheelsWrapper, boost::noncopyable>("epuck_wheels_wrapper", no_init)
+    //     .def("set_speed", &CEPuckWheelsWrapper::SetSpeed);    
+
+    // // Export "CEPuckProximitySensorWrapper", wrapper of CCI_EPuckProximitySensor.
+    // class_<CEPuckProximitySensorWrapper, boost::noncopyable>("epuck_proximity_sensor_wrapper", no_init)
+    //     .def("get_readings", &CEPuckProximitySensorWrapper::GetReadings);
+
+    // // Export "EPuckLedsActuatorWrapper", wrapper of CCI_EPuckRGBLEDsActuator.
+    // class_<CEPuckLedsActuatorWrapper, boost::noncopyable>("epuck_leds_actuator_wrapper", no_init)
+    //     .def("set_single_color", &CEPuckLedsActuatorWrapper::SetSingleColorString)
+    //     .def("set_single_color", &CEPuckLedsActuatorWrapper::SetSingleColorRGB)
+    //     .def("set_all_colors", &CEPuckLedsActuatorWrapper::SetAllColorsString)
+    //     .def("set_all_colors", &CEPuckLedsActuatorWrapper::SetAllColorsRGB);
+
+    // // Export EPuckRangeAndBearingWrapper, wrapper of CCI_EPuckRangeAndBearingActuator and CCI_EPuckRangeAndBearingSensor.
+    // class_<CEPuckRangeAndBearingWrapper, boost::noncopyable>("m_cEPuckRangeAndBearingWrapper", no_init)
+    //     .def("clear_data", &CEPuckRangeAndBearingWrapper::ClearPackets)
+    //     .def("set_data", &CEPuckRangeAndBearingWrapper::SetData)
+    //     .def("get_readings", &CEPuckRangeAndBearingWrapper::GetPackets);
+
+    // // Export EPuckGroundSensorWrapper, wrapper of CCI_EPuckGroundSensor .
+    // class_<CEPuckGroundSensorWrapper, boost::noncopyable>("m_cEPuckGroundSensorWrapper", no_init)
+    //     .def("get_readings", &CEPuckGroundSensorWrapper::GetReadings);
+
+
+
+    // OTHER CLASSES
+
     // Export a CRadians - float map, used for the readings of the Distance Scanner Sensor.
     // The map can be iterated. For a given map entry, get the key with map_entry.key()
     // (map_entry.key().value() to get the actual angle value),
     // and the value with map_entry.data()
-    class_<std::map<argos::CRadians, Real>>("distance_sensor_readings_map")
-        .def(boost::python::map_indexing_suite<std::map<argos::CRadians, Real>>());
+    class_<std::map<argos::CRadians, Real> >("distance_sensor_readings_map")
+        .def(boost::python::map_indexing_suite<std::map<argos::CRadians, Real> >());
 
     // Export the CRadians class, used by the readings of various sensors.
     // TODO: add more properties
@@ -363,11 +371,6 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
     class_<argos::CCI_FootBotProximitySensor::SReading>("footbot_proximity_reading", no_init)
         .def_readonly("value", &argos::CCI_FootBotProximitySensor::SReading::Value)
         .def_readonly("angle", &argos::CCI_FootBotProximitySensor::SReading::Angle);
-
-    // Export the SReading class, used to store the readings of the proximity sensor.
-    class_<argos::CCI_EPuckProximitySensor::SReading>("epuck_proximity_reading", no_init)
-        .def_readonly("value", &argos::CCI_EPuckProximitySensor::SReading::Value)
-        .def_readonly("angle", &argos::CCI_EPuckProximitySensor::SReading::Angle);
 
     // Export the SReading class, used to store the readings of the light sensor.
     class_<argos::CCI_FootBotLightSensor::SReading>("footbot_light_reading", no_init)
@@ -387,12 +390,6 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
         .add_property("vertical_bearing", &argos::CCI_RangeAndBearingSensor::SPacket::VerticalBearing)
         .add_property("data", &argos::CCI_RangeAndBearingSensor::SPacket::Data);
 
-    // Export the SReceivedPacket class, used to store the readings of the EPuck range and bearing sensor.
-    class_<argos::CCI_EPuckRangeAndBearingSensor::SReceivedPacket>("range_and_bearing_packet", no_init)
-        .add_property("range", &argos::CCI_EPuckRangeAndBearingSensor::SReceivedPacket::Range)
-        .add_property("bearing", &argos::CCI_EPuckRangeAndBearingSensor::SReceivedPacket::Bearing)
-        .add_property("data", &argos::CCI_EPuckRangeAndBearingSensor::SReceivedPacket::Data);
-
     // Export the SReading class, used to store the readings of the motor ground sensor.
     // Each reading contains a value and the offset, expressed in x/y coordinates.
     class_<argos::CCI_FootBotMotorGroundSensor::SReading>("motor_ground_sensor_wrapper_reading", no_init)
@@ -404,14 +401,6 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
     class_<argos::CCI_FootBotBaseGroundSensor::SReading>("base_ground_sensor_wrapper_reading", no_init)
         .def_readonly("value", &argos::CCI_FootBotBaseGroundSensor::SReading::Value)
         .def_readonly("offset", &argos::CCI_FootBotBaseGroundSensor::SReading::Offset);
-
-    // Export the SReading class, used to store the readings of the EPuck ground sensor.
-    // Each reading has 3 values (left, center, right).
-    class_<argos::CCI_EPuckGroundSensor::SReadings>("epuck_ground_sensor_wrapper_reading", no_init)
-        .def_readonly("left", &argos::CCI_EPuckGroundSensor::SReadings::Left)
-        .def_readonly("center", &argos::CCI_EPuckGroundSensor::SReadings::Center)
-        .def_readonly("right", &argos::CCI_EPuckGroundSensor::SReadings::Right)
-        .def("__getitem__", &ActusensorsWrapper::EPuckGroundReadingsGetItem);
 
     class_<argos::CVector2>("vector2", init<>())
         .def(init<Real, Real>())
@@ -436,4 +425,24 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
     class_<argos::CByteArray>("c_byte_array", no_init)
         .def("__getitem__", &ActusensorsWrapper::CByteArrayGetItem)
         .def("__setitem__", &ActusensorsWrapper::CByteArraySetItem);
+
+    // // OTHER CLASSES FOR EPUCK
+    // // Export the SReading class, used to store the readings of the proximity sensor.
+    // class_<argos::CCI_EPuckProximitySensor::SReading>("epuck_proximity_reading", no_init)
+    //     .def_readonly("value", &argos::CCI_EPuckProximitySensor::SReading::Value)
+    //     .def_readonly("angle", &argos::CCI_EPuckProximitySensor::SReading::Angle);
+
+    // // Export the SReceivedPacket class, used to store the readings of the EPuck range and bearing sensor.
+    // class_<argos::CCI_EPuckRangeAndBearingSensor::SReceivedPacket>("range_and_bearing_packet", no_init)
+    //     .add_property("range", &argos::CCI_EPuckRangeAndBearingSensor::SReceivedPacket::Range)
+    //     .add_property("bearing", &argos::CCI_EPuckRangeAndBearingSensor::SReceivedPacket::Bearing)
+    //     .add_property("data", &argos::CCI_EPuckRangeAndBearingSensor::SReceivedPacket::Data);
+
+    // // Export the SReading class, used to store the readings of the EPuck ground sensor.
+    // // Each reading has 3 values (left, center, right).
+    // class_<argos::CCI_EPuckGroundSensor::SReadings>("epuck_ground_sensor_wrapper_reading", no_init)
+    //     .def_readonly("left", &argos::CCI_EPuckGroundSensor::SReadings::Left)
+    //     .def_readonly("center", &argos::CCI_EPuckGroundSensor::SReadings::Center)
+    //     .def_readonly("right", &argos::CCI_EPuckGroundSensor::SReadings::Right)
+    //     .def("__getitem__", &ActusensorsWrapper::EPuckGroundReadingsGetItem);
 }

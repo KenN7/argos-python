@@ -2,6 +2,7 @@
 #define PY_ACTUSENSOR_WRAPPER_FOOTBOT_H
 
 #include <boost/python.hpp>
+
 #include <boost/python/suite/indexing/map_indexing_suite.hpp>
 
 #include <argos3/core/control_interface/ci_controller.h>
