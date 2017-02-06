@@ -63,9 +63,31 @@ int main()
         py::object main_module = py::import("__main__");
         py::object main_namespace = main_module.attr("__dict__");
 
-        py::exec("print('Hello, world')", main_namespace);
-        py::exec("print('Hello, world'[3:5])", main_namespace);
-        py::exec("print('.'.join(['1','2','3']))", main_namespace);
+        py::exec("import sys", main_namespace);
+        py::exec("import os", main_namespace);
+        py::exec("sys.path.append(os.path.abspath('../common'))", main_namespace);
+        py::exec("sys.path.append(os.path.abspath('./'))", main_namespace);
+
+        // py::exec("from TAM import *", main_namespace);
+
+        // Import the module "test_cpp"
+        py::object test_module = py::import("test_cpp");
+        // Save into "func_test" a function of the module "test_cpp"
+        py::object func_test = test_module.attr("func_test")();
+        // Instantiate an object of class "Test", and store it into "test_obj""
+        py::object test_obj = test_module.attr("Test")();
+        // Call a function of "test_obj", and pass the parameter "2" to it.
+        std::cout << py::extract<double>(test_obj.attr("param_test_class")(2)) << std::endl;
+        // Modify an object attribute
+        test_obj.attr("a") = 100;
+        std::cout << py::extract<double>(test_obj.attr("param_test_class")(2)) << std::endl;
+
+        // Save a class method as variable 
+        // NOTE: the method will access the class attribute of the object to which it refers, so be careful!
+        py::object method_1 = test_obj.attr("param_test_class");
+        std::cout << py::extract<double>(method_1(2)) << std::endl;
+
+
 
     } catch(boost::python::error_already_set const &){
         std::string p_error_str = parse_python_exception();

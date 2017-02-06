@@ -1,6 +1,6 @@
 from abc import ABCMeta
 from abc import abstractmethod
-import functools
+from functools import total_ordering
 
 
 @total_ordering

@@ -37,7 +37,7 @@ class LedColor:
             self.set_green_channel_value(green_channel_value)
             self.set_blue_channel_value(blue_channel_value)
         elif value is not None:
-            print(value)
+            print("LedColor:",  value)
             self.value = value
 
     def get_value(self):

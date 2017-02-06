@@ -1,6 +1,6 @@
-import LedColor from LedColor
-import TAMInterface from TAMInterface
-import ControllerInterface from ControllerInterface
+from LedColor import LedColor 
+from TAMInterface import TAMInterface 
+from ControllerInterface import ControllerInterface 
 
 import threading
 
@@ -199,7 +199,7 @@ class TAM(TAMInterface):
         -------------
         ControllerInterface:
             the user-defined controller of the TAM.
-        """"
+        """
         return self.controller
 
 
@@ -213,7 +213,7 @@ class TAM(TAMInterface):
         -------------
         controller ControllerInterface:
             the user-defined controller of the TAM.
-        """"
+        """
         self.controller = controller
 
      # ***************************************************************************
@@ -222,15 +222,15 @@ class TAM(TAMInterface):
      #
      # ***************************************************************************
 
-     @synchronized("lock")
-     def get_led_color_last_updated(self):
-         """
-         Returns
-         -------------
-         int
-            the timestamp of the last update of the LED color.
-         """
-         return self.led_color_last_updated
+    @synchronized("lock")
+    def get_led_color_last_updated(self):
+        """
+        Returns
+        -------------
+        int
+           the timestamp of the last update of the LED color.
+        """
+        return self.led_color_last_updated
 
     @synchronized("lock")
     def update_led_color(self, led_color):
@@ -427,13 +427,13 @@ class TAM(TAMInterface):
         string
             representation of this TAM.
         """
-        return "TAM{" +
-                "id='" + str(self.id) + '\'' + \
-                ", address64=" + str(self.address64) + \
-                ", voltage=" + str(self.voltage) + \
-                "V, ledColor=(" + str(self.ledColor) + \
-                "), ledColorLastUpdated=" + str(self.ledColorLastUpdated) + \
-                ", robotPresent=" + str(self.robotPresent) + \
-                ", robotPresentLastUpdated=" + str(self.robotPresentLastUpdated) + \
-                ", robotData=" + str(self.robotData) + \
-                ", robotDataLastUpdate=" + str(self.robotDataLastUpdated)
+        return str("TAM{" 
+                + "id='" + str(self.id) + '\'' \
+                + ", address64=" + str(self.address64) \
+                + ", voltage=" + str(self.voltage) \
+                + "V, led_color=(" + str(self.led_color) \
+                + "), led_color_last_updated=" + str(self.led_color_last_updated) \
+                + ", robot_present=" + str(self.robot_present) \
+                + ", robot_present_last_updated=" + str(self.robot_present_last_updated) \
+                + ", robot_data=" + str(self.robot_data) \
+                + ", robot_data_last_updated=" + str(self.robot_data_last_updated))
