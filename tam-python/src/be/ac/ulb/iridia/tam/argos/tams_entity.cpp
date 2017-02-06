@@ -13,6 +13,7 @@
 #include <argos3/plugins/simulator/media/rab_medium.h>
 #include <argos3/plugins/simulator/media/led_medium.h>
 
+#include <boost/filesystem.hpp>
 
 namespace argos {
 
@@ -97,7 +98,7 @@ namespace argos {
                 boost::python::exec("import os", main_namespace);
                 boost::python::exec("sys.path.append(os.path.abspath('../common'))", main_namespace);
                 boost::python::exec("sys.path.append(os.path.abspath('./'))", main_namespace);
-                boost::python::exec(str_experiment_module_path, main_namespace);
+                boost::python::exec(boost::python::str(str_experiment_module_path), main_namespace);
 
 
                 // Import the module "TAM_argos"
@@ -108,9 +109,11 @@ namespace argos {
                 * The Experiment class name must be the same as the file name:
                 * E.g. /usr/.../MyExperiment.py -> MyExperiment
                 */
-                experiment_module = boost::python::import(os.path.basename(str_experiment_module_path));
+
+                const boost::filesystem::path p(str_experiment_module_path);
+                experiment_module = boost::python::import(boost::python::str(p.filename()));
                 // Create an instance of the experiment class, by passing the given random seed to it.
-                m_tPythonExperimentObject = experiment_module.attr(os.path.basename(str_experiment_module_path))(un_rand_seed);
+                m_tPythonExperimentObject = experiment_module.attr(boost::python::str(p.filename()))(un_rand_seed);
 
             } catch(boost::python::error_already_set const &) {
                 std::string p_error_str = parse_python_exception();
@@ -120,7 +123,8 @@ namespace argos {
 
         virtual ~CTAMsControllableEntityImpl() {}
 
-        virtual void Sense() {
+        virtual void Sense() 
+        {
             /*
             * Clear intersection data
             */
@@ -147,7 +151,7 @@ namespace argos {
                         for(CSet<CRABEquippedEntity*>::iterator it = setRABs.begin(); it != setRABs.end(); ++it) {
                             CRABEquippedEntity& cRABEntity = **it;
 
-                            m_vecJavaTAMObjects[i].attr("get_robot_data_received")(cRABEntity.GetData()[0]);
+                            m_vecPythonTAMObjects[i].attr("get_robot_data_received")(cRABEntity.GetData()[0]);
                         }
                     }
                 }
@@ -157,13 +161,69 @@ namespace argos {
             }
         }
 
-        virtual void ControlStep() {}
+        virtual void ControlStep()
+        {
+            try {
+                /* Call python experiment step */
+                m_tPythonExperimentObject.attr("step")();
+                /* Call all the python controller steps */
+                boost::python::object tPythonControllerObject;
+                for(size_t i = 0; i < m_vecPythonTAMObjects.size(); ++i) 
+                {
+                    /* Get reference of this TAM's controller */
+                    tPythonControllerObject = m_vecPythonTAMObjects[i].attr("get_controller")();
+                    /* If the reference is not NULL, call the controller step() */
+                    if(tPythonControllerObject != NULL)
+                    {
+                    tPythonControllerObject.attr("step")();
+                    }
+                }
+            } catch(boost::python::error_already_set const &) {
+                std::string p_error_str = parse_python_exception();
+                std::cout << "Error in Python: " << p_error_str << std::endl;
+            }
+        }
 
-        virtual void Act() {}
+        virtual void Act()
+        {
+            try {
+                /*
+                * Update all TAM entities' LED colors from Python states
+                */
+                for(size_t i = 0; i < m_vecTAMEntities.size(); ++i) {
+                    /* Get reference of this TAM's LED color */
+                    boost::python::object tPythonLEDColor = m_vecPythonTAMObjects[i].attr("get_led_color")();
+                    /* Create a CColor with the Python colors */
+                    CColor cLEDColor(
+                        boost::python::extract<argos::UInt8>(tPythonLEDColor.attr("get_red_channel_value")()),
+                        boost::python::extract<argos::UInt8>(tPythonLEDColor.attr("get_green_channel_value")()),
+                        boost::python::extract<argos::UInt8>(tPythonLEDColor.attr("get_blue_channel_value")()));
+                    /* Set the TAM entity LED color */
+                    m_vecTAMEntities[i]->GetLEDEquippedEntity().GetLED(0).SetColor(cLEDColor);
+                    m_vecTAMEntities[i]->GetLEDEquippedEntity().GetLED(1).SetColor(cLEDColor);
+                    m_vecTAMEntities[i]->GetLEDEquippedEntity().GetLED(2).SetColor(cLEDColor);
+                    m_vecTAMEntities[i]->GetLEDEquippedEntity().GetLED(3).SetColor(cLEDColor);
 
-        virtual void Destroy() {}
+                    UInt8 unData = boost::python::extract<UInt8>(m_vecPythonTAMObjects[i].attr("get_robot_data_to_send")());
+                    if (m_vecTAMEntities[i]->IsRobotPresent()) {
+                        m_vecTAMEntities[i]->GetRABEquippedEntity().GetData()[0] = unData;
+                    }
+                    m_vecTAMEntities[i]->Update();
+                }
+            } catch(boost::python::error_already_set const &) {
+                std::string p_error_str = parse_python_exception();
+                std::cout << "Error in Python: " << p_error_str << std::endl;
+            }      
+        }
 
-        virtual void AddTAM(CTAMEntity& c_tam) {
+        virtual void Destroy()
+        {
+            // No need to implement it?
+            return;  
+        }
+
+        virtual void AddTAM(CTAMEntity& c_tam) 
+        {
             try {
                 /* Create a new java TAM */
                 boost::python::object tTAM = CreateTAM(c_tam);
@@ -172,7 +232,7 @@ namespace argos {
                 m_vecTAMEntities.push_back(&c_tam);
 
                 // Attach the python TAM object to the python Experiment object.
-                m_tPythonExperimentObject.attr("attach_TAM_controller")(tTam);
+                m_tPythonExperimentObject.attr("attach_TAM_controller")(tTAM);
             } catch(boost::python::error_already_set const &) {
                 std::string p_error_str = parse_python_exception();
                 std::cout << "Error in Python: " << p_error_str << std::endl;
@@ -187,10 +247,14 @@ namespace argos {
             return tam_module.attr("TAM")(c_tam.GetId());
         }
 
+        //  Needed to hold the python dictionary and the python "main" function;
+        boost::python::object main_module;
+        boost::python::object main_namespace;
+
         // Contains the python module of the TAM.
         boost::python::object tam_module;
         // Contains the python module of the experiment that is being performed.
-        boost::python::object experiment_class;
+        boost::python::object experiment_module;
         // Instance of the experiment class defined in the experiment module.
         boost::python::object m_tPythonExperimentObject;
 
@@ -374,41 +438,3 @@ namespace argos {
 }
 
 
-// int main()
-// {
-//     namespace py = boost::python;
-    
-//     try{
-//         Py_Initialize();
-//         py::object main_module = py::import("__main__");
-//         py::object main_namespace = main_module.attr("__dict__");
-
-//         py::exec("import sys", main_namespace);
-//         py::exec("import os", main_namespace);
-//         py::exec("sys.path.append(os.path.abspath('../common'))", main_namespace);
-//         py::exec("sys.path.append(os.path.abspath('./'))", main_namespace);
-
-//         // Import the module "TAM_argos"
-//         py::object tam_module = py::import("TAM_argos");
-//         // Instantiate an object of class "Test", and store it into "test_obj""
-//         py::object tam = tam_module.attr("TAM")("TAM01");
-
-
-        
-//         // Save a class method as variable 
-//         // NOTE: the method will access the class attribute of the object to which it refers, so be careful!
-//         py::object print_tam = tam.attr("__str__");
-//         std::cout << std::string(py::extract<std::string>(print_tam())) << std::endl;
-
-
-
-//     } catch(boost::python::error_already_set const &){
-//         std::string p_error_str = parse_python_exception();
-//         std::cout << "Error in Python: " << p_error_str << std::endl;
-//     }
-// }
-
-// boost::python::object CreateTAM(CTAMEntity& c_tam) 
-// {
-//     return tam = tam_module.attr("TAM")(c_tam.GetId());
-// }
