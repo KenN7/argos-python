@@ -49,7 +49,7 @@
         - library: the path to the compiled library containing you
           controller.
     -->
-    <python_controller id="fdc" library="/mnt/c/Users/albyr/Documents/argos-python/libpy_controller_interface.so">
+    <python_controller id="fdc" library="/mnt/c/Users/albyr/Documents/argos-python/build/libpy_controller_interface.so">
       <!--
           The <actuators> section contains a list of the actuators used by
           this controller.
@@ -91,7 +91,7 @@
           controller's header file in
           controllers/footbot_diffusion/footbot_diffusion.h.
       -->
-      <params alpha="7.5" delta="0.1" velocity="5" script="/mnt/c/Users/albyr/Documents/argos-python/examples/diffusion_controller_epuck.py"/>
+      <params alpha="7.5" delta="0.1" velocity="5" script="/mnt/c/Users/albyr/Documents/argos-python/Examples/diffusion_controller_epuck.py"/>
     </python_controller>
 
   </controllers>

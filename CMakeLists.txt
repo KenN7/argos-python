@@ -7,6 +7,8 @@ cmake_minimum_required(VERSION 2.8)
 #
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
+set(CMAKE_CXX_STANDARD 11)
+
 #
 # Make sure we are under Unix
 #
@@ -44,7 +46,7 @@ include_directories (${Boost_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIR})
 
 add_library (
-    py_controller_interface SHARED py_controller.cpp py_wrapper.cpp py_actusensor_wrapper_generic.cpp py_actusensor_wrapper_footbot.cpp
+    py_controller_interface SHARED py_controller.cpp py_wrapper.cpp py_actusensor_wrapper_generic.cpp py_actusensor_wrapper_footbot.cpp py_actusensor_wrapper_epuck.cpp
 )
 
 target_link_libraries (py_controller_interface
