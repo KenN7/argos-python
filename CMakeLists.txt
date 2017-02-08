@@ -1,34 +1,47 @@
-project (pythonwrapper CXX)
-cmake_minimum_required (VERSION 2.8)
+#
+# Set minimum required version
+#
+cmake_minimum_required(VERSION 2.8)
+#
+# Set the path additional cmake files must be searched for
+#
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
-set(BOOST_INCLUDEDIR /usr/include)
+#
+# Make sure we are under Unix
+#
+if(NOT UNIX)
+  message(FATAL_ERROR "ARGoS compiles only under UNIX, sorry!")
+endif(NOT UNIX)
+
+#
+# Set build options
+#
+include(${CMAKE_SOURCE_DIR}/cmake/ARGoSBuildOptions.cmake)
+
+#
+# Set compiler flags
+#
+include(${CMAKE_SOURCE_DIR}/cmake/ARGoSBuildFlags.cmake)
+
+#
+# Check for libraries
+#
+include(${CMAKE_SOURCE_DIR}/cmake/ARGoSBuildChecks.cmake)
+
+#
+# Set up CPack for later use
+#
+include(${CMAKE_SOURCE_DIR}/cmake/ARGoSPackaging.cmake)
 
 set(Python_ADDITIONAL_VERSIONS 3.5)
 find_package(PythonLibs)
 include_directories (${PYTHON_INCLUDE_DIRS})
 link_directories(${PYTHON_LIBRARIES})
 
-set(Boost_DEBUG 1)
-
-SET(LUA_PYTHON_CONST "-I/usr/include -I/usr/include/lua5.2 -I/usr/include/python3.5 -lboost_python3  -lpython3.5m -shared -fPIC")
-add_definitions(${LUA_PYTHON_CONST})
-
 find_package(Boost 1.61.0 COMPONENTS python3)
 include_directories (${Boost_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIR})
-
-find_package(PkgConfig)
-pkg_check_modules(ARGOS REQUIRED argos3_simulator)
-set(ARGOS_PREFIX ${ARGOS_PREFIX} CACHE INTERNAL "")
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ARGOS_PREFIX}/share/argos3/cmake)
-
-# Set ARGoS include dir
-include_directories(${catkin_INCLUDE_DIRS} ${CMAKE_SOURCE_DIR} ${ARGOS_INCLUDE_DIRS} ${GSL_INCLUDE_DIR} ${LUA_INCLUDE_DIR})
-
-# Set ARGoS link dir
-link_directories(${ARGOS_LIBRARY_DIRS})
-
-include_directories(${CMAKE_SOURCE_DIR}/controllers)
 
 add_library (
     py_controller_interface SHARED py_controller.cpp py_wrapper.cpp py_actusensor_wrapper_generic.cpp py_actusensor_wrapper_footbot.cpp
