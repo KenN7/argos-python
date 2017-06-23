@@ -36,6 +36,10 @@ include(${CMAKE_SOURCE_DIR}/cmake/ARGoSBuildChecks.cmake)
 #
 include(${CMAKE_SOURCE_DIR}/cmake/ARGoSPackaging.cmake)
 
+# Set up ARGoS compilation information
+include_directories(${CMAKE_SOURCE_DIR} ${ARGOS_INCLUDE_DIRS})
+link_directories(${ARGOS_LIBRARY_DIRS})
+
 set(Python_ADDITIONAL_VERSIONS 3.5)
 find_package(PythonLibs)
 include_directories (${PYTHON_INCLUDE_DIRS})

@@ -1,0 +1,261 @@
+\documentclass[
+12pt,
+a4paper,
+oneside,
+headinclude,
+footinclude]{article}
+
+\usepackage[table,xcdraw,svgnames, dvipsnames]{xcolor}
+\usepackage[capposition=bottom]{floatrow}
+\usepackage[colorlinks]{hyperref} % to add hyperlinks
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{csquotes}
+\usepackage{amsmath} % For the big bracket
+\usepackage[export]{adjustbox}[2011/08/13]
+% \usepackage{subfig}
+\usepackage{array}
+\usepackage{url}
+\usepackage{graphicx} % to insert images
+\usepackage{titlepic} % to insert image on front page
+\usepackage{geometry} % to define margin
+\usepackage{listings} % to add code
+\usepackage{caption}
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage[utf8]{inputenc} % Required for including letters with accents
+\usepackage{color}
+\usepackage[nochapters, dottedtoc]{classicthesis}
+\usepackage{listings} % For Python code
+\usepackage{float}
+\usepackage[caption = false]{subfig} % For 2x2 grid of images
+
+\usepackage[ruled]{algorithm2e} % For pseudo-code
+
+\usepackage{mathpazo}
+
+\usepackage{amsthm} % For definitions and theorems
+
+\theoremstyle{definition} % Define the style of definitions
+\newtheorem{definition}{Definition}[section]
+
+
+\usepackage{lipsum} % For testing
+\usepackage{color}
+
+\usepackage{etoolbox}
+
+\usepackage{bm} % For bold math
+
+\usepackage{setspace}
+
+
+% For tables
+\usepackage{amssymb}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+
+\definecolor{webbrown}{rgb}{.6,0,0}
+
+\usepackage{titlesec} % to customize titles
+\titleformat{\chapter}{\normalfont\huge}{\textbf{\thechapter.}}{20pt}{\huge\textbf}[\vspace{2ex}\titlerule] % to customize chapter title aspect
+\titleformat{\section} % to customize section titles
+{\fontsize{14}{15}\bfseries}{\thesection}{1em}{}
+
+\titlespacing*{\chapter}{0pt}{-50pt}{20pt} % to customize chapter title space
+
+\graphicspath{ {../Figures/} } % images folder
+\parindent0pt \parskip10pt % make block paragraphs
+\geometry{verbose,tmargin=3cm,bmargin=3cm,lmargin=3cm,rmargin=3cm,headheight=3cm,headsep=3cm,footskip=1cm} % define margin
+\hyphenation{Fortran hy-phen-ation}
+
+\AtBeginDocument{%
+	\hypersetup{
+		colorlinks=true, breaklinks=true, bookmarks=true,
+		urlcolor=webbrown, citecolor=Black, linkcolor=Black% Link colors
+}}
+
+\pagestyle{plain}
+\title{\textbf{PROJ-H-402 - Computing Project: \\ Extending ARGoS and TAM with Python}}
+\author{{Alberto Parravicini}}
+\date{}	% default \today
+
+% =============================================== BEGIN
+
+
+\begin{document}
+\maketitle
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+\section{Introduction}
+\textbf{ARGoS} is a physics-based simulator for swarm robotics. Working with ARGoS requires the user to know either \textbf{C++} or \textbf{Lua}. The goal of this project was to provide an easy-to-use interface written in \textbf{Python}, a simple language often known also by people unfamiliar with programming.\\
+\textbf{TAM} (Task Abstraction Module), a device used in swarm robotic, was also partially reimplemented in Python, and it is fully supported by the ARGoS simulator.
+
+The following report is divided in two main sections, which describe the Python wrapper to ARGoS, and the TAM implementation, respectively. \\
+For each section, it is provided an explanation of the design process, and of the structure of the code. Instruction to install the software are also provided.
+
+\newpage
+
+\section{A Python wrapper for ARGoS}
+
+\subsection{Introduction}
+ARGoS is a complex physics-based simulator used in swarm robotics to model the behaviour and the actions of small robotic devices, such as \texttt{e-puck} or {foot-bot}. Each of these robots has a multitude of different sensors and actuators, that can be used to understand and interact with the surrounding environment or robots.
+
+Working with real robots can be expensive and time-consuming, and therefore a simulator is an essential tool in the development of most applications and researches. \\
+Even more so, a simulator can be an invaluable resource for students wishing to learn more about swarm robotics.
+
+As a consequence, it is clear the importance of having a simulator which is not only powerful, but also very easy to use.\\
+Swarm robots usually follow very simple instructions and patterns, and there are obvious advantages in being able to implement such tasks in a fast and error-free way.
+
+A simulation in ARGoS is composed by three parts: 
+\begin{itemize}
+    \item A \textbf{configuration} file, written in an \textbf{xml}-like format, which specifies the entities (the robots, and other objects) that are part of the simulation. This file also loads the required controllers and loops functions (see below), and other options used by the simulation.
+    \item One or more \textbf{controllers}, which describe the behaviour of the robots. Controllers have a set of predefined abstract functions that have to be implemented by the user, in order to specify the actions of the robots at the start, at the end, and at each step of the simulation.
+    \item A \textbf{loop function}, if necessary, that will customize the events at the start or end of each simulation step.
+\end{itemize}
+
+ARGoS is implemented in \textbf{C++}, and uses \textbf{C++} as the main choice for writing simulations. Even though this language is known to most people working in robotics, it is still rather cumbersome to use in practice, due to its inherent complexity, and the need to recompile the code at each small update.\\
+Moreover, it can be argued that the performances offered by \textbf{C++} can hardly be beneficial when the tasks to run are relatively simple to execute, as it is often the case for swarm robots.
+
+ARGoS also offers a wrapper written in \textbf{Lua}, which allows to write simulations in a faster and simpler way. \\
+Still, \textbf{Lua} is still not a very well known language: most developers, especially students, probably won't be able to use this wrapper without spending additional time to learn the language.\\
+This wrapper doesn't have all the features of the original \textbf{C++} implementation, but it still allows to control the most important actuators and sensors of the robots.
+
+It looks natural at this point to look for a different solution, which can provide the accessibility of the \textbf{Lua} wrapper, without sacrificing any functionality.\\
+This is the idea behind the \textbf{Python} wrapper for ARGoS: a wrapper which is developed to be as similar as possible to the \textbf{Lua} version, and that offers the same functionalities, if not more.
+
+\subsection{Installation}
+This section will describe how to install ARGoS and the \textbf{Python} wrapper, and how to run simulations with it. Specific details about the structure of the simulations are left to the later sections.
+
+The wrapper was mainly tested on \textbf{Windows 10}, using the \textbf{Linux subsystem} (basically, a shell for \textbf{Ubuntu 16.04}). In order to install it, it is recommended to follow the guide at \href{http://www.terriblesysadmin.com/?p=76}{http://www.terriblesysadmin.com/?p=76}.\\
+The wrapper was also briefly tested on a native \textbf{Archlinux} distribution.
+
+\subsection{Installing ARGoS}
+Here it is described how to install the basic ARGoS simulator.\\
+This guide is adapted from the one found at \href{https://github.com/ilpincy/argos3}{https://github.com/ilpincy/argos3}.
+
+\begin{itemize}
+    \item Download the ARGoS source code at \href{https://github.com/ilpincy/argos3}{https://github.com/ilpincy/argos3}.
+    
+    \item (Alternatively, clone the repository).\\
+    \-\quad\texttt{git clone https://github.com/ilpincy/argos3.git argos3}
+    
+    \item Install the dependencies.\\
+    \-\quad\texttt{sudo apt-get install libfreeimage-dev libfreeimageplus-dev \ \\
+    qt5-default freeglut3-dev libxi-dev libxmu-dev liblua5.2-dev \ \\
+    lua5.2 doxygen graphviz graphviz-dev asciidoc}
+
+    \item Move into the repository folder, called \texttt{argos3}.
+    
+    \item Create a folder \texttt{build\_simulator}.\\
+    \-\quad\texttt{mkdir build\_simulator}
+    
+    \item Move into the folder \texttt{build\_simulator}.\\
+    \-\quad\texttt{cd build\_simulator}
+    
+    \item Run \textit{cmake}\\
+    \-\quad\texttt{cmake ../src}
+    
+    \item Run \textit{make}\\
+    \-\quad\texttt{make}
+    
+    \item Compile the documentation (required!).\\
+    \-\quad\texttt{make doc}
+    
+    \item Install ARGoS.\\
+    \-\quad\texttt{sudo make install}
+    
+    \item Make sure that ARGoS is installed system-wide.\\
+    This step is taken from \href{https://lonesysadmin.net/2013/02/22/error-while-loading-shared-libraries-cannot-open-shared-object-file/}{https://lonesysadmin.net/2013/02/22/error-while-loading-shared-libraries-cannot-open-shared-object-file/}\\
+    Make sure that the dynamic linker checks \texttt{/usr/local/lib}:\\
+    \-\quad\texttt{cat /etc/ld.so.conf}\\
+    \-\quad\texttt{include ld.so.conf.d/*.conf}\\
+    \-\quad\texttt{/usr/local/lib}
+    
+    \item Update the cache.\\
+    \-\quad\texttt{sudo ldconfig}
+    
+    \item It is possible to check if ARGoS runs correctly by running the examples found at \href{https://github.com/ilpincy/argos3-examples}{https://github.com/ilpincy/argos3-examples}    
+\end{itemize}
+
+\newpage
+
+\subsection{Installing e-puck}
+The \textbf{Python} wrapper fully support \textbf{e-puck}, one of the robots that can be used in ARGoS.
+This section details how to install the \textbf{e-puck} plugin.\\
+More details can be found at\\ \href{https://github.com/lgarattoni/argos3-epuck/blob/master/doc/Installation.pdf}{https://github.com/lgarattoni/argos3-epuck/blob/master/doc/Installation.pdf}
+
+\begin{itemize}
+    \item Clone the repository the \textbf{e-puck} plugin repository.\\
+    \-\quad\texttt{git clone https://github.com/lgarattoni/argos3-epuck.git argos3-epuck}
+    
+    \item Move into the repository folder, \texttt{argos3-epuck}.
+    
+    \item Create a \texttt{build} directory, move into it.\\
+    \-\quad\texttt{mkdir build}\\
+    \-\quad\texttt{cd build}
+    
+    \item Install \textbf{e-puck}\\
+    \-\quad\texttt{cmake ../src}\\
+    \-\quad\texttt{make}
+    \-\quad\texttt{sudo make install}
+    
+    \item Check that \textbf{e-puck} appears among the available entities in ARGoS.
+    \-\quad\texttt{argos3 -q entities} 
+    
+    \item Optionally, try some of the examples found in the previous folder, as there are also examples that support \textbf{e-puck}.       
+\end{itemize}
+
+\subsection{Installing the Python wrapper}
+Finally, it is possible to install the \textbf{Python} wrapper. Note that it requires to install \textbf{Boost} (more details on this are given later).\\
+The wrapper was tested with \textbf{Boost 1.61.0}, but this guide should apply also to more recent versions of the library.
+
+This section is based on \href{http://www.boost.org/doc/libs/1\_61\_0/more/getting\_started/unix-variants.html}{http://www.boost.org/doc/libs/1\_61\_0/more/getting\_started/unix-variants.html}
+and on \href{https://eb2.co/blog/2012/03/building-boost-python-for-python-3-2/}{https://eb2.co/blog/2012/03/building-boost-python-for-python-3-2/}, using \textbf{Python 3.5} instead of \textbf{3.2}.
+
+\begin{itemize}
+    \item Download \textbf{Boost} at \href{http://www.boost.org/users/history/version\_1\_61\_0.html}{http://www.boost.org/users/history/version\_1\_61\_0.html}
+    
+    \item Move in the folder where \textbf{Boost} was downloaded, and move it to \texttt{/usr/local/}.\\
+    \-\quad\texttt{mv boost\_1\_61\_0.tar.bz2 /usr/local}
+    
+    \item Extract \textbf{Boost} in the same location.\\
+    \-\quad\texttt{tar --bzip2 -xf boost\_1\_61\_0.tar.bz2}
+    
+    \item Install the \textit{developer} version of Python.\\
+    \-\quad\texttt{sudo apt-get install python3-dev}   
+    
+    \item Move to the \textbf{Boost} folder.\\
+    \-\quad\texttt{cd /usr/local/boost\_1\_61\_0/}
+    
+    \item Build \textbf{Boost}.\\
+    \-\quad\texttt{./bootstrap.sh --with-python=python3.5}\\
+    \-\quad\texttt{./b2}\\
+    \-\quad\texttt{sudo ./b2 install}
+    
+    \item Clone the \textbf{Python} wrapper repository.\\
+    \-\quad\texttt{git clone https://github.com/KenN7/argos-python argos-python}
+    
+    \item Move into the repository folder, create a \texttt{build} folder and move into it.\\
+    \-\quad\texttt{mkdir build}\\
+    \-\quad\texttt{cd build}
+    
+    \item Build the wrapper.\\
+    \-\quad\texttt{cmake ../src}\\
+    \-\quad\texttt{make}
+    
+    \item From the build folder, it is possible to launch some examples to see if the wrapper is working correctly. For instance:\\
+    \-\quad\texttt{argos3 -c ../examples/aggregation\_10.argos}
+\end{itemize}
+
+\subsection{Technical details of the implementation}
+
+
+
+\subsection{Description of the wrapper components}
+
+\end{document}

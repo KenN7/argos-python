@@ -1,4 +1,4 @@
-# Install script for directory: /mnt/c/Users/albyr/Documents/argos-python
+# Install script for directory: /mnt/c/Users/albyr/Documents/argos-python/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

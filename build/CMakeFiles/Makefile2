@@ -54,7 +54,7 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/c/Users/albyr/Documents/argos-python
+CMAKE_SOURCE_DIR = /mnt/c/Users/albyr/Documents/argos-python/src
 
 # The top-level build directory on which CMake was run.
 CMAKE_BINARY_DIR = /mnt/c/Users/albyr/Documents/argos-python/build
@@ -63,10 +63,10 @@ CMAKE_BINARY_DIR = /mnt/c/Users/albyr/Documents/argos-python/build
 # Target rules for target CMakeFiles/py_controller_interface.dir
 
 # All Build rule for target.
-CMakeFiles/py_controller_interface.dir/all:
+CMakeFiles/py_controller_interface.dir/all: CMakeFiles/py_controller_interface_automoc.dir/all
 	$(MAKE) -f CMakeFiles/py_controller_interface.dir/build.make CMakeFiles/py_controller_interface.dir/depend
 	$(MAKE) -f CMakeFiles/py_controller_interface.dir/build.make CMakeFiles/py_controller_interface.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/Users/albyr/Documents/argos-python/build/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target py_controller_interface"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/Users/albyr/Documents/argos-python/build/CMakeFiles --progress-num=1,2,3,4,5,6,7 "Built target py_controller_interface"
 .PHONY : CMakeFiles/py_controller_interface.dir/all
 
 # Include target in all.
@@ -76,7 +76,7 @@ all: CMakeFiles/py_controller_interface.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/py_controller_interface.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/albyr/Documents/argos-python/build/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/albyr/Documents/argos-python/build/CMakeFiles 8
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/py_controller_interface.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/albyr/Documents/argos-python/build/CMakeFiles 0
 .PHONY : CMakeFiles/py_controller_interface.dir/rule
@@ -93,6 +93,38 @@ CMakeFiles/py_controller_interface.dir/clean:
 
 # clean rule for target.
 clean: CMakeFiles/py_controller_interface.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/py_controller_interface_automoc.dir
+
+# All Build rule for target.
+CMakeFiles/py_controller_interface_automoc.dir/all:
+	$(MAKE) -f CMakeFiles/py_controller_interface_automoc.dir/build.make CMakeFiles/py_controller_interface_automoc.dir/depend
+	$(MAKE) -f CMakeFiles/py_controller_interface_automoc.dir/build.make CMakeFiles/py_controller_interface_automoc.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/Users/albyr/Documents/argos-python/build/CMakeFiles --progress-num=8 "Built target py_controller_interface_automoc"
+.PHONY : CMakeFiles/py_controller_interface_automoc.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/py_controller_interface_automoc.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/albyr/Documents/argos-python/build/CMakeFiles 1
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/py_controller_interface_automoc.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/albyr/Documents/argos-python/build/CMakeFiles 0
+.PHONY : CMakeFiles/py_controller_interface_automoc.dir/rule
+
+# Convenience name for target.
+py_controller_interface_automoc: CMakeFiles/py_controller_interface_automoc.dir/rule
+
+.PHONY : py_controller_interface_automoc
+
+# clean rule for target.
+CMakeFiles/py_controller_interface_automoc.dir/clean:
+	$(MAKE) -f CMakeFiles/py_controller_interface_automoc.dir/build.make CMakeFiles/py_controller_interface_automoc.dir/clean
+.PHONY : CMakeFiles/py_controller_interface_automoc.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/py_controller_interface_automoc.dir/clean
 
 .PHONY : clean
 

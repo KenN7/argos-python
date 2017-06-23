@@ -65,8 +65,8 @@ def vector_to_light():
     accumulator = {"x": 0, "y": 0}
 
     for light_reading_i in light_readings:
-        accumulator["x"] += light_reading_i.value * math.cos(light_reading_i.angle.value()) 
-        accumulator["y"] += light_reading_i.value * math.sin(light_reading_i.angle.value())
+        accumulator["x"] += light_reading_i.value * math.cos(light_reading_i.angle.value) 
+        accumulator["y"] += light_reading_i.value * math.sin(light_reading_i.angle.value)
 
     tot_angle = math.atan2(accumulator["y"], accumulator["x"])
     tot_length = math.sqrt(accumulator["x"] * accumulator["x"] + accumulator["y"] * accumulator["y"])
@@ -89,8 +89,8 @@ def flocking_vector():
 
                 flj = lennardjones(reading_i.distance)
 
-                accumulator["x"] += flj * math.cos(reading_i.angle.value()) 
-                accumulator["y"] += flj * math.sin(reading_i.angle.value())
+                accumulator["x"] += flj * math.cos(reading_i.angle.value) 
+                accumulator["y"] += flj * math.sin(reading_i.angle.value)
                 num_blobs_seen += 1
         
 

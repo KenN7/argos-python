@@ -365,7 +365,7 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
     // TODO: add more properties
     class_<argos::CRadians>("radians", init<>())
         .def(init<Real>())
-        .def("value", &argos::CRadians::GetValue);
+        .add_property("value", &argos::CRadians::GetValue);
 
     // Export the SReading class, used to store the readings of the proximity sensor.
     class_<argos::CCI_FootBotProximitySensor::SReading>("footbot_proximity_reading", no_init)

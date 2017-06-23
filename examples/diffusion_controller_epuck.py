@@ -4,7 +4,7 @@ import math
 
 # Maximum tolerance for the angle between
 # the robot heading direction and
-# the closest obstacle detected. 
+# the closest obstacle detected.
 alpha = 7.5 * math.pi / 180
 # Maximum tolerance for the proximity reading between
 # the robot and the closest obstacle.
@@ -15,7 +15,7 @@ delta = 0.1
 # Wheel speed.
 wheel_velocity = 5
 # Angle tolerance range to go straight.
-# It is set to [-alpha,alpha]. 
+# It is set to [-alpha,alpha].
 go_straight_angle_range = [-alpha, alpha]
 
 def init():
@@ -29,8 +29,8 @@ def controlstep():
     proximity_readings = robot.epuck_proximity.get_readings()
 
     for proximity_reading_i in proximity_readings:
-        accumulator["x"] += proximity_reading_i.value * math.cos(proximity_reading_i.angle.value())
-        accumulator["y"] += proximity_reading_i.value * math.sin(proximity_reading_i.angle.value())
+        accumulator["x"] += proximity_reading_i.value * math.cos(proximity_reading_i.angle.value)
+        accumulator["y"] += proximity_reading_i.value * math.sin(proximity_reading_i.angle.value)
 
     tot_angle = math.atan2(accumulator["y"], accumulator["x"])
     tot_length = math.sqrt(accumulator["x"] * accumulator["x"] + accumulator["y"] * accumulator["y"]) / 8

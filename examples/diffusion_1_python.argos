@@ -91,7 +91,7 @@
           controller's header file in
           controllers/footbot_diffusion/footbot_diffusion.h.
       -->
-      <params alpha="7.5" delta="0.1" velocity="5" script="/mnt/c/Users/albyr/Documents/argos-python/Examples/diffusion_controller_python.py"/>
+      <params alpha="7.5" delta="0.1" velocity="5" script="/mnt/c/Users/albyr/Documents/argos-python/examples/diffusion_controller_python.py"/>
     </python_controller>
 
   </controllers>

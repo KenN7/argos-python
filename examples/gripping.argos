@@ -16,7 +16,7 @@
   <!-- *************** -->
   <controllers>
 
-    <python_controller id="python" library="/mnt/c/Users/albyr/Documents/argos-python/libpy_controller_interface.so">
+    <python_controller id="python" library="/mnt/c/Users/albyr/Documents/argos-python/build/libpy_controller_interface.so">
       <actuators>
         <differential_steering implementation="default" />
         <footbot_gripper       implementation="default" />

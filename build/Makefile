@@ -48,7 +48,7 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/c/Users/albyr/Documents/argos-python
+CMAKE_SOURCE_DIR = /mnt/c/Users/albyr/Documents/argos-python/src
 
 # The top-level build directory on which CMake was run.
 CMAKE_BINARY_DIR = /mnt/c/Users/albyr/Documents/argos-python/build
@@ -80,8 +80,8 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -144,6 +144,19 @@ py_controller_interface: cmake_check_build_system
 py_controller_interface/fast:
 	$(MAKE) -f CMakeFiles/py_controller_interface.dir/build.make CMakeFiles/py_controller_interface.dir/build
 .PHONY : py_controller_interface/fast
+
+#=============================================================================
+# Target rules for targets named py_controller_interface_automoc
+
+# Build rule for target.
+py_controller_interface_automoc: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 py_controller_interface_automoc
+.PHONY : py_controller_interface_automoc
+
+# fast build rule for target.
+py_controller_interface_automoc/fast:
+	$(MAKE) -f CMakeFiles/py_controller_interface_automoc.dir/build.make CMakeFiles/py_controller_interface_automoc.dir/build
+.PHONY : py_controller_interface_automoc/fast
 
 py_actusensor_wrapper_epuck.o: py_actusensor_wrapper_epuck.cpp.o
 
@@ -253,6 +266,33 @@ py_controller.cpp.s:
 	$(MAKE) -f CMakeFiles/py_controller_interface.dir/build.make CMakeFiles/py_controller_interface.dir/py_controller.cpp.s
 .PHONY : py_controller.cpp.s
 
+py_controller_interface_automoc.o: py_controller_interface_automoc.cpp.o
+
+.PHONY : py_controller_interface_automoc.o
+
+# target to build an object file
+py_controller_interface_automoc.cpp.o:
+	$(MAKE) -f CMakeFiles/py_controller_interface.dir/build.make CMakeFiles/py_controller_interface.dir/py_controller_interface_automoc.cpp.o
+.PHONY : py_controller_interface_automoc.cpp.o
+
+py_controller_interface_automoc.i: py_controller_interface_automoc.cpp.i
+
+.PHONY : py_controller_interface_automoc.i
+
+# target to preprocess a source file
+py_controller_interface_automoc.cpp.i:
+	$(MAKE) -f CMakeFiles/py_controller_interface.dir/build.make CMakeFiles/py_controller_interface.dir/py_controller_interface_automoc.cpp.i
+.PHONY : py_controller_interface_automoc.cpp.i
+
+py_controller_interface_automoc.s: py_controller_interface_automoc.cpp.s
+
+.PHONY : py_controller_interface_automoc.s
+
+# target to generate assembly for a file
+py_controller_interface_automoc.cpp.s:
+	$(MAKE) -f CMakeFiles/py_controller_interface.dir/build.make CMakeFiles/py_controller_interface.dir/py_controller_interface_automoc.cpp.s
+.PHONY : py_controller_interface_automoc.cpp.s
+
 py_wrapper.o: py_wrapper.cpp.o
 
 .PHONY : py_wrapper.o
@@ -291,6 +331,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... package_source"
+	@echo "... py_controller_interface_automoc"
 	@echo "... py_actusensor_wrapper_epuck.o"
 	@echo "... py_actusensor_wrapper_epuck.i"
 	@echo "... py_actusensor_wrapper_epuck.s"
@@ -303,6 +344,9 @@ help:
 	@echo "... py_controller.o"
 	@echo "... py_controller.i"
 	@echo "... py_controller.s"
+	@echo "... py_controller_interface_automoc.o"
+	@echo "... py_controller_interface_automoc.i"
+	@echo "... py_controller_interface_automoc.s"
 	@echo "... py_wrapper.o"
 	@echo "... py_wrapper.i"
 	@echo "... py_wrapper.s"

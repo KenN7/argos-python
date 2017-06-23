@@ -1,9 +1,11 @@
 file(REMOVE_RECURSE
+  "py_controller_interface_automoc.cpp"
   "CMakeFiles/py_controller_interface.dir/py_controller.cpp.o"
   "CMakeFiles/py_controller_interface.dir/py_wrapper.cpp.o"
   "CMakeFiles/py_controller_interface.dir/py_actusensor_wrapper_generic.cpp.o"
   "CMakeFiles/py_controller_interface.dir/py_actusensor_wrapper_footbot.cpp.o"
   "CMakeFiles/py_controller_interface.dir/py_actusensor_wrapper_epuck.cpp.o"
+  "CMakeFiles/py_controller_interface.dir/py_controller_interface_automoc.cpp.o"
   "libpy_controller_interface.pdb"
   "libpy_controller_interface.so"
 )

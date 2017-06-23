@@ -12,7 +12,7 @@
   <!-- * Controllers * -->
   <!-- *************** -->
   <controllers>
-    <python_controller id="fsc" library="/mnt/c/Users/albyr/Documents/argos-python/libpy_controller_interface.so">
+    <python_controller id="fsc" library="/mnt/c/Users/albyr/Documents/argos-python/build/libpy_controller_interface.so">
       <actuators>
         <leds implementation="default" medium="leds" />
         <range_and_bearing implementation="default" />

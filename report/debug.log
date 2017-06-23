@@ -1,0 +1,5 @@
+[0319/175224.238:ERROR:exception_handler_server.cc(524)] ConnectNamedPipe: È in corso la chiusura della pipe. (0xE8)
+[0319/180918.572:ERROR:exception_handler_server.cc(524)] ConnectNamedPipe: È in corso la chiusura della pipe. (0xE8)
+[0320/121542.831:ERROR:exception_handler_server.cc(524)] ConnectNamedPipe: È in corso la chiusura della pipe. (0xE8)
+[0320/165317.649:ERROR:exception_handler_server.cc(524)] ConnectNamedPipe: È in corso la chiusura della pipe. (0xE8)
+[0320/171134.610:ERROR:exception_handler_server.cc(524)] ConnectNamedPipe: È in corso la chiusura della pipe. (0xE8)

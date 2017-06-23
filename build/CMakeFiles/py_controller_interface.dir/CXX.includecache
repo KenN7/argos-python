@@ -6,13 +6,15 @@
 
 #IncludeRegexTransform: 
 
-/mnt/c/Users/albyr/Documents/argos-python/py_actusensor_wrapper_epuck.cpp
-py_actusensor_wrapper_epuck.h
-/mnt/c/Users/albyr/Documents/argos-python/py_actusensor_wrapper_epuck.h
-py_wrapper.h
-/mnt/c/Users/albyr/Documents/argos-python/py_wrapper.h
+/mnt/c/Users/albyr/Documents/argos-python/build/py_controller_interface_automoc.cpp
 
-/mnt/c/Users/albyr/Documents/argos-python/py_actusensor_wrapper_epuck.h
+/mnt/c/Users/albyr/Documents/argos-python/src/py_actusensor_wrapper_epuck.cpp
+py_actusensor_wrapper_epuck.h
+/mnt/c/Users/albyr/Documents/argos-python/src/py_actusensor_wrapper_epuck.h
+py_wrapper.h
+/mnt/c/Users/albyr/Documents/argos-python/src/py_wrapper.h
+
+/mnt/c/Users/albyr/Documents/argos-python/src/py_actusensor_wrapper_epuck.h
 boost/python.hpp
 -
 boost/python/suite/indexing/map_indexing_suite.hpp
@@ -40,13 +42,13 @@ string
 iostream
 -
 
-/mnt/c/Users/albyr/Documents/argos-python/py_actusensor_wrapper_footbot.cpp
+/mnt/c/Users/albyr/Documents/argos-python/src/py_actusensor_wrapper_footbot.cpp
 py_actusensor_wrapper_footbot.h
-/mnt/c/Users/albyr/Documents/argos-python/py_actusensor_wrapper_footbot.h
+/mnt/c/Users/albyr/Documents/argos-python/src/py_actusensor_wrapper_footbot.h
 py_wrapper.h
-/mnt/c/Users/albyr/Documents/argos-python/py_wrapper.h
+/mnt/c/Users/albyr/Documents/argos-python/src/py_wrapper.h
 
-/mnt/c/Users/albyr/Documents/argos-python/py_actusensor_wrapper_footbot.h
+/mnt/c/Users/albyr/Documents/argos-python/src/py_actusensor_wrapper_footbot.h
 boost/python.hpp
 -
 boost/python/suite/indexing/map_indexing_suite.hpp
@@ -82,13 +84,13 @@ string
 iostream
 -
 
-/mnt/c/Users/albyr/Documents/argos-python/py_actusensor_wrapper_generic.cpp
+/mnt/c/Users/albyr/Documents/argos-python/src/py_actusensor_wrapper_generic.cpp
 py_actusensor_wrapper_generic.h
-/mnt/c/Users/albyr/Documents/argos-python/py_actusensor_wrapper_generic.h
+/mnt/c/Users/albyr/Documents/argos-python/src/py_actusensor_wrapper_generic.h
 py_wrapper.h
-/mnt/c/Users/albyr/Documents/argos-python/py_wrapper.h
+/mnt/c/Users/albyr/Documents/argos-python/src/py_wrapper.h
 
-/mnt/c/Users/albyr/Documents/argos-python/py_actusensor_wrapper_generic.h
+/mnt/c/Users/albyr/Documents/argos-python/src/py_actusensor_wrapper_generic.h
 boost/python.hpp
 -
 boost/python/suite/indexing/map_indexing_suite.hpp
@@ -114,21 +116,21 @@ string
 iostream
 -
 
-/mnt/c/Users/albyr/Documents/argos-python/py_controller.cpp
+/mnt/c/Users/albyr/Documents/argos-python/src/py_controller.cpp
 py_controller.h
-/mnt/c/Users/albyr/Documents/argos-python/py_controller.h
+/mnt/c/Users/albyr/Documents/argos-python/src/py_controller.h
 
-/mnt/c/Users/albyr/Documents/argos-python/py_controller.h
+/mnt/c/Users/albyr/Documents/argos-python/src/py_controller.h
 boost/make_shared.hpp
 -
 py_wrapper.h
-/mnt/c/Users/albyr/Documents/argos-python/py_wrapper.h
+/mnt/c/Users/albyr/Documents/argos-python/src/py_wrapper.h
 
-/mnt/c/Users/albyr/Documents/argos-python/py_wrapper.cpp
+/mnt/c/Users/albyr/Documents/argos-python/src/py_wrapper.cpp
 py_wrapper.h
-/mnt/c/Users/albyr/Documents/argos-python/py_wrapper.h
+/mnt/c/Users/albyr/Documents/argos-python/src/py_wrapper.h
 
-/mnt/c/Users/albyr/Documents/argos-python/py_wrapper.h
+/mnt/c/Users/albyr/Documents/argos-python/src/py_wrapper.h
 boost/python.hpp
 -
 boost/python/suite/indexing/map_indexing_suite.hpp
@@ -136,11 +138,11 @@ boost/python/suite/indexing/map_indexing_suite.hpp
 argos3/core/control_interface/ci_controller.h
 -
 py_actusensor_wrapper_generic.h
-/mnt/c/Users/albyr/Documents/argos-python/py_actusensor_wrapper_generic.h
+/mnt/c/Users/albyr/Documents/argos-python/src/py_actusensor_wrapper_generic.h
 py_actusensor_wrapper_footbot.h
-/mnt/c/Users/albyr/Documents/argos-python/py_actusensor_wrapper_footbot.h
+/mnt/c/Users/albyr/Documents/argos-python/src/py_actusensor_wrapper_footbot.h
 py_actusensor_wrapper_epuck.h
-/mnt/c/Users/albyr/Documents/argos-python/py_actusensor_wrapper_epuck.h
+/mnt/c/Users/albyr/Documents/argos-python/src/py_actusensor_wrapper_epuck.h
 argos3/core/utility/logging/argos_log.h
 -
 argos3/core/utility/math/general.h

@@ -18,7 +18,7 @@ current_fwd_steps = 0
 def init():
     global current_state
     current_state = WALK
-    robot.logprint("started aggregation_1_python")
+    robot.logprint("started aggregation_epuck_python")
 
 def controlstep():
     global current_state, current_fwd_steps, current_turn_steps, is_black_sensed, is_obstacle_sensed
@@ -55,16 +55,14 @@ def process_prox():
     is_obstacle_sensed = False
     readings = robot.epuck_proximity.get_readings()
     max_reading = max(readings, key = lambda x: x.value)
-    if max_reading.value > 0.02 and math.fabs(max_reading.angle.value()) < math.pi / 2:
+    if max_reading.value > 0.02 and math.fabs(max_reading.angle.value) < math.pi / 2:
         is_obstacle_sensed = True
 
 def process_ground():
     global is_black_sensed
     is_black_sensed = False
     ground_readings = robot.epuck_ground.get_readings()
-    for i in ground_readings:
-        print(i)
-    print("asd")
+
     min_reading = min(ground_readings)
     
     if min_reading == 0:

@@ -55,7 +55,7 @@ def process_prox():
     is_obstacle_sensed = False
     readings = robot.proximity.get_readings()
     max_reading = max(readings, key = lambda x: x.value)
-    if max_reading.value > 0.05 and math.fabs(max_reading.angle.value()) < math.pi / 2:
+    if max_reading.value > 0.05 and math.fabs(max_reading.angle.value) < math.pi / 2:
         is_obstacle_sensed = True
 
 def process_ground():

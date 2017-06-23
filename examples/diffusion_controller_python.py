@@ -29,8 +29,8 @@ def controlstep():
     proximity_readings = robot.proximity.get_readings()
     
     for proximity_reading_i in proximity_readings:
-        accumulator["x"] += proximity_reading_i.value * math.cos(proximity_reading_i.angle.value()) 
-        accumulator["y"] += proximity_reading_i.value * math.sin(proximity_reading_i.angle.value())
+        accumulator["x"] += proximity_reading_i.value * math.cos(proximity_reading_i.angle.value) 
+        accumulator["y"] += proximity_reading_i.value * math.sin(proximity_reading_i.angle.value)
 
     tot_angle = math.atan2(accumulator["y"], accumulator["x"])
     tot_length = math.sqrt(accumulator["x"] * accumulator["x"] + accumulator["y"] * accumulator["y"]) / 24
