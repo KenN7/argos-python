@@ -460,7 +460,34 @@ There is also a simple \textbf{LEDColor} class that handles the LEDs of the TAM 
 
 \textbf{TAM\_argos} implements the TAM interface in a way that can be used by the ARGoS simulator. The C++ interface will communicate with this class, during the simulations.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.2\textwidth, center, keepaspectratio=1]{{"figures/tam-py"}.png}
+    \caption{\emph{Scheme of the structure of the Python component of PyTAM.}}
+\end{figure}
 
+\newpage
+
+The C++ interface reflects the original implementation, and was adapted to support the new Python implementation of \textbf{TAM}.
+
+\begin{itemize}
+    \item \textbf{\texttt{dynamics2d\_tam\_model}} and  \textbf{\texttt{qtopengl\_tam}} are used to handle the 3D model of the TAM in ARGoS, and are left unchanged.
+    
+    \item \textbf{\texttt{tam\_entity}} is also left unchanged, and it is the class that updated the local information of a TAM in the simulator.
+    
+    \item \textbf{\texttt{tams\_entity}} is the main component of the C++ interface, and it is the class that interacts with the Python implementation of TAM.\\
+    Here, the Python modules of the TAM interface to ARGoS are loaded, and the required TAMs instantiated.
+    
+    \textbf{Boost.Python} doesn't only allow to call C++ functions from Python, but also the opposite, i.e. to call Python functions inside C++.\\
+    This is exactly what happens in this C++ class.\\
+    Some parts of this class have been left unchanged, such as the check for the presence of a robot inside the TAM.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.2\textwidth, center, keepaspectratio=1]{{"figures/tam-c"}.png}
+    \caption{\emph{Scheme of the structure of the C++ component of PyTAM.}}
+\end{figure}
 
 \newpage
 \bibliographystyle{plainurl}
