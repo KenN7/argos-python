@@ -25,7 +25,6 @@
         <footbot_base_ground implementation="rot_z_only" />
         <range_and_bearing implementation="medium" medium="rab" />
       </sensors>
-      <!-- No required configuration -->
       
       <!-- Optionally, you can pass a script as a controller parameter: -->
       <params script="/mnt/c/Users/albyr/Documents/argos-python/examples/aggregation_1_python.py" />

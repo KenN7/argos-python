@@ -26,7 +26,7 @@ footinclude]{article}
 \usepackage[utf8]{inputenc} % Required for including letters with accents
 \usepackage{color}
 \usepackage[nochapters, dottedtoc]{classicthesis}
-\usepackage{listings} % For Python code
+
 \usepackage{float}
 \usepackage[caption = false]{subfig} % For 2x2 grid of images
 
@@ -39,6 +39,35 @@ footinclude]{article}
 \theoremstyle{definition} % Define the style of definitions
 \newtheorem{definition}{Definition}[section]
 
+
+% DEFINE lANGUAGE
+\usepackage{listings}
+
+% DEFINE XML
+\usepackage{color}
+\definecolor{gray}{rgb}{0.4,0.4,0.4}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{cyan}{rgb}{0.0,0.6,0.6}
+
+\lstset{
+    basicstyle=\ttfamily,
+    columns=fullflexible,
+    showstringspaces=false,
+    commentstyle=\color{gray}\slsshape
+}
+\lstdefinelanguage{XML}
+{
+    basicstyle=\ttfamily,
+    morestring=[s]{"}{"},
+    morecomment=[s]{?}{?},
+    morecomment=[s]{!--}{--},
+    commentstyle=\color{gray},
+    moredelim=[s][\color{black}]{>}{<},
+    moredelim=[s][\color{red}]{\ }{=},
+    stringstyle=\color{darkblue},
+    identifierstyle=\color{cyan}
+}
+% END OF XML
 
 \usepackage{lipsum} % For testing
 \usepackage{color}
@@ -254,8 +283,187 @@ and on \href{https://eb2.co/blog/2012/03/building-boost-python-for-python-3-2/}{
 
 \subsection{Technical details of the implementation}
 
+This section will describe the overall structure of the wrapper, and the main design choices that were taken in the implementation. 
 
+The main building block of the wrapper is the \textbf{Boost.Python} library, an interface between \textbf{C++} and \textbf{Python}. \\
+\textbf{Boost.Python} allows to write \textbf{C++} functions that can be called from any \textbf{Python} script, as if they were natively implemented in \textbf{Python}. \\
+This allows a Python script to interact with the original ARGoS simulator, which is written in C++.
+
+Boost.Python allows to export C++ classes, each with its own attributes and functions, usable in a transparent way by Python.\\
+The wrapper is compiled as a shared library which can be loaded at the start of a simulation. When this happens, a Python interpreter is launched by the wrapper.\\
+Then, the interpreter will load the classes exported by the wrapper, which can be used in the simulation.
+
+The wrapper also parses the \texttt{.argos} configuration file, so that it knows which sensors and controllers will be used in the simulation, and is able to instantiate the required classes.
+
+The implementations of sensors and actuators are divided into 2 main categories: the ones that are generic, usable by any type of robot (such as the \textbf{Differential Steering Actuator, or the LED lights}), and the ones that are specific to a single class of robots (for instance, the \textbf{Footbot} has a gripper that can be used).
+
+The wrapper is structured so that generic sensor and actuators are contained in a single file, while robot-specific devices are contained in other files, one for each type of robot.\\
+More specifically, we have a file for the generic sensors and actuators, 1 for the devices of \textbf{Footbot} and 1 for \textbf{e-puck}.
+
+Moreover, there exists some generic classes that are used to wrap specific data-types used by ARGoS, such as the \textit{colors} or the \textit{angles}. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.2\textwidth, center, keepaspectratio=1]{{"figures/argos-wrapper"}.png}
+    \caption{\emph{Scheme of the structure of the wrapper.}}
+\end{figure}
+
+\newpage
 
 \subsection{Description of the wrapper components}
+This section provides a brief description of the content of each file of the wrapper.
+
+\begin{itemize}
+    \item \textbf{\texttt{py\_controller}}: main entry point of the wrapper. It will initialize the Python interpreter, and parse the \texttt{.argos} configuration file in order to initialize and load the correct sensors and actuators. Functions to be executed by the Python script at the start, end, or at each step of the simulation are also wrapped here. Their implementation is in Python, but the actual execution is handled by the wrapper, in this file.
+    
+    \item \textbf{\texttt{py\_wrapper}}: this file holds the implementation of the functions that instantiate the sensors and actuators. More importantly, it also contains the wrappers to some utility data-structures, and it exports all the classes that can be used by Python.\\
+    Depending on the situation, it is possible to export functions of each class, or attributes, that can be accesses by Python either as read-only, or read-write.
+    Note that the naming convention of the exported function and properties tries to replicate as close as possible the one used by the \textbf{Lua} wrapper, so that the moving from one wrapper to the other is as seamless as possible.
+    
+    \item \textbf{\texttt{py\_actusensor\_wrapper\_generic}}: this file contains the generic actuators and sensor, the ones that are usable by any robot inside ARGoS.\\
+    It contains implementations for:
+    \begin{itemize}
+        \item Wheels actuator
+        \item Omnidirectional Camera sensor
+        \item Range and Bearing device
+        \item LED lights
+    \end{itemize}
+    The classes relative to these actuators and sensor contains functions that call the original \textbf{C++} implementations of each device.
+    
+    \item \textbf{\texttt{py\_actusensor\_wrapper\_footbot}}: file that contains the actuators and sensors specific to the \textbf{footbot}. \\
+    The actuators and sensors available are:
+    \begin{itemize}
+        \item Gripper actuator
+        \item Proximity sensor
+        \item Ground sensor
+        \item Light sensor
+        \item Distance scanner 
+        \item Turret device
+    \end{itemize}
+    
+    \item \textbf{\texttt{py\_actusensor\_wrapper\_epuck}}: file that contains the actuators and sensors specific to the \textbf{e-puck}. \\
+    The actuators and sensors available are:
+    \begin{itemize}
+        \item E-puck Wheels actuator
+        \item Proximity sensor
+        \item Ground sensor
+        \item Range and Bearing device
+        \item LED lights actuator
+    \end{itemize}
+\end{itemize}
+
+\subsection{Usage of the wrapper}
+In order to write a simulation with the wrapper, it is required to provide to ARGoS a configuration file written in \textbf{xml}-like format, and one or more controllers used by the robots. \\
+The configuration file is written just like a regular configuration file used by ARGoS, with the only difference that it is required to specify the path to the wrapper library.
+
+Below, an example of the Python wrapper section to be added to the configuration file.
+
+\lstset{language=XML}
+\begin{lstlisting}
+<python_controller id="python" library="path/to/libpy_controller_interface.so">
+    <!-- Normal actuator/sensor configuration follows -->
+    <actuators>
+        <differential_steering implementation="default"/>
+        <range_and_bearing implementation="default"/>
+    </actuators>
+    <sensors>
+        <footbot_proximity implementation="default" show_rays="true"/>
+        <footbot_base_ground implementation="rot_z_only"/>
+        <range_and_bearing implementation="medium" medium="rab"/>
+    </sensors>
+    
+    <!-- The controller scripts are passed here: -->
+    <params script="path/to/examples/aggregation_1_python.py"/>
+</python_controller>
+\end{lstlisting}
+
+Then, it is required to write a controller script for the robots (note that when using the wrapper it is still possible to use C++ controller, together with the Python ones).
+In Python, a controller must implement the following functions:
+
+\begin{itemize}
+    \item \textbf{\texttt{init}}: function that is called at the start of the simulation. Usually it will set the local variables of the robot, such as its current state.
+    \item \textbf{\texttt{controlstep}}: this is the main part of the simulation, the function that is called at each time-step. This function defines the main behaviour and actions of the robot.
+    \item \textbf{\texttt{reset}}: function called when the simulation is restarted. Usually, it is used to reset the local variables.
+    \item \textbf{\texttt{destroy}}: function that is called at the end of the simulation. It can be used to print information about the simulations, for example.
+\end{itemize}
+
+\newpage
+
+\section{PyTAM: a TAM implementation in Python}
+The second part of the report is an explanation of the Python implementation of the \textbf{TAM} device, and how it is connected to ARGoS through a C++ interface.
+
+\textbf{TAM} \cite{brutschy2015tam} is a device used to abstract complex tasks in swarm robotics. A \textbf{TAM} interacts with one or more \textbf{e-puck} robots, and their collective behaviour can be programmed to model a more complex task. \\
+The motivation behind \textbf{TAM} is that often in swarm robotics it is necessary to model complex interactions between robots and the environment, such as moving objects, or reaching locations in a certain order, and so on.\\
+However, it is not practical to actually deal with physical entities, when not strictly necessary for the accuracy of the simulation.\\
+Instead, it is possible to consider a device such as \textbf{TAM}, which is able to abstract this type of interactions and simplify the creation of a simulation.
+
+\textbf{TAM} is able to check when a robot is present inside it, and it is able to communicate simple codes to a nearby robot by making use of an infra-red communication device.
+
+\textbf{TAM} is implemented in \textbf{Java}, and connected to ARGoS through a C++ interface. \\
+The real \textbf{TAM} device communicates with the robots by using an \textbf{XBee} device, while in ARGoS the \textbf{TAM} communication is simulated to be faithful to the original behaviour.
+
+Initially, the plan of the project was to create a Python interface between the Java and the C++ layer, so that it would have been possible to program the simulated \textbf{TAM} using Python (similarly to what was done with the wrapper).\\
+However, it was noticed how adding an extra layer of complexity would make things more complex and hard to manage. Instead, rebuilding from scratch the implementation of \textbf{TAM} would be a better approach in the long term, in spite of the initial additional work required.
+
+Here it is provided a Python implementation of the general structure of \textbf{TAM}, plus a Python implementation of a simulated version of the \textbf{TAM} that can be used from ARGoS.\\
+Moreover, it is possible to program the \textbf{TAM} controller in Python, similarly to what was presented for the previous Python wrapper.
+Additionally, it is presented a C++ interface between this \textbf{TAM} implementation and ARGoS itself, which is required to simulate \textbf{TAM} inside ARGoS.
+
+The structure of the implementation, presented in the next sections, is modelled on the basis of the original \textbf{TAM} implementation, and the existing code-base was reused wherever possible.
+
+Note that this implementation doesn't support yet the use of a real \textbf{TAM}: it is provided the general structure required to implement the code on real device, along with the documentation, the synchronization mechanism (modelled after the one used in Java), and the necessary data structures.\\
+It would have taken a much larger amount of time to implement all the code on the real device, making use of \textbf{XBee} and more.\\
+Still, having the time it would be easy to extend the current implementation to support the real device.
+
+
+\subsection{Installing PyTAM}
+Here it is presented a brief guide on how to install \textbf{PyTAM}. It is assumed that both \textbf{ARGoS} and the \textbf{e-puck} plugin have been correctly installed. \\
+It is not required to have the \textbf{Python} wrapper installed in order to use \textbf{PyTAM}, but it is required to have \textbf{Boost.Python}.
+
+\begin{itemize}
+    \item Make sure that \textbf{ARGoS}, the \textbf{e-puck} plugin, and \textbf{Boost.Python} have been properly installed.
+    
+    \item Clone the repository at \href{https://github.com/KenN7/argos3-pytam}{https://github.com/KenN7/argos3-pytam}\\
+    \-\quad\texttt{git clone https://github.com/KenN7/argos3-pytam argos3-pytam}
+    
+    \item Move into the repository folder, then into the \texttt{argos3} folder, create a \texttt{build} folder and move into it.\\
+    \-\quad\texttt{cd argos3}\\
+    \-\quad\texttt{mkdir build}\\
+    \-\quad\texttt{cd build}
+    
+    \item Build \textbf{PyTAM}.\\
+    \-\quad\texttt{cmake ../src}\\
+    \-\quad\texttt{make}
+    
+    \item From the build folder, it is possible to launch some examples to see if PyTAM is working correctly. For instance:\\
+    \-\quad\texttt{argos3 -c ../src/testing/test\_tams.argos}
+\end{itemize}
+
+\newpage
+
+\subsection{Technical details of the implementation}
+PyTAM is divided into 2 main blocks: one is the Python implementation itself, while the other is the C++ interface that connects it to ARGoS.
+
+The Python implementation is based on the interfaces of TAM, of the experiment, and of the controller. 
+\begin{itemize}
+    \item \textbf{\texttt{TAMInterface}} contains the abstract functionalities that must be implemented by TAM: it is possible to modify the LED colors, check if a robot is present, and so on. More importantly, it is possible to set the controller of the TAM, which will regulate its behaviour.
+    
+    \item \textbf{\texttt{ExperimentInterface}} is the core of the TAM simulation: TAMs are assumed to be connected, as it might be required to check if they all contain a robot and so on. The ExperimentInterface class provides functionalities that are used to program the global behaviour of the TAMs in the simulation.
+    
+    \item \textbf{\texttt{ControllerInterface}} is the interface to program the single controllers used by each TAM, their behaviour in the simulation. Different TAMs can have different controllers, of course. \\
+    The structure of a TAM controller is the same of the ones for the other robots, seen in the previous section. It is offered an initialization function, a reset function, and a control step function. It is also possible to access the pseudo-random number generator of each TAM (in case one wants to use different PRNG on different TAMs).
+\end{itemize}
+
+There is also a simple \textbf{LEDColor} class that handles the LEDs of the TAM by using bit-masks.
+
+\textbf{TAM.py} and \textbf{Coordinator.py} are the classes that implement the functionalities of the real TAM device. As mentioned before, it is provided the general structure of the functions they have to implement, along with their documentation. However some functions, the ones that would have to be tested on the real device, are currently not implemented.
+
+\textbf{TAM\_argos} implements the TAM interface in a way that can be used by the ARGoS simulator. The C++ interface will communicate with this class, during the simulations.
+
+
+
+\newpage
+\bibliographystyle{plainurl}
+\bibliography{bibliography}\textbf{}
 
 \end{document}
