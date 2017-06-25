@@ -53,7 +53,7 @@
                 distances="0.3,0.3,0"
                 layout="4,4,1" />
       <orientation method="constant" values="0,0,0" />
-      <entity quantity="3" max_trials="1">
+      <entity quantity="16" max_trials="1">
         <foot-bot id="fb">
           <controller config="fsc" />
         </foot-bot>

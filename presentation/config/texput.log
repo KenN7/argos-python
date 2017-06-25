@@ -1,0 +1,19 @@
+This is XeTeX, Version 3.14159265-2.6-0.99992 (MiKTeX 2.9) (preloaded format=xelatex 2016.8.22)  7 DEC 2016 19:21
+entering extended mode
+**presento.tex
+
+! Emergency stop.
+<*> presento.tex
+                
+*** (job aborted, file error in nonstop mode)
+
+ 
+Here is how much of TeX's memory you used:
+ 2 strings out of 428755
+ 18 string characters out of 3163194
+ 52045 words of memory out of 3000000
+ 3435 multiletter control sequences out of 15000+200000
+ 3640 words of font info for 14 fonts, out of 3000000 for 9000
+ 1096 hyphenation exceptions out of 8191
+ 0i,0n,0p,1b,6s stack positions out of 5000i,500n,10000p,200000b,50000s
+No pages of output.

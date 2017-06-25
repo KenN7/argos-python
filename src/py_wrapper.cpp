@@ -433,6 +433,7 @@ BOOST_PYTHON_MODULE(libpy_controller_interface)
         .def_readonly("angle", &argos::CCI_EPuckProximitySensor::SReading::Angle);
 
     // Export the SReceivedPacket class, used to store the readings of the EPuck range and bearing sensor.
+    // TODO: fix data reading.
     class_<argos::CCI_EPuckRangeAndBearingSensor::SReceivedPacket>("range_and_bearing_packet", no_init)
         .add_property("range", &argos::CCI_EPuckRangeAndBearingSensor::SReceivedPacket::Range)
         .add_property("bearing", &argos::CCI_EPuckRangeAndBearingSensor::SReceivedPacket::Bearing)

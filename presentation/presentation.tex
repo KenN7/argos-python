@@ -1,0 +1,110 @@
+\documentclass[14pt, handout]{beamer}
+
+% Presento style file
+\usepackage{config/presento}
+
+% Remove "figure" label in figures
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}
+
+% custom command and packages
+\input{config/custom-command}
+
+\newcommand\blfootnote[1]{%
+    \begingroup
+    \renewcommand\thefootnote{}\footnote{#1}%
+    \addtocounter{footnote}{-1}%
+    \endgroup
+}
+
+% Information
+\title{Extending ARGoS and TAM with Python}
+\author{Alberto Parravicini}
+\institute{Université libre de Bruxelles, PROJ-H-402}
+\date{June 1, 2017}
+
+\setbeamertemplate{bibliography item}[text] % No icons in bibliography
+
+\begin{document}
+
+% Title page
+\begin{frame}[plain]
+\maketitle
+\end{frame}
+
+
+% DEFINITIONS %%%%%%%%%%%%
+
+\begin{frame}{A brief introduction...}  
+    \begin{fullpageitemize}	
+        \item<1->\textbf{ARGoS}: a simulator for swarm robotics.
+        \vspace{5mm}
+        \item<2->It can be extended with plugins and modules.
+        \vspace{5mm}    
+        \item<3->Here, 2 new extensions: 
+        \begin{baseitemize}
+            \item<4->[\rtarrow]A \textbf{Python wrapper}.
+            \item<5->[\rtarrow]A Python implementation of \textbf{TAM} for ARGoS.
+        \end{baseitemize}	
+        \textbf{Goal:} simplify the user's work.
+    \end{fullpageitemize}
+\end{frame}
+
+\begin{frame}{Simulations in ARGoS}  
+    \begin{fullpageitemize}	
+    \item<3->A simulation has 3 components:
+    \begin{baseitemize}
+        \item<4->[\rtarrow]A \textbf{configuration} file: to specify the entities. 
+        \item<5->[\rtarrow]A \textbf{loop function}: customize events at the start/end of each step.
+        \item<6->[\rtarrow]\textbf{Controllers}: program the behaviour of robots.
+    \end{baseitemize}	
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth, keepaspectratio=1]{{"images/argos_inputs_2"}.png}
+        \caption{\tiny{Image from \href{http://www.argos-sim.info/user_manual.php}{http://www.argos-sim.info/user\_manual.php}}}
+    \end{figure}
+    \end{fullpageitemize}
+\end{frame}
+
+\begin{frame}{Python wrapper for ARGoS}
+    \begin{fullpageitemize}
+    \item<1->To program a controller, there are 2 choices:
+    \begin{baseitemize}
+        \item<2->[\rtarrow]\textbf{C++}: powerful, fast, but hard to use.
+        \item<2->[\rtarrow]\textbf{Lua}: simple, but not well known language.
+    \end{baseitemize}	
+    \vspace{5mm}
+    \item<3->A third choice:
+    \begin{baseitemize}
+        \item<3->[\rtarrow]\textbf{Python}: simple, and very common!
+    \end{baseitemize}    
+    \end{fullpageitemize}
+\end{frame}
+
+\begin{frame}{Python wrapper for ARGoS}
+    \begin{fullpageitemize}
+    \item<1->\textbf{Main idea:}	write a Python wrapper taking inspiration from Lua.
+    \vspace{2mm}
+    \begin{baseitemize}
+    \item<2->[\rtarrow]Written using \textbf{Boost.Python}
+    \vspace{2mm}
+    \item<2->[\rtarrow]Full support for generic actuators \& sensors, \textbf{Footbot} and \textbf{e-puck}
+    \vspace{2mm}
+    \item<2->[\rtarrow]Same syntax as the Lua wrapper
+\end{baseitemize}	
+
+\end{fullpageitemize}
+\end{frame}
+\begin{frame}{PyTAM}
+    \begin{fullpageitemize}
+        \item<1->\textbf{TAM} is a device used for task abstractions.
+        \item<2->Originally, \textbf{Java} + \textbf{C++} interface to ARGoS.
+        \item<3->Now partially rewritten in \textbf{Python}, with a modified \textbf{C++} interface.
+        \item<4->\textbf{PRO}: simpler code-base, and controllers writable in Python.
+    \end{fullpageitemize}
+\end{frame}    
+
+\framecard[colorgreen]{{\color{white}\hugetext{THANK YOU!}}}
+
+
+
+\end{document}

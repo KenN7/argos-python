@@ -1,0 +1,58 @@
+\begin{thebibliography}{10}
+
+\bibitem{quickhull_3d}
+C.~Bradford Barber, David~P. Dobkin, and Huhdanpaa Hannu.
+\newblock The quickhull algorithm for convex hulls.
+\newblock 1995.
+
+\bibitem{Chan1996}
+T.~M. Chan.
+\newblock Optimal output-sensitive convex hull algorithms in two and three
+  dimensions.
+\newblock {\em Discrete {\&} Computational Geometry}, 16(4):361--368, 1996.
+
+\bibitem{gift_wrapping_3d}
+Donald~R. Chand and Sham~S. Kapur.
+
+\bibitem{Emiris:1991:EAR:894044}
+Ioannis~Z. Emiris and John~F. Canny.
+\newblock An efficient approach to removing geometric degeneracies.
+\newblock Technical report, 1991.
+
+\bibitem{Ericson:2004:RCD:1121584}
+Christer Ericson.
+\newblock {\em Real-Time Collision Detection}.
+\newblock CRC Press, Inc., Boca Raton, FL, USA, 2004.
+
+\bibitem{6313439}
+A.~Goshtasby and G.~C. Stockman.
+\newblock Point pattern matching using convex hull edges.
+\newblock {\em IEEE Transactions on Systems, Man, and Cybernetics}, SMC-15(5),
+  1985.
+
+\bibitem{Kirkpatrick_hull}
+David~G. Kirkpatrick and Raimund Seidel.
+\newblock The ultimate planar convex hull algorithm ?
+\newblock Technical report, 1983.
+
+\bibitem{O'Rourke:1998:CGC:521378}
+Joseph O'Rourke.
+\newblock {\em Computational Geometry in C}.
+\newblock Cambridge University Press, 2nd edition, 1998.
+
+\bibitem{Preparata:1977:CHF:359423.359430}
+F.~P. Preparata and S.~J. Hong.
+\newblock Convex hulls of finite sets of points in two and three dimensions.
+\newblock {\em Commun. ACM}, 20(2):87--93, February 1977.
+
+\bibitem{Preparata:1985:CGI:4333}
+Franco~P. Preparata and Michael~I. Shamos.
+\newblock {\em Computational Geometry: An Introduction}.
+\newblock Springer-Verlag New York, Inc., 1985.
+
+\bibitem{Preparata:1985:CGI:4333-Jarvis}
+Franco~P. Preparata and Michael~I. Shamos.
+\newblock {\em Computational Geometry: An Introduction}.
+\newblock Springer-Verlag New York, Inc., 1985.
+
+\end{thebibliography}

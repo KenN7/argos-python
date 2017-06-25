@@ -1,0 +1,55 @@
+\documentclass[14pt]{beamer}
+
+% Presento style file
+\usepackage{config/presento}
+
+% custom command and packages
+\input{config/custom-command}
+
+% Information
+\title{PRESENTO}
+\subtitle{clean, simple and extensible}
+\author{Ratul Saha}
+\institute{www.ratulsaha.com}
+\date{\today}
+
+\begin{document}
+
+% Title page
+\begin{frame}[plain]
+\maketitle
+\end{frame}
+
+% sections in the presentation
+\begin{frame}{Presento}
+ \begin{fullpageitemize}
+  \item \begin{center}\largetext{The design is \underline{clean}}\end{center}
+  \item \begin{center}\largetext{The rules are \underline{simple}}\end{center}
+  \item \begin{center}\largetext{The code is \underline{extensible}}\end{center}
+ \end{fullpageitemize}
+\end{frame}
+
+\begin{frame}{Open Source Fonts}
+ \begin{fullpageitemize}
+  \item {\montserratfont This is Montserrat}
+  \item {\notosansfont This is Noto Sans}
+  \item {\latolightfont This is Lato (light)}
+  \item {\inconsolatafont This is inconsolata}
+  \item \textsc{This is Alegreya Sans small caps}
+ \end{fullpageitemize}
+\end{frame}
+
+\begin{frame}{Color Palette}
+ \begin{center}
+  \crule[colordgray] \crule[colorhgray] \crule[colorblue] \crule[colorgreen] \crule[colororange]
+ \end{center}
+\end{frame}
+
+\framecard[colorgreen]{{\color{white}\hugetext{BIG BOLD TEXT}}}
+
+\framepic[0.8]{images/skeleton}{
+ \begin{textblock}{7}(7,2.5)
+    {\color{colorblue}\hugetext{\textbf{RUN!}}}
+ \end{textblock}
+}
+\end{document}
