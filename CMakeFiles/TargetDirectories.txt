@@ -1,3 +1,0 @@
-/mnt/c/Users/albyr/Documents/argos-python/CMakeFiles/edit_cache.dir
-/mnt/c/Users/albyr/Documents/argos-python/CMakeFiles/rebuild_cache.dir
-/mnt/c/Users/albyr/Documents/argos-python/CMakeFiles/py_controller_interface.dir
