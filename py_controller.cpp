@@ -6,27 +6,17 @@
  */
 #include "py_controller.h"
 
+
 using namespace argos;
 using namespace boost::python;
 
-#if PY_MAJOR_VERSION >= 3
-#   define INIT_MODULE PyInit_libpy_controller_interface
-    extern "C" PyObject* INIT_MODULE();
-#else
-#   define INIT_MODULE initlibpy_controller_interface
-    extern "C" void INIT_MODULE();
-#endif
+#define INIT_MODULE PyInit_libpy_controller_interface
+extern "C" PyObject* INIT_MODULE();
 
 
-CPyController::CPyController() :
-  m_actusensors(NULL),
-  m_main(NULL),
-  m_namesp(NULL),
-  m_script(NULL),
-  m_interpreter(NULL)
-{
+CPyController::CPyController(){
   //init python
-  PyImport_AppendInittab((char*)"libpy_controller_interface", INIT_MODULE);
+  PyImport_AppendInittab("libpy_controller_interface", INIT_MODULE);
   if (!Py_IsInitialized())
   {
       Py_Initialize();
@@ -89,8 +79,7 @@ void CPyController::InitSensorsActuators(TConfigurationNode& t_node)
 void CPyController::Init(TConfigurationNode& t_node)
 {
   //get instances of actuators and sensors and pass them to the wrapper
-  m_actusensors = boost::make_shared< ActusensorsWrapper >();
-  //m_actusensors = new ActusensorsWrapper();
+  m_actusensors = boost::make_shared<ActusensorsWrapper>();
   InitSensorsActuators(t_node);
   //printf("%s\n", this);
 

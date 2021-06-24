@@ -9,7 +9,6 @@
 #define PY_CONTROLLER_H
 
 #include <boost/make_shared.hpp>
-
 #include "py_wrapper.h"
 
 namespace argos {
@@ -63,7 +62,6 @@ private:
   PyThreadState* m_interpreter;
 
   boost::shared_ptr< ActusensorsWrapper > m_actusensors;
-  //ActusensorsWrapper* m_actusensors;
 
   int m_state;
   int m_id;
