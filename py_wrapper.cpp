@@ -33,42 +33,35 @@ void ActusensorsWrapper::CreateActu(const std::string str_name, CCI_Actuator* pc
     if (str_name == "differential_steering") {
         m_cWheelsWrapper.m_pcWheels = (CCI_DifferentialSteeringActuator*)pc_actu;
         m_cWheelsWrapper.m_pcWheels->Init(t_node);
-    }
-    if (str_name == "footbot_gripper") {
+    } else if (str_name == "footbot_gripper") {
         m_cGripperWrapper.m_pcGripper = dynamic_cast<CCI_FootBotGripperActuator*>(pc_actu);
         m_cGripperWrapper.m_pcGripper->Init(t_node);
-    }
-    if (str_name == "leds") {
+    } else if (str_name == "leds") {
         m_cLedsWrapper.m_pcLeds = (CCI_LEDsActuator*)pc_actu;
         // m_cLedsWrapper.m_pcLeds->Init(t_node);
-    }
-    if (str_name == "range_and_bearing") {
+    } else if (str_name == "range_and_bearing") {
         m_cRangeAndBearingWrapper.m_pcRABA = (CCI_RangeAndBearingActuator*)pc_actu;
         // m_cRangeAndBearingWrapper.m_pcRABA->Init(t_node);
-    }
-    if (str_name == "footbot_distance_scanner") {
+    } else if (str_name == "footbot_distance_scanner") {
         m_cDistanceScannerWrapper.m_pcScannerActuator =
             dynamic_cast<CCI_FootBotDistanceScannerActuator*>(pc_actu);
         m_cDistanceScannerWrapper.m_pcScannerActuator->Init(t_node);
-    }
-    if (str_name == "footbot_turret") {
+    } else if (str_name == "footbot_turret") {
         m_cTurretWrapper.m_pcTurretActuator = dynamic_cast<CCI_FootBotTurretActuator*>(pc_actu);
         m_cTurretWrapper.m_pcTurretActuator->Init(t_node);
     }
 
     // E-Puck actuators.
-    if (str_name == "epuck_wheels") {
+    else if (str_name == "epuck_wheels") {
         /* m_cWheelsWrapper.m_pcWheels = dynamic_cast<CCI_EPuckWheelsActuator *>(pc_actu); */
         /* m_cWheelsWrapper.m_pcWheels->Init(t_node); */
         m_cEPuckWheelsWrapper.m_pcEPuckWheels = dynamic_cast<CCI_EPuckWheelsActuator*>(pc_actu);
         m_cEPuckWheelsWrapper.m_pcEPuckWheels->Init(t_node);
-    }
-    if (str_name == "epuck_range_and_bearing") {
+    } else if (str_name == "epuck_range_and_bearing") {
         m_cEPuckRangeAndBearingWrapper.m_pcEPuckRABA =
             dynamic_cast<CCI_EPuckRangeAndBearingActuator*>(pc_actu);
         /* m_cEPuckRangeAndBearingWrapper.m_pcEPuckRABA->Init(t_node); */
-    }
-    if (str_name == "epuck_rgb_leds") {
+    } else if (str_name == "epuck_rgb_leds") {
         m_cEPuckLedsWrapper.m_pcEPuckLeds = (CCI_EPuckRGBLEDsActuator*)pc_actu;
         // m_cLedsWrapper.m_pcLeds->Init(t_node);
     }
@@ -83,53 +76,41 @@ void ActusensorsWrapper::CreateSensor(const std::string str_name, CCI_Sensor* pc
     if (str_name == "footbot_proximity") {
         m_cProximitySensorWrapper.m_pcProximity = (CCI_FootBotProximitySensor*)pc_sensor;
         m_cProximitySensorWrapper.m_pcProximity->Init(t_node);
-    }
-
-    if (str_name == "colored_blob_omnidirectional_camera") {
+    } else if (str_name == "colored_blob_omnidirectional_camera") {
         m_cOmnidirectionalCameraWrapper.m_pcOmniCam =
             (CCI_ColoredBlobOmnidirectionalCameraSensor*)pc_sensor;
         // m_cOmnidirectionalCameraWrapper.m_pcOmniCam->Init(t_node);
-    }
-    if (str_name == "range_and_bearing") {
+    } else if (str_name == "range_and_bearing") {
         m_cRangeAndBearingWrapper.m_pcRABS = (CCI_RangeAndBearingSensor*)pc_sensor;
         // m_cRangeAndBearingWrapper.m_pcRABS->Init(t_node);
-    }
-
-    if (str_name == "footbot_motor_ground") {
+    } else if (str_name == "footbot_motor_ground") {
         m_cGroundSensorWrapper.m_pcGround = (CCI_FootBotMotorGroundSensor*)pc_sensor;
         m_cGroundSensorWrapper.m_pcGround->Init(t_node);
-    }
-
-    if (str_name == "footbot_base_ground") {
+    } else if (str_name == "footbot_base_ground") {
         m_cBaseGroundSensorWrapper.m_pcBaseGround =
             dynamic_cast<CCI_FootBotBaseGroundSensor*>(pc_sensor);
         m_cBaseGroundSensorWrapper.m_pcBaseGround->Init(t_node);
-    }
-
-    if (str_name == "footbot_light") {
+    } else if (str_name == "footbot_light") {
         m_cLightSensorWrapper.m_pcLight = (CCI_FootBotLightSensor*)pc_sensor;
         m_cLightSensorWrapper.m_pcLight->Init(t_node);
-    }
-    if (str_name == "footbot_distance_scanner") {
+    } else if (str_name == "footbot_distance_scanner") {
         m_cDistanceScannerWrapper.m_pcScannerSensor = (CCI_FootBotDistanceScannerSensor*)pc_sensor;
         m_cDistanceScannerWrapper.m_pcScannerSensor->Init(t_node);
-    }
-    if (str_name == "footbot_turret_encoder") {
+    } else if (str_name == "footbot_turret_encoder") {
         m_cTurretWrapper.m_pcTurretSensor =
             dynamic_cast<CCI_FootBotTurretEncoderSensor*>(pc_sensor);
         m_cTurretWrapper.m_pcTurretSensor->Init(t_node);
     }
-    if (str_name == "epuck_proximity") {
+    // E-Puck sensors.
+    else if (str_name == "epuck_proximity") {
         m_cEPuckProximitySensorWrapper.m_pcEPuckProximity =
             dynamic_cast<CCI_EPuckProximitySensor*>(pc_sensor);
         m_cEPuckProximitySensorWrapper.m_pcEPuckProximity->Init(t_node);
-    }
-    if (str_name == "epuck_ground") {
+    } else if (str_name == "epuck_ground") {
         m_cEPuckGroundSensorWrapper.m_pcEPuckGround =
             dynamic_cast<CCI_EPuckGroundSensor*>(pc_sensor);
         m_cEPuckGroundSensorWrapper.m_pcEPuckGround->Init(t_node);
-    }
-    if (str_name == "epuck_range_and_bearing") {
+    } else if (str_name == "epuck_range_and_bearing") {
         m_cEPuckRangeAndBearingWrapper.m_pcEPuckRABS = (CCI_EPuckRangeAndBearingSensor*)pc_sensor;
         // m_cRangeAndBearingWrapper.m_pcRABA->Init(t_node);
     }
@@ -168,20 +149,20 @@ void ActusensorsWrapper::CByteArraySetItem(argos::CByteArray& c_vec, const UInt3
 UInt8 ActusensorsWrapper::CByteArrayGetItem(const argos::CByteArray& c_vec, const UInt32 un_index) {
     if (un_index >= 0 && un_index < c_vec.Size()) {
         return c_vec[un_index];
-    } else {
-        PyErr_SetString(PyExc_IndexError, "index out of range");
-        boost::python::throw_error_already_set();
     }
+    PyErr_SetString(PyExc_IndexError, "index out of range");
+    boost::python::throw_error_already_set();
+    return {};
 }
 
 Real ActusensorsWrapper::EPuckGroundReadingsGetItem(
     const argos::CCI_EPuckGroundSensor::SReadings& c_readings, const UInt32 un_index) {
     if (un_index >= 0 && un_index < 3) {
         return c_readings[un_index];
-    } else {
-        PyErr_SetString(PyExc_IndexError, "index out of range");
-        boost::python::throw_error_already_set();
     }
+    PyErr_SetString(PyExc_IndexError, "index out of range");
+    boost::python::throw_error_already_set();
+    return {};
 }
 
 /****************************************/
