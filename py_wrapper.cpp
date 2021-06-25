@@ -14,7 +14,7 @@ ActusensorsWrapper::ActusensorsWrapper() {}
 /****************************************/
 /****************************************/
 
-void ActusensorsWrapper::Logprint(const std::string str_message) {
+void ActusensorsWrapper::Logprint(const std::string& str_message) {
     std::cout << str_message << std::endl;
 }
 
@@ -31,7 +31,7 @@ void ActusensorsWrapper::Logprint(const std::string str_message) {
 void ActusensorsWrapper::CreateActu(const std::string str_name, CCI_Actuator* pc_actu,
                                     TConfigurationNode& t_node) {
     if (str_name == "differential_steering") {
-        m_cWheelsWrapper.m_pcWheels = (CCI_DifferentialSteeringActuator*)pc_actu;
+        m_cWheelsWrapper.m_pcWheels = dynamic_cast<CCI_DifferentialSteeringActuator*>(pc_actu);
         m_cWheelsWrapper.m_pcWheels->Init(t_node);
     } else if (str_name == "footbot_gripper") {
         m_cGripperWrapper.m_pcGripper = dynamic_cast<CCI_FootBotGripperActuator*>(pc_actu);
@@ -53,8 +53,6 @@ void ActusensorsWrapper::CreateActu(const std::string str_name, CCI_Actuator* pc
 
     // E-Puck actuators.
     else if (str_name == "epuck_wheels") {
-        /* m_cWheelsWrapper.m_pcWheels = dynamic_cast<CCI_EPuckWheelsActuator *>(pc_actu); */
-        /* m_cWheelsWrapper.m_pcWheels->Init(t_node); */
         m_cEPuckWheelsWrapper.m_pcEPuckWheels = dynamic_cast<CCI_EPuckWheelsActuator*>(pc_actu);
         m_cEPuckWheelsWrapper.m_pcEPuckWheels->Init(t_node);
     } else if (str_name == "epuck_range_and_bearing") {

@@ -23,7 +23,6 @@ namespace argos {
 
 /****************************************/
 /****************************************/
-// TODO: add m_pc_..._bool error checkin
 // Wrapper for the Differential Steering Actuator.
 class CEPuckWheelsWrapper {
   public:

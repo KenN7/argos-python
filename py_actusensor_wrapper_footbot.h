@@ -27,6 +27,7 @@
 #include <string>
 
 namespace argos {
+
 // Wrapper for the Gripper Actuator
 class CGripperWrapper {
   public:

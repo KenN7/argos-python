@@ -46,7 +46,6 @@ void CPyController::Reset() {
     }
 }
 
-// TODO: PASS TNODE
 void CPyController::InitSensorsActuators(TConfigurationNode& t_node) {
     for (CCI_Actuator::TMap::iterator it = m_mapActuators.begin(); it != m_mapActuators.end();
          ++it) {
