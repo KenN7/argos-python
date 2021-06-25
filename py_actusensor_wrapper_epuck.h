@@ -32,7 +32,6 @@ class CEPuckWheelsWrapper
     CEPuckWheelsWrapper();
     ~CEPuckWheelsWrapper(){};
     argos::CCI_EPuckWheelsActuator *m_pcEPuckWheels;
-    bool m_bEPuckWheels;
     // Set the speed of the two wheels.
     void SetSpeed(const Real f_left_wheel_speed, const Real f_right_wheel_speed);
 };
@@ -46,8 +45,6 @@ class CEPuckProximitySensorWrapper
     CEPuckProximitySensorWrapper();
     ~CEPuckProximitySensorWrapper(){};
     argos::CCI_EPuckProximitySensor *m_pcEPuckProximity;
-    bool m_bEPuckProximity;
-
     // Obtain the proximity readings at this control step.
     // The readings are exposed as a python list.
     // Each reading is exposed as a "proximity_reading", from which it is possible to obtain value and angle.
@@ -64,7 +61,6 @@ class CEPuckGroundSensorWrapper
     CEPuckGroundSensorWrapper();
     ~CEPuckGroundSensorWrapper(){};
     argos::CCI_EPuckGroundSensor *m_pcEPuckGround;
-    bool m_bEPuckGround;
 
     argos::CCI_EPuckGroundSensor::SReadings GetReadings() const;
 };
@@ -81,8 +77,6 @@ class CEPuckRangeAndBearingWrapper
 
     argos::CCI_EPuckRangeAndBearingActuator *m_pcEPuckRABA;
     argos::CCI_EPuckRangeAndBearingSensor *m_pcEPuckRABS;
-    bool m_bEPuckRABA;
-    bool m_bEPuckRABS;
     // Erase the readings.
     void ClearPackets();
     // Send a buffer to all the emitters.
@@ -104,7 +98,6 @@ class CEPuckLedsActuatorWrapper
     ~CEPuckLedsActuatorWrapper(){};
 
     argos::CCI_EPuckRGBLEDsActuator *m_pcEPuckLeds;
-    bool m_bEPuckLeds;
 
     // Set the color of a given led, given its name.
     void SetSingleColorString(const UInt8 un_led_id, const std::string str_color_name);

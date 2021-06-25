@@ -35,7 +35,6 @@ class CGripperWrapper
     CGripperWrapper();
     ~CGripperWrapper(){};
     argos::CCI_FootBotGripperActuator *m_pcGripper;
-    bool m_bGripper;
 
     void Lock();
 
@@ -49,7 +48,6 @@ class CFootBotProximitySensorWrapper
     CFootBotProximitySensorWrapper();
     ~CFootBotProximitySensorWrapper(){};
     argos::CCI_FootBotProximitySensor *m_pcProximity;
-    bool m_bProximity;
 
     // Obtain the proximity readings at this control step.
     // The readings are exposed as a python list.
@@ -65,7 +63,6 @@ class CGroundSensorWrapper
     CGroundSensorWrapper();
     ~CGroundSensorWrapper(){};
     argos::CCI_FootBotMotorGroundSensor *m_pcGround;
-    bool m_bGround;
 
     boost::python::list GetReadings() const;
 };
@@ -81,7 +78,6 @@ class CBaseGroundSensorWrapper
     CBaseGroundSensorWrapper();
     ~CBaseGroundSensorWrapper(){};
     argos::CCI_FootBotBaseGroundSensor *m_pcBaseGround;
-    bool m_bBaseGround;
 
     boost::python::list GetReadings() const;
 };
@@ -96,7 +92,6 @@ class CLightSensorWrapper
     CLightSensorWrapper();
     ~CLightSensorWrapper(){};
     argos::CCI_FootBotLightSensor *m_pcLight;
-    bool m_bLight;
 
     boost::python::list GetReadings() const;
 };
@@ -110,8 +105,6 @@ class CDistanceScannerWrapper
     ~CDistanceScannerWrapper(){};
     argos::CCI_FootBotDistanceScannerActuator *m_pcScannerActuator;
     argos::CCI_FootBotDistanceScannerSensor *m_pcScannerSensor;
-    bool m_bScannerActuator;
-    bool m_bScannerSensor;
 
     void Enable();
 
@@ -139,8 +132,6 @@ class CTurretWrapper
     ~CTurretWrapper(){};
     CCI_FootBotTurretEncoderSensor *m_pcTurretSensor;
     CCI_FootBotTurretActuator *m_pcTurretActuator;
-    bool m_bTurretSensor;
-    bool m_bTurretActuator;
 
     CRadians GetRotation() const;
 

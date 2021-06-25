@@ -27,7 +27,6 @@ namespace argos
 // Each wrapper is then exported in python as a property of the "robot" class,
 // and the functions of each wrapper can be used from python as methods or class properties
 
-// TODO: add m_pc_..._bool error checkin
 // Wrapper for the Differential Steering Actuator.
 class CWheelsWrapper
 {
@@ -35,7 +34,6 @@ class CWheelsWrapper
     CWheelsWrapper();
     ~CWheelsWrapper(){};
     argos::CCI_DifferentialSteeringActuator *m_pcWheels;
-    bool m_bWheels;
     // Set the speed of the two wheels.
     void SetSpeed(const Real f_left_wheel_speed, const Real f_right_wheel_speed);
 };
@@ -51,7 +49,6 @@ class COmnidirectionalCameraWrapper
     COmnidirectionalCameraWrapper();
     ~COmnidirectionalCameraWrapper(){};
     argos::CCI_ColoredBlobOmnidirectionalCameraSensor *m_pcOmniCam;
-    bool m_bOmniCam;
     // Get the readings from the camera, obtained at this control step.
     // Each reading is exposed as a "omnidirectional_camera_packet",
     // from which it is possible to obtain distance, angle and color of each reading.
@@ -79,8 +76,6 @@ class CRangeAndBearingWrapper
 
     argos::CCI_RangeAndBearingActuator *m_pcRABA;
     argos::CCI_RangeAndBearingSensor *m_pcRABS;
-    bool m_bRABA;
-    bool m_bRABS;
     // Erase the readings.
     void ClearData();
     // Set the i-th bit of the data table.
@@ -103,7 +98,6 @@ class CLedsActuatorWrapper
     ~CLedsActuatorWrapper(){};
 
     argos::CCI_LEDsActuator *m_pcLeds;
-    bool m_bLeds;
 
     // Set the color of a given led, given its name.
     void SetSingleColorString(const UInt8 un_led_id, const std::string str_color_name);
