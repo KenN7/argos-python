@@ -55,11 +55,15 @@ void CPyController::InitSensorsActuators(TConfigurationNode& t_node) {
     for (CCI_Sensor::TMap::iterator it = m_mapSensors.begin(); it != m_mapSensors.end(); ++it) {
         m_actusensors->CreateSensor(it->first, it->second, t_node);
     }
+
+    m_actusensors->SetId(GetId());
+
 }
 
 void CPyController::Init(TConfigurationNode& t_node) {
     // get instances of actuators and sensors and pass them to the wrapper
     m_actusensors = boost::make_shared<ActusensorsWrapper>();
+
     InitSensorsActuators(t_node);
     // printf("%s\n", this);
 

@@ -33,6 +33,16 @@ class CEPuckWheelsWrapper {
     void SetSpeed(const Real f_left_wheel_speed, const Real f_right_wheel_speed);
 };
 
+// Wrapper for the Differential Steering Actuator.
+class CIdWrapper {
+  public:
+    CIdWrapper();
+    ~CIdWrapper(){};
+    void SetId(const std::string id);
+    const std::string GetId();
+    std::string m_cId;
+};
+
 /****************************************/
 /****************************************/
 // Wrapper for the Proximity Sensor.

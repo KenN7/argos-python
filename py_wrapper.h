@@ -32,6 +32,8 @@ class ActusensorsWrapper {
 
     static void Logprint(const std::string& str_message);
 
+    void SetId(const std::string id);
+
     // Sensors
     void CreateSensor(const std::string str_name, CCI_Sensor* pc_sensor,
                       TConfigurationNode& t_node);
@@ -57,6 +59,7 @@ class ActusensorsWrapper {
 
     // Generic actusensors
     CWheelsWrapper m_cWheelsWrapper;
+    CIdWrapper m_cIdWrapper;
 
     COmnidirectionalCameraWrapper m_cOmnidirectionalCameraWrapper;
     CLedsActuatorWrapper m_cLedsWrapper;

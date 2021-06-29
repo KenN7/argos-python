@@ -14,16 +14,21 @@ link_directories(${PYTHON_LIBRARIES})
 # add_definitions(${LUA_CONST})
 
 # find_package(Boost 1.61.0 COMPONENTS python3)
-find_package(Boost COMPONENTS python3)
+find_package(Boost COMPONENTS python38)
 
 
 include_directories (${Boost_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIR})
 
 find_package(PkgConfig)
-pkg_check_modules(ARGOS REQUIRED argos3_simulator)
+find_package(ARGoS REQUIRED)
+
+
 set(ARGOS_PREFIX ${ARGOS_PREFIX} CACHE INTERNAL "")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ARGOS_PREFIX}/share/argos3/cmake)
+
+link_directories(${ARGOS_LIBRARY_DIR})
+link_libraries(${ARGOS_LDFLAGS})
 
 # Set ARGoS include dir
 include_directories(${CMAKE_SOURCE_DIR} ${ARGOS_INCLUDE_DIRS} ${GSL_INCLUDE_DIR} ${LUA_INCLUDE_DIR})

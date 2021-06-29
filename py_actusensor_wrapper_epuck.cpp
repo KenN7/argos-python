@@ -20,6 +20,18 @@ void CEPuckWheelsWrapper::SetSpeed(const Real f_left_wheel_speed, const Real f_r
 /****************************************/
 /****************************************/
 
+CIdWrapper::CIdWrapper() {}
+
+const std::string CIdWrapper::GetId() {
+    return m_cId;
+}
+
+void CIdWrapper::SetId(const std::string id) {
+    m_cId = id;
+}
+
+
+
 CEPuckProximitySensorWrapper::CEPuckProximitySensorWrapper() {}
 
 boost::python::list CEPuckProximitySensorWrapper::GetReadings() const {
@@ -66,12 +78,12 @@ void CEPuckRangeAndBearingWrapper::SetData(const boost::python::list un_data) {
         return;
     }
     /* std::cout << "rab da:" << un_data << std::endl; */
-    /* const UInt8 unData[argos::CCI_EPuckRangeAndBearingActuator::MAX_BYTES_SENT] = */
-    /*     {boost::python::extract<UInt8>(boost::python::object(un_data[0])), */
-    /*      boost::python::extract<UInt8>(boost::python::object(un_data[1])), */
-    /*      boost::python::extract<UInt8>(boost::python::object(un_data[2])), */
-    /*      boost::python::extract<UInt8>(boost::python::object(un_data[3]))}; */
-    const UInt8 unData[3] = {0, 0, 0};
+    const UInt8 unData[argos::CCI_EPuckRangeAndBearingActuator::MAX_BYTES_SENT] =
+         {boost::python::extract<UInt8>(boost::python::object(un_data[0])),
+          boost::python::extract<UInt8>(boost::python::object(un_data[1])),
+          boost::python::extract<UInt8>(boost::python::object(un_data[2])),
+          boost::python::extract<UInt8>(boost::python::object(un_data[3]))};
+    //const UInt8 unData[3] = {0, 0, 0};
     std::cout << m_pcEPuckRABA << "raba" << std::endl;
     m_pcEPuckRABA->SetData(unData);
 }
@@ -84,7 +96,25 @@ boost::python::list CEPuckRangeAndBearingWrapper::GetPackets() const {
         ActusensorsWrapper::Logprint("RABS not implemented or not stated in XML config.");
         return {};
     }
-    return ActusensorsWrapper::ToPythonList(m_pcEPuckRABS->GetPackets());
+
+
+    boost::python::list outerList;
+
+    for (size_t i = 0; i < m_pcEPuckRABS->GetPackets().size(); ++i) {
+        boost::python::list innerList;    
+
+        for (size_t j = 0; j < sizeof(m_pcEPuckRABS->GetPackets()[i]->Data)/sizeof(*m_pcEPuckRABS->GetPackets()[i]->Data); ++j) {
+            innerList.append((int) m_pcEPuckRABS->GetPackets()[i]->Data[j]);
+        }
+    // Extract range: m_pcEPuckRABS->GetPackets()[i]->Range
+    innerList.append(m_pcEPuckRABS->GetPackets()[i]->Range);
+    //innerList.append(m_pcEPuckRABS->GetPackets()[i]->Bearing);
+    //innerList.append(m_pcEPuckRABS->GetPackets()[i]->VerticalBearing);
+
+    outerList.append(innerList);
+    }
+
+    return outerList;
 }
 
 /****************************************/

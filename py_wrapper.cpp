@@ -14,6 +14,13 @@ ActusensorsWrapper::ActusensorsWrapper() {}
 /****************************************/
 /****************************************/
 
+
+void ActusensorsWrapper::SetId(const std::string id) {
+    m_cIdWrapper.m_cId = id;
+}
+
+
+
 void ActusensorsWrapper::Logprint(const std::string& str_message) {
     std::cout << str_message << std::endl;
 }
@@ -173,6 +180,7 @@ BOOST_PYTHON_MODULE(libpy_controller_interface) {
                                                                                           no_init)
         .def("logprint", &ActusensorsWrapper::Logprint)
         .staticmethod("logprint")
+        .add_property("id", &ActusensorsWrapper::m_cIdWrapper)
         .add_property("wheels", &ActusensorsWrapper::m_cWheelsWrapper)
         .add_property("colored_blob_omnidirectional_camera",
                       &ActusensorsWrapper::m_cOmnidirectionalCameraWrapper)
@@ -195,6 +203,11 @@ BOOST_PYTHON_MODULE(libpy_controller_interface) {
     // Export "WheelsWrapper", wrapper of CCI_DifferentialSteeringActuator.
     class_<CWheelsWrapper, boost::noncopyable>("wheels_wrapper", no_init)
         .def("set_speed", &CWheelsWrapper::SetSpeed);
+
+    // Export "GetIdWrapper", wrapper of CCI_DifferentialSteeringActuator.
+    class_<CIdWrapper, boost::noncopyable>("id_wrapper", no_init)
+        .def("set_id", &CIdWrapper::SetId)
+        .def("get_id", &CIdWrapper::GetId);        
 
     // Export "EPuckWheelsWrapper", wrapper of CCI_EPuckWheelsActuator.
     class_<CEPuckWheelsWrapper, boost::noncopyable>("epuck_wheels_wrapper", no_init)
