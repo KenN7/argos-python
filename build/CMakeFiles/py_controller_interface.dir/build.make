@@ -163,17 +163,6 @@ libpy_controller_interface.so: /usr/lib/x86_64-linux-gnu/libGLU.so
 libpy_controller_interface.so: /usr/lib/x86_64-linux-gnu/libglut.so
 libpy_controller_interface.so: /usr/lib/x86_64-linux-gnu/libXmu.so
 libpy_controller_interface.so: /usr/lib/x86_64-linux-gnu/libXi.so
-libpy_controller_interface.so: /usr/lib/x86_64-linux-gnu/liblua5.3.so
-libpy_controller_interface.so: /usr/lib/x86_64-linux-gnu/libm.so
-libpy_controller_interface.so: /usr/lib/x86_64-linux-gnu/libdl.so
-libpy_controller_interface.so: /usr/lib/x86_64-linux-gnu/libpthread.so
-libpy_controller_interface.so: /usr/lib/x86_64-linux-gnu/libfreeimage.so
-libpy_controller_interface.so: /usr/lib/x86_64-linux-gnu/libfreeimageplus.so
-libpy_controller_interface.so: /usr/lib/x86_64-linux-gnu/libGL.so
-libpy_controller_interface.so: /usr/lib/x86_64-linux-gnu/libGLU.so
-libpy_controller_interface.so: /usr/lib/x86_64-linux-gnu/libglut.so
-libpy_controller_interface.so: /usr/lib/x86_64-linux-gnu/libXmu.so
-libpy_controller_interface.so: /usr/lib/x86_64-linux-gnu/libXi.so
 libpy_controller_interface.so: /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5.12.8
 libpy_controller_interface.so: /usr/lib/x86_64-linux-gnu/libQt5Gui.so.5.12.8
 libpy_controller_interface.so: /usr/lib/x86_64-linux-gnu/liblua5.3.so

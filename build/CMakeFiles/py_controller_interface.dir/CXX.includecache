@@ -6,6 +6,14 @@
 
 #IncludeRegexTransform: 
 
+/home/eksander/geth-argos/argos-python/build/py_controller_interface_autogen/mocs_compilation.cpp
+
+/home/eksander/geth-argos/argos-python/py_actusensor_wrapper_epuck.cpp
+py_actusensor_wrapper_epuck.h
+/home/eksander/geth-argos/argos-python/py_actusensor_wrapper_epuck.h
+py_wrapper.h
+/home/eksander/geth-argos/argos-python/py_wrapper.h
+
 /home/eksander/geth-argos/argos-python/py_actusensor_wrapper_epuck.h
 boost/python.hpp
 -
@@ -33,6 +41,12 @@ iostream
 -
 string
 -
+
+/home/eksander/geth-argos/argos-python/py_actusensor_wrapper_footbot.cpp
+py_actusensor_wrapper_footbot.h
+/home/eksander/geth-argos/argos-python/py_actusensor_wrapper_footbot.h
+py_wrapper.h
+/home/eksander/geth-argos/argos-python/py_wrapper.h
 
 /home/eksander/geth-argos/argos-python/py_actusensor_wrapper_footbot.h
 boost/python.hpp
@@ -70,6 +84,12 @@ iostream
 string
 -
 
+/home/eksander/geth-argos/argos-python/py_actusensor_wrapper_generic.cpp
+py_actusensor_wrapper_generic.h
+/home/eksander/geth-argos/argos-python/py_actusensor_wrapper_generic.h
+py_wrapper.h
+/home/eksander/geth-argos/argos-python/py_wrapper.h
+
 /home/eksander/geth-argos/argos-python/py_actusensor_wrapper_generic.h
 boost/python.hpp
 -
@@ -94,6 +114,16 @@ argos3/core/utility/math/general.h
 iostream
 -
 string
+-
+
+/home/eksander/geth-argos/argos-python/py_controller.cpp
+py_controller.h
+/home/eksander/geth-argos/argos-python/py_controller.h
+
+/home/eksander/geth-argos/argos-python/py_controller.h
+py_wrapper.h
+/home/eksander/geth-argos/argos-python/py_wrapper.h
+boost/make_shared.hpp
 -
 
 /home/eksander/geth-argos/argos-python/py_wrapper.cpp

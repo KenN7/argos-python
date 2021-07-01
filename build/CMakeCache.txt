@@ -28,7 +28,7 @@ ARGOS_FORCE_NO_QTOPENGL:BOOL=OFF
 ARGOS_INCLUDE_DIRS:STRING=/usr/local/include;/usr/include;/usr/include/Headers;/usr/include/x86_64-linux-gnu/qt5/;/usr/include/x86_64-linux-gnu/qt5/QtWidgets;/usr/include/x86_64-linux-gnu/qt5/QtGui;/usr/include/x86_64-linux-gnu/qt5/QtCore;/usr/lib/x86_64-linux-gnu/qt5//mkspecs/linux-g++;/usr/include/lua5.3
 
 //The linker flags to compile ARGoS code
-ARGOS_LDFLAGS:STRING=/usr/lib/x86_64-linux-gnu/libdl.so;/usr/lib/x86_64-linux-gnu/libpthread.so;/usr/lib/x86_64-linux-gnu/libfreeimage.so;/usr/lib/x86_64-linux-gnu/libfreeimageplus.so;/usr/lib/x86_64-linux-gnu/libGL.so;/usr/lib/x86_64-linux-gnu/libGLU.so;/usr/lib/x86_64-linux-gnu/libglut.so;/usr/lib/x86_64-linux-gnu/libXmu.so;/usr/lib/x86_64-linux-gnu/libXi.so;Qt5::Widgets;Qt5::Gui;/usr/lib/x86_64-linux-gnu/liblua5.3.so;/usr/lib/x86_64-linux-gnu/libm.so;/usr/lib/x86_64-linux-gnu/libdl.so;/usr/lib/x86_64-linux-gnu/libpthread.so;/usr/lib/x86_64-linux-gnu/libfreeimage.so;/usr/lib/x86_64-linux-gnu/libfreeimageplus.so;/usr/lib/x86_64-linux-gnu/libGL.so;/usr/lib/x86_64-linux-gnu/libGLU.so;/usr/lib/x86_64-linux-gnu/libglut.so;/usr/lib/x86_64-linux-gnu/libXmu.so;/usr/lib/x86_64-linux-gnu/libXi.so;Qt5::Widgets;Qt5::Gui;/usr/lib/x86_64-linux-gnu/liblua5.3.so;/usr/lib/x86_64-linux-gnu/libm.so
+ARGOS_LDFLAGS:STRING=/usr/lib/x86_64-linux-gnu/libdl.so;/usr/lib/x86_64-linux-gnu/libpthread.so;/usr/lib/x86_64-linux-gnu/libfreeimage.so;/usr/lib/x86_64-linux-gnu/libfreeimageplus.so;/usr/lib/x86_64-linux-gnu/libGL.so;/usr/lib/x86_64-linux-gnu/libGLU.so;/usr/lib/x86_64-linux-gnu/libglut.so;/usr/lib/x86_64-linux-gnu/libXmu.so;/usr/lib/x86_64-linux-gnu/libXi.so;Qt5::Widgets;Qt5::Gui;/usr/lib/x86_64-linux-gnu/liblua5.3.so;/usr/lib/x86_64-linux-gnu/libm.so
 
 //Path to a library.
 ARGOS_LIBRARY:FILEPATH=/usr/local/lib/argos3/libargos3core_simulator.so
@@ -332,14 +332,11 @@ Qt6_DIR:PATH=Qt6_DIR-NOTFOUND
 //The directory containing a CMake configuration file for boost_headers.
 boost_headers_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.71.0
 
-//The directory containing a CMake configuration file for boost_python3.
-boost_python3_DIR:PATH=boost_python3_DIR-NOTFOUND
-
 //The directory containing a CMake configuration file for boost_python.
 boost_python_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/boost_python-1.71.0
 
 //Dependencies for the target
-py_controller_interface_LIB_DEPENDS:STATIC=general;/usr/lib/x86_64-linux-gnu/libdl.so;general;/usr/lib/x86_64-linux-gnu/libpthread.so;general;/usr/lib/x86_64-linux-gnu/libfreeimage.so;general;/usr/lib/x86_64-linux-gnu/libfreeimageplus.so;general;/usr/lib/x86_64-linux-gnu/libGL.so;general;/usr/lib/x86_64-linux-gnu/libGLU.so;general;/usr/lib/x86_64-linux-gnu/libglut.so;general;/usr/lib/x86_64-linux-gnu/libXmu.so;general;/usr/lib/x86_64-linux-gnu/libXi.so;general;Qt5::Widgets;general;Qt5::Gui;general;/usr/lib/x86_64-linux-gnu/liblua5.3.so;general;/usr/lib/x86_64-linux-gnu/libm.so;general;/usr/lib/x86_64-linux-gnu/libdl.so;general;/usr/lib/x86_64-linux-gnu/libpthread.so;general;/usr/lib/x86_64-linux-gnu/libfreeimage.so;general;/usr/lib/x86_64-linux-gnu/libfreeimageplus.so;general;/usr/lib/x86_64-linux-gnu/libGL.so;general;/usr/lib/x86_64-linux-gnu/libGLU.so;general;/usr/lib/x86_64-linux-gnu/libglut.so;general;/usr/lib/x86_64-linux-gnu/libXmu.so;general;/usr/lib/x86_64-linux-gnu/libXi.so;general;Qt5::Widgets;general;Qt5::Gui;general;/usr/lib/x86_64-linux-gnu/liblua5.3.so;general;/usr/lib/x86_64-linux-gnu/libm.so;general;argos3core_simulator;general;argos3plugin_simulator_footbot;general;argos3plugin_simulator_genericrobot;general;/usr/lib/x86_64-linux-gnu/libpython3.8.so;general;Boost::python;
+py_controller_interface_LIB_DEPENDS:STATIC=general;/usr/lib/x86_64-linux-gnu/libdl.so;general;/usr/lib/x86_64-linux-gnu/libpthread.so;general;/usr/lib/x86_64-linux-gnu/libfreeimage.so;general;/usr/lib/x86_64-linux-gnu/libfreeimageplus.so;general;/usr/lib/x86_64-linux-gnu/libGL.so;general;/usr/lib/x86_64-linux-gnu/libGLU.so;general;/usr/lib/x86_64-linux-gnu/libglut.so;general;/usr/lib/x86_64-linux-gnu/libXmu.so;general;/usr/lib/x86_64-linux-gnu/libXi.so;general;Qt5::Widgets;general;Qt5::Gui;general;/usr/lib/x86_64-linux-gnu/liblua5.3.so;general;/usr/lib/x86_64-linux-gnu/libm.so;general;argos3core_simulator;general;argos3plugin_simulator_footbot;general;argos3plugin_simulator_genericrobot;general;/usr/lib/x86_64-linux-gnu/libpython3.8.so;general;Boost::python;
 
 //Value Computed by CMake
 pythonwrapper_BINARY_DIR:STATIC=/home/eksander/geth-argos/argos-python/build
@@ -352,17 +349,6 @@ pythonwrapper_SOURCE_DIR:STATIC=/home/eksander/geth-argos/argos-python
 # INTERNAL cache entries
 ########################
 
-ARGOS_CFLAGS:INTERNAL=
-ARGOS_CFLAGS_I:INTERNAL=
-ARGOS_CFLAGS_OTHER:INTERNAL=
-ARGOS_FOUND:INTERNAL=
-ARGOS_INCLUDEDIR:INTERNAL=
-ARGOS_LIBDIR:INTERNAL=
-ARGOS_LIBS:INTERNAL=
-ARGOS_LIBS_L:INTERNAL=
-ARGOS_LIBS_OTHER:INTERNAL=
-ARGOS_LIBS_PATHS:INTERNAL=
-ARGOS_MODULE_NAME:INTERNAL=
 ARGOS_PREFIX:INTERNAL=
 //ADVANCED property for variable: ARGOS_QTOPENGL_FOUND
 ARGOS_QTOPENGL_FOUND-ADVANCED:INTERNAL=1
@@ -370,19 +356,6 @@ ARGOS_QTOPENGL_FOUND-ADVANCED:INTERNAL=1
 ARGOS_QTOPENGL_INCLUDE_DIRS-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: ARGOS_QTOPENGL_LIBRARIES
 ARGOS_QTOPENGL_LIBRARIES-ADVANCED:INTERNAL=1
-ARGOS_STATIC_CFLAGS:INTERNAL=
-ARGOS_STATIC_CFLAGS_I:INTERNAL=
-ARGOS_STATIC_CFLAGS_OTHER:INTERNAL=
-ARGOS_STATIC_LIBDIR:INTERNAL=
-ARGOS_STATIC_LIBS:INTERNAL=
-ARGOS_STATIC_LIBS_L:INTERNAL=
-ARGOS_STATIC_LIBS_OTHER:INTERNAL=
-ARGOS_STATIC_LIBS_PATHS:INTERNAL=
-ARGOS_VERSION:INTERNAL=
-ARGOS_argos3_simulator_INCLUDEDIR:INTERNAL=
-ARGOS_argos3_simulator_LIBDIR:INTERNAL=
-ARGOS_argos3_simulator_PREFIX:INTERNAL=
-ARGOS_argos3_simulator_VERSION:INTERNAL=
 //ADVANCED property for variable: Boost_DIR
 Boost_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_ADDR2LINE
