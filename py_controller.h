@@ -50,6 +50,8 @@ class CPyController : public CCI_Controller {
      */
     virtual void Destroy();
 
+    virtual boost::shared_ptr<ActusensorsWrapper> getActusensors();
+
     void InitSensorsActuators(TConfigurationNode& t_node);
 
   private:

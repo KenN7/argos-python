@@ -16,9 +16,16 @@ ActusensorsWrapper::ActusensorsWrapper() {}
 
 
 void ActusensorsWrapper::SetId(const std::string id) {
-    m_cIdWrapper.m_cId = id;
+    m_cVariableWrapper.m_cId = id;
 }
 
+bool ActusensorsWrapper::GetConsensus() {
+    return m_cVariableWrapper.m_cConsensus;
+}
+
+//void ActusensorsWrapper::SetId(const std::string id) {
+//    m_cVariableWrapper.m_cId = id;
+//}
 
 
 void ActusensorsWrapper::Logprint(const std::string& str_message) {
@@ -130,6 +137,10 @@ ActusensorsWrapper::CColorWrapper::CColorWrapper(const std::string str_color_nam
         m_cColor = argos::CColor::RED;
     else if (str_color_name == "black")
         m_cColor = argos::CColor::BLACK;
+    else if (str_color_name == "blue")
+        m_cColor = argos::CColor::BLUE;
+    else if (str_color_name == "green")
+        m_cColor = argos::CColor::GREEN;
     // TODO: more colors
 }
 // Create a color by providing its RGB values.
@@ -180,7 +191,7 @@ BOOST_PYTHON_MODULE(libpy_controller_interface) {
                                                                                           no_init)
         .def("logprint", &ActusensorsWrapper::Logprint)
         .staticmethod("logprint")
-        .add_property("id", &ActusensorsWrapper::m_cIdWrapper)
+        .add_property("variables", &ActusensorsWrapper::m_cVariableWrapper)
         .add_property("wheels", &ActusensorsWrapper::m_cWheelsWrapper)
         .add_property("colored_blob_omnidirectional_camera",
                       &ActusensorsWrapper::m_cOmnidirectionalCameraWrapper)
@@ -204,11 +215,16 @@ BOOST_PYTHON_MODULE(libpy_controller_interface) {
     class_<CWheelsWrapper, boost::noncopyable>("wheels_wrapper", no_init)
         .def("set_speed", &CWheelsWrapper::SetSpeed);
 
-    // Export "GetIdWrapper", wrapper of CCI_DifferentialSteeringActuator.
-    class_<CIdWrapper, boost::noncopyable>("id_wrapper", no_init)
-        .def("set_id", &CIdWrapper::SetId)
-        .def("get_id", &CIdWrapper::GetId);        
+    // Export "VariableWrapper" that contains a robot's variables
+    class_<CVariableWrapper, boost::noncopyable>("variable_wrapper", no_init)
+        .def("set_id", &CVariableWrapper::SetId)
+        .def("get_id", &CVariableWrapper::GetId)
+        .def("set_consensus", &CVariableWrapper::SetConsensus)
+        .def("get_consensus", &CVariableWrapper::GetConsensus)    
+        .def("set_byzantine_style", &CVariableWrapper::SetByzantineStyle)
+        .def("get_byzantine_style", &CVariableWrapper::GetByzantineStyle);    
 
+   
     // Export "EPuckWheelsWrapper", wrapper of CCI_EPuckWheelsActuator.
     class_<CEPuckWheelsWrapper, boost::noncopyable>("epuck_wheels_wrapper", no_init)
         .def("set_speed", &CEPuckWheelsWrapper::SetSpeed);

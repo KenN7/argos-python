@@ -39,25 +39,38 @@ link_directories(${ARGOS_LIBRARY_DIRS})
 include_directories(${CMAKE_SOURCE_DIR}/controllers)
 
 set(PYCONTROLLER_HEADERS
-    py_controller.h 
-    py_wrapper.h
-    py_actusensor_wrapper_generic.h
-    py_actusensor_wrapper_footbot.h
-    py_actusensor_wrapper_epuck.h
-    )
+  py_controller.h
+  py_wrapper.h
+  py_actusensor_wrapper_generic.h
+  py_actusensor_wrapper_footbot.h
+  py_actusensor_wrapper_epuck.h
+  )
 
 set(PYCONTROLLER_SOURCES
-    py_controller.cpp 
-    py_wrapper.cpp
-    py_actusensor_wrapper_generic.cpp
-    py_actusensor_wrapper_footbot.cpp
-    py_actusensor_wrapper_epuck.cpp
-    )
+  py_controller.cpp
+  py_wrapper.cpp
+  py_actusensor_wrapper_generic.cpp
+  py_actusensor_wrapper_footbot.cpp
+  py_actusensor_wrapper_epuck.cpp
+  )
+
+set(PYLOOPFUNCTION_HEADERS
+  py_loop_function.h 
+  )
+
+set(PYLOOPFUNCTION_SOURCES
+  py_loop_function.cpp
+  )
+
 
 add_library (
     py_controller_interface SHARED ${PYCONTROLLER_HEADERS} ${PYCONTROLLER_SOURCES})
 
-target_link_libraries (py_controller_interface
+add_library (
+    py_loop_function_interface SHARED ${PYLOOPFUNCTION_HEADERS} ${PYLOOPFUNCTION_SOURCES})
+  
+  target_link_libraries (py_controller_interface
+    py_loop_function_interface
     argos3core_simulator
     argos3plugin_simulator_footbot
     argos3plugin_simulator_genericrobot

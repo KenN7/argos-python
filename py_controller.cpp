@@ -9,15 +9,15 @@
 using namespace argos;
 using namespace boost::python;
 
-#define INIT_MODULE PyInit_libpy_controller_interface
-extern "C" PyObject* INIT_MODULE();
+#define INIT_MODULE_CONTROLLER PyInit_libpy_controller_interface
+extern "C" PyObject* INIT_MODULE_CONTROLLER();
 
 CPyController::CPyController() {
     // init python
-    PyImport_AppendInittab("libpy_controller_interface", INIT_MODULE);
-    if (!Py_IsInitialized()) {
-        Py_Initialize();
-    }
+    PyImport_AppendInittab("libpy_controller_interface", INIT_MODULE_CONTROLLER);
+    //if (!Py_IsInitialized()) {
+    Py_Initialize();
+    //}
     m_interpreter = Py_NewInterpreter();
     // init main module and namespace
     m_main = import("__main__");
@@ -48,19 +48,21 @@ void CPyController::Reset() {
 
 void CPyController::InitSensorsActuators(TConfigurationNode& t_node) {
     for (CCI_Actuator::TMap::iterator it = m_mapActuators.begin(); it != m_mapActuators.end();
-         ++it) {
+       ++it) {
         m_actusensors->CreateActu(it->first, it->second, t_node); // this);
-    }
+}
 
-    for (CCI_Sensor::TMap::iterator it = m_mapSensors.begin(); it != m_mapSensors.end(); ++it) {
-        m_actusensors->CreateSensor(it->first, it->second, t_node);
-    }
+for (CCI_Sensor::TMap::iterator it = m_mapSensors.begin(); it != m_mapSensors.end(); ++it) {
+    m_actusensors->CreateSensor(it->first, it->second, t_node);
+}
 
-    m_actusensors->SetId(GetId());
+m_actusensors->SetId(GetId());
 
 }
 
 void CPyController::Init(TConfigurationNode& t_node) {
+
+
     // get instances of actuators and sensors and pass them to the wrapper
     m_actusensors = boost::make_shared<ActusensorsWrapper>();
 
@@ -72,34 +74,37 @@ void CPyController::Init(TConfigurationNode& t_node) {
     GetNodeAttributeOrDefault(t_node, "script", strScriptFileName, strScriptFileName);
     if (strScriptFileName == "") {
         THROW_ARGOSEXCEPTION("Error loading python script \"" << strScriptFileName << "\""
-                                                              << std::endl);
+          << std::endl);
     }
     // exec user script
     try {
         m_script = exec_file(strScriptFileName.c_str(), m_namesp, m_namesp);
 
-        std::cout << "strScript:" << strScriptFileName << std::endl;
+        std::cout << "Controller strScript:" << strScriptFileName << std::endl;
         std::cout << GetId().c_str() << std::endl;
     } catch (error_already_set) {
-        PyErr_Print();
-    }
+      std::cout << "ERROR: Could not execute user script" << std::endl;
+      PyErr_Print();
+  }
 
-    try {
+  try {
         // import the wrappers's lib
-        PyRun_SimpleString("import libpy_controller_interface as lib");
-        object lib = import("libpy_controller_interface");
-        m_namesp["robot"] = m_actusensors;
+    PyRun_SimpleString("import libpy_controller_interface as lib");
+    object lib = import("libpy_controller_interface");
+    m_namesp["robot"] = m_actusensors;
         // m_namesp["robot"] = ptr(m_actusensors);
 
         // launch python init function
-        object init_f = m_main.attr("init");
-        init_f();
-    } catch (error_already_set) {
-        PyErr_Print();
-    }
+    object init_f = m_main.attr("init");
+    init_f();
+
+} catch (error_already_set) {
+    PyErr_Print();
+}
 }
 
 void CPyController::ControlStep() {
+
     // here the sensors should be updated every step
 
     // launch controlstep python function*
@@ -109,6 +114,12 @@ void CPyController::ControlStep() {
     } catch (error_already_set) {
         PyErr_Print();
     }
+}
+
+
+boost::shared_ptr<ActusensorsWrapper>  CPyController::getActusensors() {
+
+    return m_actusensors;
 }
 
 REGISTER_CONTROLLER(CPyController, "python_controller");

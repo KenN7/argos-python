@@ -20,15 +20,34 @@ void CEPuckWheelsWrapper::SetSpeed(const Real f_left_wheel_speed, const Real f_r
 /****************************************/
 /****************************************/
 
-CIdWrapper::CIdWrapper() {}
+CVariableWrapper::CVariableWrapper() {}
 
-const std::string CIdWrapper::GetId() {
-    return m_cId;
+const std::string CVariableWrapper::GetId() {
+  return m_cId;
 }
 
-void CIdWrapper::SetId(const std::string id) {
-    m_cId = id;
+void CVariableWrapper::SetId(const std::string id) {
+  m_cId = id;
 }
+
+const bool CVariableWrapper::GetConsensus() {
+  return m_cConsensus;
+}
+
+void CVariableWrapper::SetConsensus(const bool consensus) {
+  m_cConsensus = consensus;
+
+}
+
+const int CVariableWrapper::GetByzantineStyle() {
+  return m_cByzantineStyle;
+}
+
+void CVariableWrapper::SetByzantineStyle(const int byzantineStyle) {
+  m_cByzantineStyle = byzantineStyle;
+
+}
+
 
 
 

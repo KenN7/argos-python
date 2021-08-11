@@ -33,16 +33,28 @@ class CEPuckWheelsWrapper {
     void SetSpeed(const Real f_left_wheel_speed, const Real f_right_wheel_speed);
 };
 
-// Wrapper for the Differential Steering Actuator.
-class CIdWrapper {
+// Wrapper for getting the values of a robot's variables
+class CVariableWrapper {
   public:
-    CIdWrapper();
-    ~CIdWrapper(){};
-    void SetId(const std::string id);
-    const std::string GetId();
-    std::string m_cId;
+    CVariableWrapper();
+    ~CVariableWrapper(){};
+
+  void SetId(const std::string id);
+  const std::string GetId();
+  std::string m_cId;
+
+  void SetConsensus(const bool consensus);
+  const bool GetConsensus();
+  bool m_cConsensus;
+
+  void SetByzantineStyle(const int byzantineStyle);
+  const int GetByzantineStyle();
+  int m_cByzantineStyle = 0;
+
 };
 
+
+  
 /****************************************/
 /****************************************/
 // Wrapper for the Proximity Sensor.
