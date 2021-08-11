@@ -28,3 +28,6 @@ build/
 *.exe
 *.out
 *.app
+
+# Emacs / Sublime temp files
+*~

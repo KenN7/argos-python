@@ -1,0 +1,41 @@
+#ifndef PY_LOOP_FUNCTION_H
+#define PY_LOOP_FUNCTION_H
+
+#include <argos3/plugins/robots/e-puck/simulator/epuck_entity.h>
+#include <py_controller.h>
+#include <boost/python.hpp>
+#include <argos3/core/simulator/loop_functions.h>
+#include <boost/make_shared.hpp>
+
+using namespace argos;
+
+class CPyLoopFunction : public CLoopFunctions {
+
+ public:
+  CPyLoopFunction();
+  virtual ~CPyLoopFunction(){};
+  
+  virtual void Init(TConfigurationNode& t_node);
+
+  virtual void Reset();
+
+  virtual void Destroy ();
+
+  virtual void PreStep();
+
+  virtual void PostStep();
+
+  virtual bool IsExperimentFinished();
+
+  virtual void PostExperiment();
+
+ private:
+  
+    boost::python::object m_loop_main;
+    boost::python::object m_loop_namesp;
+    boost::python::object m_loop_script;
+    PyThreadState* m_loop_interpreter;
+  
+};
+
+#endif
