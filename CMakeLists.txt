@@ -38,6 +38,8 @@ link_directories(${ARGOS_LIBRARY_DIRS})
 
 include_directories(${CMAKE_SOURCE_DIR}/controllers)
 
+add_subdirectory(loop_functions)
+
 set(PYCONTROLLER_HEADERS
   py_controller.h
   py_wrapper.h

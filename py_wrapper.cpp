@@ -141,7 +141,8 @@ ActusensorsWrapper::CColorWrapper::CColorWrapper(const std::string str_color_nam
         m_cColor = argos::CColor::BLUE;
     else if (str_color_name == "green")
         m_cColor = argos::CColor::GREEN;
-    // TODO: more colors
+    else if (str_color_name == "white")
+        m_cColor = argos::CColor::WHITE;
 }
 // Create a color by providing its RGB values.
 ActusensorsWrapper::CColorWrapper::CColorWrapper(const UInt8 un_red, const UInt8 un_green,
