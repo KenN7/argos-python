@@ -15,9 +15,9 @@ extern "C" PyObject* INIT_MODULE_CONTROLLER();
 CPyController::CPyController() {
     // init python
     PyImport_AppendInittab("libpy_controller_interface", INIT_MODULE_CONTROLLER);
-    //if (!Py_IsInitialized()) {
+    
     Py_Initialize();
-    //}
+
     m_interpreter = Py_NewInterpreter();
     // init main module and namespace
     m_main = import("__main__");
@@ -48,7 +48,7 @@ void CPyController::Reset() {
 
 void CPyController::InitSensorsActuators(TConfigurationNode& t_node) {
     for (CCI_Actuator::TMap::iterator it = m_mapActuators.begin(); it != m_mapActuators.end();
-       ++it) {
+     ++it) {
         m_actusensors->CreateActu(it->first, it->second, t_node); // this);
 }
 
@@ -62,6 +62,8 @@ m_actusensors->SetId(GetId());
 
 void CPyController::Init(TConfigurationNode& t_node) {
 
+    robotId = stoi(GetId().substr(2));
+    timeStep = 0;
 
     // get instances of actuators and sensors and pass them to the wrapper
     m_actusensors = boost::make_shared<ActusensorsWrapper>();
@@ -72,6 +74,7 @@ void CPyController::Init(TConfigurationNode& t_node) {
     /* Load script */
     std::string strScriptFileName;
     GetNodeAttributeOrDefault(t_node, "script", strScriptFileName, strScriptFileName);
+    GetNodeAttributeOrDefault(t_node, "timeRate", timeRate, timeRate);
     if (strScriptFileName == "") {
         THROW_ARGOSEXCEPTION("Error loading python script \"" << strScriptFileName << "\""
           << std::endl);
@@ -105,14 +108,20 @@ void CPyController::Init(TConfigurationNode& t_node) {
 
 void CPyController::ControlStep() {
 
-    // here the sensors should be updated every step
+    timeStep++;
 
     // launch controlstep python function*
-    try {
+
+    if ((robotId + timeStep) % timeRate == 0) {
+
+        try {
+
         object controlstep = m_main.attr("controlstep");
         controlstep();
-    } catch (error_already_set) {
-        PyErr_Print();
+
+        } catch (error_already_set) {
+            PyErr_Print();
+        }
     }
 }
 

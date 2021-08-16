@@ -59,11 +59,21 @@ class CPyController : public CCI_Controller {
     boost::python::object m_namesp;
     boost::python::object m_script;
     PyThreadState* m_interpreter;
+    // Get the default thread state  
+    //PyThreadState* state;
+    PyInterpreterState* interpreterState;
+
 
     boost::shared_ptr<ActusensorsWrapper> m_actusensors;
 
     int m_state;
     int m_id;
+
+    int timeStep;
+    int timeRate;
+
+    int robotId;
+
 };
 
 } // namespace argos
