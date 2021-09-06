@@ -223,7 +223,9 @@ BOOST_PYTHON_MODULE(libpy_controller_interface) {
         .def("set_consensus", &CVariableWrapper::SetConsensus)
         .def("get_consensus", &CVariableWrapper::GetConsensus)    
         .def("set_byzantine_style", &CVariableWrapper::SetByzantineStyle)
-        .def("get_byzantine_style", &CVariableWrapper::GetByzantineStyle);    
+        .def("get_byzantine_style", &CVariableWrapper::GetByzantineStyle)
+        .def("set_attribute", &CVariableWrapper::SetAttribute)
+        .def("get_attribute", &CVariableWrapper::GetAttribute);    
 
    
     // Export "EPuckWheelsWrapper", wrapper of CCI_EPuckWheelsActuator.

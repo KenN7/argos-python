@@ -18,6 +18,7 @@
 
 #include <iostream>
 #include <string>
+#include <map>
 
 namespace argos {
 
@@ -50,6 +51,10 @@ class CVariableWrapper {
   void SetByzantineStyle(const int byzantineStyle);
   const int GetByzantineStyle();
   int m_cByzantineStyle = 0;
+
+  void SetAttribute(const std::string& key, const std::string& value);
+  const std::string GetAttribute(const std::string& key);
+  std::map<std::string, std::string> m_cAttributes;
 
 };
 

@@ -49,7 +49,14 @@ void CVariableWrapper::SetByzantineStyle(const int byzantineStyle) {
 }
 
 
+const std::string CVariableWrapper::GetAttribute(const std::string& key) {
+  return m_cAttributes[key];
+}
 
+void CVariableWrapper::SetAttribute(const std::string& key, const std::string& value) {
+  m_cAttributes[key] = value;
+
+}
 
 CEPuckProximitySensorWrapper::CEPuckProximitySensorWrapper() {}
 
