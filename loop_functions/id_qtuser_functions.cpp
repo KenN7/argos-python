@@ -28,7 +28,17 @@ void CIDQTUserFunctions::Draw(CEPuckEntity& c_entity) {
    DrawText(CVector3(0.0, 0.0, 0.12),   // position
             std::to_string(stoi(c_entity.GetId().substr(2)) + 1),
             CColor::RED); // text
+
+   DrawCylinder(
+   CVector3(0.0f, 0.0f, 0.15f), 
+   CQuaternion(),
+   0.04f,
+   0.02f,
+   CColor::BLUE);
 }
+
+
+
 
 /****************************************/
 /****************************************/

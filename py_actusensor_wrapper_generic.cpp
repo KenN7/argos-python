@@ -20,6 +20,39 @@ void CWheelsWrapper::SetSpeed(const Real f_left_wheel_speed, const Real f_right_
 /****************************************/
 /****************************************/
 
+CPositioningSensorWrapper::CPositioningSensorWrapper() {}
+
+boost::python::list CPositioningSensorWrapper::GetPosition() const {
+    if (m_pcPositioning == nullptr) {
+        ActusensorsWrapper::Logprint("Positioning Sensor not implemented or not stated in XML config.");
+        return {};
+    }
+
+    // Probably there is an better way to convert CVector3 to boost::python::list
+    boost::python::list position;
+    position.append((float) m_pcPositioning->GetReading().Position[0]);
+    position.append((float) m_pcPositioning->GetReading().Position[1]);
+    position.append((float) m_pcPositioning->GetReading().Position[2]);
+
+    return position;
+}
+
+Real CPositioningSensorWrapper::GetOrientation() const {
+    if (m_pcPositioning == nullptr) {
+        ActusensorsWrapper::Logprint("Positioning Sensor not implemented or not stated in XML config.");
+        return {};
+    }
+
+    // Currently only returns rotation along Z and ignores other axis
+    CRadians cZAngle, cYAngle, cXAngle; 
+    m_pcPositioning->GetReading().Orientation.ToEulerAngles(cZAngle, cYAngle, cXAngle);
+
+    return cZAngle.GetValue();
+}
+
+/****************************************/
+/****************************************/
+
 COmnidirectionalCameraWrapper::COmnidirectionalCameraWrapper() {}
 
 boost::python::list COmnidirectionalCameraWrapper::GetReadings() const {

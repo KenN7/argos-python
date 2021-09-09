@@ -62,6 +62,9 @@ class ActusensorsWrapper {
     // Generic actusensors
     CWheelsWrapper m_cWheelsWrapper;
     CVariableWrapper m_cVariableWrapper;
+    CPositioningSensorWrapper m_cPositioningWrapper;
+    
+    CLoopFunctionsWrapper m_cCLoopFunctionsWrapper;
 
     COmnidirectionalCameraWrapper m_cOmnidirectionalCameraWrapper;
     CLedsActuatorWrapper m_cLedsWrapper;

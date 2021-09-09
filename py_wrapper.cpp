@@ -95,6 +95,8 @@ void ActusensorsWrapper::CreateSensor(const std::string str_name, CCI_Sensor* pc
     } else if (str_name == "range_and_bearing") {
         m_cRangeAndBearingWrapper.m_pcRABS = (CCI_RangeAndBearingSensor*)pc_sensor;
         // m_cRangeAndBearingWrapper.m_pcRABS->Init(t_node);
+    } else if (str_name == "positioning") {
+        m_cPositioningWrapper.m_pcPositioning = (CCI_PositioningSensor*)pc_sensor;
     } else if (str_name == "footbot_motor_ground") {
         m_cGroundSensorWrapper.m_pcGround = (CCI_FootBotMotorGroundSensor*)pc_sensor;
         m_cGroundSensorWrapper.m_pcGround->Init(t_node);
@@ -193,10 +195,12 @@ BOOST_PYTHON_MODULE(libpy_controller_interface) {
         .def("logprint", &ActusensorsWrapper::Logprint)
         .staticmethod("logprint")
         .add_property("variables", &ActusensorsWrapper::m_cVariableWrapper)
+        .add_property("qt_draw", &ActusensorsWrapper::m_cCLoopFunctionsWrapper)
         .add_property("wheels", &ActusensorsWrapper::m_cWheelsWrapper)
         .add_property("colored_blob_omnidirectional_camera",
                       &ActusensorsWrapper::m_cOmnidirectionalCameraWrapper)
         .add_property("proximity", &ActusensorsWrapper::m_cProximitySensorWrapper)
+        .add_property("position", &ActusensorsWrapper::m_cPositioningWrapper)
         .add_property("leds", &ActusensorsWrapper::m_cLedsWrapper)
         .add_property("range_and_bearing", &ActusensorsWrapper::m_cRangeAndBearingWrapper)
         .add_property("motor_ground", &ActusensorsWrapper::m_cGroundSensorWrapper)
@@ -212,10 +216,6 @@ BOOST_PYTHON_MODULE(libpy_controller_interface) {
                       &ActusensorsWrapper::m_cEPuckRangeAndBearingWrapper)
         .add_property("epuck_leds", &ActusensorsWrapper::m_cEPuckLedsWrapper);
 
-    // Export "WheelsWrapper", wrapper of CCI_DifferentialSteeringActuator.
-    class_<CWheelsWrapper, boost::noncopyable>("wheels_wrapper", no_init)
-        .def("set_speed", &CWheelsWrapper::SetSpeed);
-
     // Export "VariableWrapper" that contains a robot's variables
     class_<CVariableWrapper, boost::noncopyable>("variable_wrapper", no_init)
         .def("set_id", &CVariableWrapper::SetId)
@@ -225,9 +225,18 @@ BOOST_PYTHON_MODULE(libpy_controller_interface) {
         .def("set_byzantine_style", &CVariableWrapper::SetByzantineStyle)
         .def("get_byzantine_style", &CVariableWrapper::GetByzantineStyle)
         .def("set_attribute", &CVariableWrapper::SetAttribute)
-        .def("get_attribute", &CVariableWrapper::GetAttribute);    
+        .def("get_attribute", &CVariableWrapper::GetAttribute);   
 
-   
+    // Export "LoopFunctionsWrapper" that contains loop functions
+    class_<CLoopFunctionsWrapper, boost::noncopyable>("loop_functions_wrapper", no_init)
+        .def("draw_circle", &CLoopFunctionsWrapper::DrawCircle);   
+
+
+    // Export "WheelsWrapper", wrapper of CCI_DifferentialSteeringActuator.
+    class_<CWheelsWrapper, boost::noncopyable>("wheels_wrapper", no_init)
+        .def("set_speed", &CWheelsWrapper::SetSpeed);
+
+ 
     // Export "EPuckWheelsWrapper", wrapper of CCI_EPuckWheelsActuator.
     class_<CEPuckWheelsWrapper, boost::noncopyable>("epuck_wheels_wrapper", no_init)
         .def("set_speed", &CEPuckWheelsWrapper::SetSpeed);
@@ -245,6 +254,12 @@ BOOST_PYTHON_MODULE(libpy_controller_interface) {
         .def("disable", &COmnidirectionalCameraWrapper::Disable)
         .def("get_readings", &COmnidirectionalCameraWrapper::GetReadings)
         .def("get_counter", &COmnidirectionalCameraWrapper::GetCounter);
+
+ // Export "FootBotProximitySensorWrapper", wrapper of CCI_FootBotProximitySensor.
+    class_<CPositioningSensorWrapper, boost::noncopyable>("positioning_wrapper",
+                                                               no_init)
+        .def("get_position", &CPositioningSensorWrapper::GetPosition)
+        .def("get_orientation", &CPositioningSensorWrapper::GetOrientation);
 
     // Export "FootBotProximitySensorWrapper", wrapper of CCI_FootBotProximitySensor.
     class_<CFootBotProximitySensorWrapper, boost::noncopyable>("footbot_proximity_sensor_wrapper",

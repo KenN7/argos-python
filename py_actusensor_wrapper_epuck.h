@@ -16,6 +16,8 @@
 #include <argos3/core/utility/logging/argos_log.h>
 #include <argos3/core/utility/math/general.h>
 
+#include <argos3/plugins/simulator/visualizations/qt-opengl/qtopengl_user_functions.h>
+
 #include <iostream>
 #include <string>
 #include <map>
@@ -52,13 +54,24 @@ class CVariableWrapper {
   const int GetByzantineStyle();
   int m_cByzantineStyle = 0;
 
-  void SetAttribute(const std::string& key, const std::string& value);
+  void SetAttribute(const std::string& key, const std::string& valu);
   const std::string GetAttribute(const std::string& key);
   std::map<std::string, std::string> m_cAttributes;
 
 };
 
 
+// Wrapper for loop functions
+class CLoopFunctionsWrapper {
+  public:
+    CLoopFunctionsWrapper();
+    ~CLoopFunctionsWrapper(){};
+    argos::CQTOpenGLUserFunctions* m_pcCLoopFunctions;
+
+ void DrawCircle(const boost::python::list c_position_list, const boost::python::list c_orientation_list, const Real f_radius);
+};
+
+// virtual void CQTOpenGLUserFunctions::DrawInWorld();
   
 /****************************************/
 /****************************************/

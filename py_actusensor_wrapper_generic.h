@@ -13,6 +13,8 @@
 #include <argos3/plugins/robots/generic/control_interface/ci_range_and_bearing_actuator.h>
 /* Definition of the range and bearing sensor */
 #include <argos3/plugins/robots/generic/control_interface/ci_range_and_bearing_sensor.h>
+/* Definition of the positioning sensor */
+#include <argos3/plugins/robots/generic/control_interface/ci_positioning_sensor.h>
 
 #include <argos3/core/utility/logging/argos_log.h>
 #include <argos3/core/utility/math/general.h>
@@ -34,6 +36,20 @@ class CWheelsWrapper {
     argos::CCI_DifferentialSteeringActuator* m_pcWheels;
     // Set the speed of the two wheels.
     void SetSpeed(const Real f_left_wheel_speed, const Real f_right_wheel_speed);
+};
+
+/****************************************/
+/****************************************/
+
+class CPositioningSensorWrapper {
+  public:
+        CPositioningSensorWrapper();
+    ~CPositioningSensorWrapper(){};
+    argos::CCI_PositioningSensor* m_pcPositioning;
+
+boost::python::list GetPosition() const;
+Real GetOrientation() const;
+
 };
 
 /****************************************/
