@@ -26,15 +26,6 @@ namespace argos {
 
 /****************************************/
 /****************************************/
-// Wrapper for the Differential Steering Actuator.
-class CEPuckWheelsWrapper {
-  public:
-    CEPuckWheelsWrapper();
-    ~CEPuckWheelsWrapper(){};
-    argos::CCI_EPuckWheelsActuator* m_pcEPuckWheels;
-    // Set the speed of the two wheels.
-    void SetSpeed(const Real f_left_wheel_speed, const Real f_right_wheel_speed);
-};
 
 // Wrapper for getting the values of a robot's variables
 class CVariableWrapper {
@@ -60,6 +51,8 @@ class CVariableWrapper {
 
 };
 
+/****************************************/
+/****************************************/
 
 // Wrapper for loop functions
 class CLoopFunctionsWrapper {
@@ -72,9 +65,23 @@ class CLoopFunctionsWrapper {
 };
 
 // virtual void CQTOpenGLUserFunctions::DrawInWorld();
-  
+
 /****************************************/
 /****************************************/
+
+// Wrapper for the Differential Steering Actuator.
+class CEPuckWheelsWrapper {
+  public:
+    CEPuckWheelsWrapper();
+    ~CEPuckWheelsWrapper(){};
+    argos::CCI_EPuckWheelsActuator* m_pcEPuckWheels;
+    // Set the speed of the two wheels.
+    void SetSpeed(const Real f_left_wheel_speed, const Real f_right_wheel_speed);
+};
+
+/****************************************/
+/****************************************/
+
 // Wrapper for the Proximity Sensor.
 class CEPuckProximitySensorWrapper {
   public:

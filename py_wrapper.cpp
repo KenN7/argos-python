@@ -95,6 +95,8 @@ void ActusensorsWrapper::CreateSensor(const std::string str_name, CCI_Sensor* pc
     } else if (str_name == "range_and_bearing") {
         m_cRangeAndBearingWrapper.m_pcRABS = (CCI_RangeAndBearingSensor*)pc_sensor;
         // m_cRangeAndBearingWrapper.m_pcRABS->Init(t_node);
+    } else if (str_name == "differential_steering") {
+        m_cDifferentialSteeringSensor.m_pcDifferentialSteeringSensor = (CCI_DifferentialSteeringSensor*)pc_sensor;
     } else if (str_name == "positioning") {
         m_cPositioningWrapper.m_pcPositioning = (CCI_PositioningSensor*)pc_sensor;
     } else if (str_name == "footbot_motor_ground") {
@@ -197,6 +199,7 @@ BOOST_PYTHON_MODULE(libpy_controller_interface) {
         .add_property("variables", &ActusensorsWrapper::m_cVariableWrapper)
         .add_property("qt_draw", &ActusensorsWrapper::m_cCLoopFunctionsWrapper)
         .add_property("wheels", &ActusensorsWrapper::m_cWheelsWrapper)
+        .add_property("differential_steering", &ActusensorsWrapper::m_cDifferentialSteeringSensor)
         .add_property("colored_blob_omnidirectional_camera",
                       &ActusensorsWrapper::m_cOmnidirectionalCameraWrapper)
         .add_property("proximity", &ActusensorsWrapper::m_cProximitySensorWrapper)
@@ -236,6 +239,9 @@ BOOST_PYTHON_MODULE(libpy_controller_interface) {
     class_<CWheelsWrapper, boost::noncopyable>("wheels_wrapper", no_init)
         .def("set_speed", &CWheelsWrapper::SetSpeed);
 
+    // Export "DifferentialSteeringSensorWrapper", wrapper of CCI_DifferentialSteeringSensor.
+    class_<CDifferentialSteeringSensorWrapper, boost::noncopyable>("differential_steering_sensor_wrapper", no_init)
+        .def("get_readings", &CDifferentialSteeringSensorWrapper::GetReading);
  
     // Export "EPuckWheelsWrapper", wrapper of CCI_EPuckWheelsActuator.
     class_<CEPuckWheelsWrapper, boost::noncopyable>("epuck_wheels_wrapper", no_init)

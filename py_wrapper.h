@@ -61,9 +61,11 @@ class ActusensorsWrapper {
 
     // Generic actusensors
     CWheelsWrapper m_cWheelsWrapper;
+    CDifferentialSteeringSensorWrapper m_cDifferentialSteeringSensor;
     CVariableWrapper m_cVariableWrapper;
     CPositioningSensorWrapper m_cPositioningWrapper;
-    
+
+
     CLoopFunctionsWrapper m_cCLoopFunctionsWrapper;
 
     COmnidirectionalCameraWrapper m_cOmnidirectionalCameraWrapper;

@@ -20,6 +20,30 @@ void CWheelsWrapper::SetSpeed(const Real f_left_wheel_speed, const Real f_right_
 /****************************************/
 /****************************************/
 
+CDifferentialSteeringSensorWrapper::CDifferentialSteeringSensorWrapper() {}
+
+boost::python::list CDifferentialSteeringSensorWrapper::GetReading() const {
+    if (m_pcDifferentialSteeringSensor == nullptr) {
+        ActusensorsWrapper::Logprint(
+            "Differential Steering Sensor not implemented or not stated in XML config.");
+        return {};
+    }
+    // Probably there is an better way to convert SReadings to boost::python::list
+    boost::python::list readings;
+    readings.append((Real) m_pcDifferentialSteeringSensor->GetReading().CoveredDistanceLeftWheel);
+    readings.append((Real) m_pcDifferentialSteeringSensor->GetReading().CoveredDistanceRightWheel);
+    readings.append((Real) m_pcDifferentialSteeringSensor->GetReading().VelocityLeftWheel);
+    readings.append((Real) m_pcDifferentialSteeringSensor->GetReading().VelocityRightWheel);
+    readings.append((Real) m_pcDifferentialSteeringSensor->GetReading().WheelAxisLength);
+
+    return readings;
+
+}
+
+
+/****************************************/
+/****************************************/
+
 CPositioningSensorWrapper::CPositioningSensorWrapper() {}
 
 boost::python::list CPositioningSensorWrapper::GetPosition() const {

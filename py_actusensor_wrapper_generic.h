@@ -6,15 +6,22 @@
 
 #include <argos3/core/control_interface/ci_controller.h>
 
-#include <argos3/plugins/robots/generic/control_interface/ci_colored_blob_omnidirectional_camera_sensor.h>
+/* Definition of the differential steering actuator */
 #include <argos3/plugins/robots/generic/control_interface/ci_differential_steering_actuator.h>
+/* Definition of the leds actuator */
 #include <argos3/plugins/robots/generic/control_interface/ci_leds_actuator.h>
 /* Definition of the range and bearing actuator */
 #include <argos3/plugins/robots/generic/control_interface/ci_range_and_bearing_actuator.h>
+
+
+/* Definition of the differential steering sensor */
+#include <argos3/plugins/robots/generic/control_interface/ci_differential_steering_sensor.h>
 /* Definition of the range and bearing sensor */
 #include <argos3/plugins/robots/generic/control_interface/ci_range_and_bearing_sensor.h>
 /* Definition of the positioning sensor */
 #include <argos3/plugins/robots/generic/control_interface/ci_positioning_sensor.h>
+/* Definition of the omni camera sensor */
+#include <argos3/plugins/robots/generic/control_interface/ci_colored_blob_omnidirectional_camera_sensor.h>
 
 #include <argos3/core/utility/logging/argos_log.h>
 #include <argos3/core/utility/math/general.h>
@@ -36,6 +43,16 @@ class CWheelsWrapper {
     argos::CCI_DifferentialSteeringActuator* m_pcWheels;
     // Set the speed of the two wheels.
     void SetSpeed(const Real f_left_wheel_speed, const Real f_right_wheel_speed);
+};
+
+// Wrapper for the Differential Steering Sensor.
+class CDifferentialSteeringSensorWrapper {
+  public:
+    CDifferentialSteeringSensorWrapper();
+    ~CDifferentialSteeringSensorWrapper(){};
+    argos::CCI_DifferentialSteeringSensor* m_pcDifferentialSteeringSensor;
+    // Set the speed of the two wheels.
+    boost::python::list GetReading() const;
 };
 
 /****************************************/
