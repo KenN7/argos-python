@@ -65,14 +65,26 @@ set(PYLOOPFUNCTION_SOURCES
   )
 
 
+set(PYQTUSERFUNCTION_HEADERS
+  py_qtuser_function.h 
+  )
+
+set(PYQTUSERFUNCTION_SOURCES
+  py_qtuser_function.cpp
+  )
+
 add_library (
     py_controller_interface SHARED ${PYCONTROLLER_HEADERS} ${PYCONTROLLER_SOURCES})
 
 add_library (
     py_loop_function_interface SHARED ${PYLOOPFUNCTION_HEADERS} ${PYLOOPFUNCTION_SOURCES})
-  
+ 
+add_library (
+    py_qtuser_function_interface SHARED ${PYQTUSERFUNCTION_HEADERS} ${PYQTUSERFUNCTION_SOURCES})
+
   target_link_libraries (py_controller_interface
     py_loop_function_interface
+    py_qtuser_function_interface
     argos3core_simulator
     argos3plugin_simulator_footbot
     argos3plugin_simulator_genericrobot

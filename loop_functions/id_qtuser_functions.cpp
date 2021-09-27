@@ -7,13 +7,13 @@
 /****************************************/
 
 CIDQTUserFunctions::CIDQTUserFunctions() {
-   RegisterUserFunction<CIDQTUserFunctions,CEPuckEntity>(&CIDQTUserFunctions::Draw);
+   // RegisterUserFunction<CIDQTUserFunctions,CEPuckEntity>(&CIDQTUserFunctions::DrawInWorld);
 }
 
 /****************************************/
 /****************************************/
 
-void CIDQTUserFunctions::Draw(CEPuckEntity& c_entity) {
+void CIDQTUserFunctions::DrawInWorld() {
    /* The position of the text is expressed wrt the reference point of the footbot
     * For a foot-bot, the reference point is the center of its base.
     * See also the description in
@@ -25,16 +25,15 @@ void CIDQTUserFunctions::Draw(CEPuckEntity& c_entity) {
    //   CQuaternion(),
    //   0.1);
 
-   DrawText(CVector3(0.0, 0.0, 0.12),   // position
-            std::to_string(stoi(c_entity.GetId().substr(2)) + 1),
-            CColor::RED); // text
+   // DrawText(CVector3(0.0, 0.0, 0.12),   // position
+   //          std::to_string(stoi(c_entity.GetId().substr(2)) + 1),
+   //          CColor::RED); // text
 
-   // DrawCylinder(
-   // CVector3(0.0f, 0.0f, 0.15f), 
-   // CQuaternion(),
-   // 0.04f,
-   // 0.02f,
-   // CColor::BLUE);
+   DrawCircle(
+   CVector3(0.0f, 0.0f, 0.01f), 
+   CQuaternion(),
+   0.4,
+   CColor::RED);
 }
 
 

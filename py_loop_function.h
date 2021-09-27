@@ -27,6 +27,8 @@ class CPyLoopFunction : public CLoopFunctions {
 
   virtual bool IsExperimentFinished();
 
+  virtual CColor GetFloorColor();
+
   virtual void PostExperiment();
 
  private:

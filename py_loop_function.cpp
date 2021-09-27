@@ -144,6 +144,21 @@ bool CPyLoopFunction::IsExperimentFinished() {
 
 }
 
+CColor CPyLoopFunction::GetFloorColor() {
+
+// Launch Python is_experiment_finished function
+  try {
+    object get_floor_color_f = m_loop_main.attr("get_floor_color");
+
+    std::cout << "Testing GetFloorColor" << std::endl;
+    return CColor::WHITE;
+  } catch (error_already_set) {
+    PyErr_Print();
+    return CColor::WHITE;
+  }
+
+}
+
 void CPyLoopFunction::PostExperiment() {
   // Launch Python post_experiment function
   try {

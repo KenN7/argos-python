@@ -15,6 +15,7 @@ public:
    virtual ~CIDQTUserFunctions() {}
 
    void Draw(CEPuckEntity& c_entity);
+   void DrawInWorld();
    
 };
 
