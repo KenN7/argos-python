@@ -6,6 +6,23 @@ using namespace argos;
 /****************************************/
 /****************************************/
 
+CQTOpenGLUserFunctionsWrapper::CQTOpenGLUserFunctionsWrapper() {}
+
+// Add bool fill, color, number of vertices inputs
+// const boost::python::list c_position_list, const boost::python::list c_orientation_list, const Real f_radius
+void CQTOpenGLUserFunctionsWrapper::DrawCircle(const boost::python::list c_position_list, const boost::python::list c_orientation_list, const Real f_radius, const std::string str_color_name) {
+     m_pcCQTOpenGLUserFunctions->DrawCircle(CVector3(
+        boost::python::extract<Real>(boost::python::object(c_position_list[0])), 
+        boost::python::extract<Real>(boost::python::object(c_position_list[1])), 
+        boost::python::extract<Real>(boost::python::object(c_position_list[2]))),
+        CQuaternion(), 
+        f_radius, 
+        ActusensorsWrapper::CColorWrapper(str_color_name).m_cColor);
+}
+
+/****************************************/
+/****************************************/
+
 CWheelsWrapper::CWheelsWrapper() {}
 
 void CWheelsWrapper::SetSpeed(const Real f_left_wheel_speed, const Real f_right_wheel_speed) {

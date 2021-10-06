@@ -11,13 +11,23 @@ extern "C" PyObject* INIT_MODULE_LOOP_FUNCTION();
 #define INIT_MODULE_CONTROLLER PyInit_libpy_controller_interface
 extern "C" PyObject* INIT_MODULE_CONTROLLER();
 
+// TODO: I had to add these lines and the line PyImport_AppendInittab("libpy_qtuser_function_interface", INIT_MODULE_QTUSER_FUNCTION)
+// in this file, otherwise I god an error that libpy_qtuser_function_interface is not a built-in module
+#define INIT_MODULE_QTUSER_FUNCTION PyInit_libpy_qtuser_function_interface
+extern "C" PyObject* INIT_MODULE_QTUSER_FUNCTION();
+
 BOOST_PYTHON_MODULE(libpy_loop_function_interface) {
 
 }
 
 CPyLoopFunction::CPyLoopFunction() {
-    // init python
-  PyImport_AppendInittab("libpy_controller_interface", INIT_MODULE_CONTROLLER); // TODO: Remove from loop function and only call in controller
+  // init python
+
+  // TODO: Remove from loop function and only call in controller
+  // PyImport_AppendInittab("libpy_qtuser_function_interface", INIT_MODULE_QTUSER_FUNCTION); 
+  PyImport_AppendInittab("libpy_controller_interface", INIT_MODULE_CONTROLLER); 
+  // TODO: Remove from loop function and only call in controller
+
   PyImport_AppendInittab("libpy_loop_function_interface", INIT_MODULE_LOOP_FUNCTION);
   if (!Py_IsInitialized()) {
     Py_Initialize();
@@ -68,10 +78,12 @@ void CPyLoopFunction::Init(TConfigurationNode& t_node) {
     CPyController& cController =  dynamic_cast<CPyController&>(cEpuck.GetControllableEntity().GetController());
 
     allRobots.append(cController.getActusensors());
+    m_environment = boost::make_shared<ActusensorsWrapper>();
 
   }
 
   m_loop_namesp["allrobots"]  = allRobots;
+  m_loop_namesp["environment"]  = m_environment;
   //m_loop_namesp["params"]  = tParams;
   
   try {

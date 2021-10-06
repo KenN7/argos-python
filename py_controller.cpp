@@ -95,7 +95,6 @@ void CPyController::Init(TConfigurationNode& t_node) {
     PyRun_SimpleString("import libpy_controller_interface as lib");
     object lib = import("libpy_controller_interface");
     m_namesp["robot"] = m_actusensors;
-        // m_namesp["robot"] = ptr(m_actusensors);
 
         // launch python init function
     object init_f = m_main.attr("init");

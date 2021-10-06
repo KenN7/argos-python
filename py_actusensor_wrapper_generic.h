@@ -23,6 +23,8 @@
 /* Definition of the omni camera sensor */
 #include <argos3/plugins/robots/generic/control_interface/ci_colored_blob_omnidirectional_camera_sensor.h>
 
+#include <argos3/plugins/simulator/visualizations/qt-opengl/qtopengl_user_functions.h>
+
 #include <argos3/core/utility/logging/argos_log.h>
 #include <argos3/core/utility/math/general.h>
 
@@ -34,6 +36,18 @@ namespace argos {
 // actuator or sensor, and a series of functions to interact with it. Each wrapper is then exported
 // in python as a property of the "robot" class, and the functions of each wrapper can be used from
 // python as methods or class properties
+
+// Wrapper for loop functions
+class CQTOpenGLUserFunctionsWrapper {
+  public:
+    CQTOpenGLUserFunctionsWrapper();
+    ~CQTOpenGLUserFunctionsWrapper(){};
+
+    argos::CQTOpenGLUserFunctions* m_pcCQTOpenGLUserFunctions;
+
+//const boost::python::list c_position_list, const boost::python::list c_orientation_list, const Real f_radius
+    void DrawCircle(const boost::python::list c_position_list, const boost::python::list c_orientation_list, const Real f_radius, const std::string str_color_name);
+};
 
 // Wrapper for the Differential Steering Actuator.
 class CWheelsWrapper {

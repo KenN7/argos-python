@@ -54,17 +54,17 @@ class CVariableWrapper {
 /****************************************/
 /****************************************/
 
-// Wrapper for loop functions
-class CLoopFunctionsWrapper {
-  public:
-    CLoopFunctionsWrapper();
-    ~CLoopFunctionsWrapper(){};
-    argos::CQTOpenGLUserFunctions* m_pcCLoopFunctions;
+// // Wrapper for loop functions
+// class CLoopFunctionsWrapper {
+//   public:
+//     CLoopFunctionsWrapper();
+//     ~CLoopFunctionsWrapper(){};
+//     argos::CQTOpenGLUserFunctions* m_pcCLoopFunctions;
 
- void DrawCircle(const boost::python::list c_position_list, const boost::python::list c_orientation_list, const Real f_radius);
-};
+//  void DrawCircle(const boost::python::list c_position_list, const boost::python::list c_orientation_list, const Real f_radius);
+// };
 
-// virtual void CQTOpenGLUserFunctions::DrawInWorld();
+// // virtual void CQTOpenGLUserFunctions::DrawInWorld();
 
 /****************************************/
 /****************************************/

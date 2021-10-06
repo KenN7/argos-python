@@ -65,7 +65,7 @@ class CPyController : public CCI_Controller {
 
 
     boost::shared_ptr<ActusensorsWrapper> m_actusensors;
-
+    
     int m_state;
     int m_id;
 

@@ -9,11 +9,20 @@
 using namespace argos;
 using namespace boost::python;
 
+/****************************************/
+/****************************************/
+
+EnvironmentWrapper::EnvironmentWrapper() {}
+
+void EnvironmentWrapper::Logprint(const std::string& str_message) {
+    std::cout << str_message << std::endl;
+}
+
+
+/****************************************/
+/****************************************/
+
 ActusensorsWrapper::ActusensorsWrapper() {}
-
-/****************************************/
-/****************************************/
-
 
 void ActusensorsWrapper::SetId(const std::string id) {
     m_cVariableWrapper.m_cId = id;
@@ -23,14 +32,10 @@ bool ActusensorsWrapper::GetConsensus() {
     return m_cVariableWrapper.m_cConsensus;
 }
 
-//void ActusensorsWrapper::SetId(const std::string id) {
-//    m_cVariableWrapper.m_cId = id;
-//}
-
-
 void ActusensorsWrapper::Logprint(const std::string& str_message) {
     std::cout << str_message << std::endl;
 }
+
 
 /****************************************/
 /****************************************/
@@ -189,7 +194,21 @@ Real ActusensorsWrapper::EPuckGroundReadingsGetItem(
 /****************************************/
 /****************************************/
 
+// BOOST_PYTHON_MODULE(libpy_qtuser_function_interface) {
+
+
+// }
+
 BOOST_PYTHON_MODULE(libpy_controller_interface) {
+
+    //  class_<EnvironmentWrapper, boost::shared_ptr<EnvironmentWrapper>, boost::noncopyable>("environment", no_init)
+    // .def("logprint", &EnvironmentWrapper::Logprint)
+    // .staticmethod("logprint")
+    // .add_property("qt_draw", &EnvironmentWrapper::m_cCQTOpenGLUserFunctionsWrapper);
+
+    // class_<CQTOpenGLUserFunctionsWrapper, boost::noncopyable>("qtuser_wrapper", no_init)
+    //     .def("circle", &CQTOpenGLUserFunctionsWrapper::DrawCircle);
+
     // Export the main "robot" class, and define the various actuators and sensors as property of
     // the class.
     class_<ActusensorsWrapper, boost::shared_ptr<ActusensorsWrapper>, boost::noncopyable>("robot",
@@ -197,7 +216,7 @@ BOOST_PYTHON_MODULE(libpy_controller_interface) {
         .def("logprint", &ActusensorsWrapper::Logprint)
         .staticmethod("logprint")
         .add_property("variables", &ActusensorsWrapper::m_cVariableWrapper)
-        .add_property("qt_draw", &ActusensorsWrapper::m_cCLoopFunctionsWrapper)
+        .add_property("qt_draw", &ActusensorsWrapper::m_cCQTOpenGLUserFunctionsWrapper)
         .add_property("wheels", &ActusensorsWrapper::m_cWheelsWrapper)
         .add_property("differential_steering", &ActusensorsWrapper::m_cDifferentialSteeringSensor)
         .add_property("colored_blob_omnidirectional_camera",
@@ -231,9 +250,8 @@ BOOST_PYTHON_MODULE(libpy_controller_interface) {
         .def("get_attribute", &CVariableWrapper::GetAttribute);   
 
     // Export "LoopFunctionsWrapper" that contains loop functions
-    class_<CLoopFunctionsWrapper, boost::noncopyable>("loop_functions_wrapper", no_init)
-        .def("draw_circle", &CLoopFunctionsWrapper::DrawCircle);   
-
+    class_<CQTOpenGLUserFunctionsWrapper, boost::noncopyable>("qtuser_wrapper", no_init)
+        .def("circle", &CQTOpenGLUserFunctionsWrapper::DrawCircle);
 
     // Export "WheelsWrapper", wrapper of CCI_DifferentialSteeringActuator.
     class_<CWheelsWrapper, boost::noncopyable>("wheels_wrapper", no_init)

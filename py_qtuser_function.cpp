@@ -8,9 +8,9 @@ extern "C" PyObject* INIT_MODULE_QTUSER_FUNCTION();
 
 BOOST_PYTHON_MODULE(libpy_qtuser_function_interface) {
 
-  // Export "LoopFunctionsWrapper" that contains loop functions
-    class_<CPyQTUserFunction, boost::shared_ptr<CPyQTUserFunction>, boost::noncopyable>("environment", no_init)
-      .def("set_resources", &CPyQTUserFunction::set_resources);   
+  // // Export "LoopFunctionsWrapper" that contains loop functions
+  //   class_<CPyQTUserFunction, boost::shared_ptr<CPyQTUserFunction>, boost::noncopyable>("environment", no_init)
+  //     .def("set_resources", &CPyQTUserFunction::set_resources);   
 
 }
 
@@ -28,8 +28,11 @@ CPyQTUserFunction::CPyQTUserFunction() {
 
 void CPyQTUserFunction::Init(TConfigurationNode& t_node) {
 
+
+  m_environment = boost::make_shared<ActusensorsWrapper>();
+
   // TConfigurationNode& tParams = GetNode(t_node, "params");
-  
+    
   /* Load script */
   std::string strScriptFileName;
   // GetNodeAttributeOrDefault(tParams, "script", strScriptFileName, strScriptFileName);
@@ -49,9 +52,9 @@ void CPyQTUserFunction::Init(TConfigurationNode& t_node) {
 
   try {
     // Import the wrapper's lib
-    PyRun_SimpleString("import libpy_qtuser_function_interface as lib");
-    object lib = import("libpy_qtuser_function_interface");
-    
+    // PyRun_SimpleString("import libpy_qtuser_function_interface as lib");
+    // object lib = import("libpy_qtuser_function_interface");
+    m_qtuser_namesp["environment"] = m_environment;
 
     // Launch Python init function
     object init_f = m_qtuser_main.attr("init");
@@ -63,10 +66,10 @@ void CPyQTUserFunction::Init(TConfigurationNode& t_node) {
 }
 
 void CPyQTUserFunction::set_resources(std::string test_string) {
-
-std::cout << "test string:" << test_string <<std::endl;
-
+std::cout << "test string: set_resources" << std::endl;
 }
+
+
 
 void CPyQTUserFunction::DrawInWorld() {
   // launch python reset function

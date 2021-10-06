@@ -3,6 +3,7 @@
 
 #include <argos3/plugins/robots/e-puck/simulator/epuck_entity.h>
 #include <py_controller.h>
+#include <py_qtuser_function.h>
 #include <boost/python.hpp>
 #include <argos3/core/simulator/loop_functions.h>
 #include <boost/make_shared.hpp>
@@ -37,7 +38,8 @@ class CPyLoopFunction : public CLoopFunctions {
     boost::python::object m_loop_namesp;
     boost::python::object m_loop_script;
     PyThreadState* m_loop_interpreter;
-  
+   
+    boost::shared_ptr<ActusensorsWrapper> m_environment;
 };
 
 #endif
