@@ -46,7 +46,19 @@ class CQTOpenGLUserFunctionsWrapper {
     argos::CQTOpenGLUserFunctions* m_pcCQTOpenGLUserFunctions;
 
 //const boost::python::list c_position_list, const boost::python::list c_orientation_list, const Real f_radius
-    void DrawCircle(const boost::python::list c_position_list, const boost::python::list c_orientation_list, const Real f_radius, const std::string str_color_name);
+    void DrawCircle(
+      const boost::python::list c_position_list, 
+      const boost::python::list c_orientation_list, 
+      const Real f_radius, 
+      const std::string str_color_name,
+      const bool  b_fill=true);
+
+    void DrawCylinder(
+      const boost::python::list c_position_list, 
+      const boost::python::list c_orientation_list, 
+      const Real f_radius,
+      const Real f_height,  
+      const std::string str_color_name);
 };
 
 // Wrapper for the Differential Steering Actuator.

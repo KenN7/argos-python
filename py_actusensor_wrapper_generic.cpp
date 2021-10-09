@@ -10,15 +10,36 @@ CQTOpenGLUserFunctionsWrapper::CQTOpenGLUserFunctionsWrapper() {}
 
 // Add bool fill, color, number of vertices inputs
 // const boost::python::list c_position_list, const boost::python::list c_orientation_list, const Real f_radius
-void CQTOpenGLUserFunctionsWrapper::DrawCircle(const boost::python::list c_position_list, const boost::python::list c_orientation_list, const Real f_radius, const std::string str_color_name) {
+void CQTOpenGLUserFunctionsWrapper::DrawCircle(const boost::python::list c_position_list, 
+                                               const boost::python::list c_orientation_list, 
+                                               const Real f_radius, 
+                                               const std::string str_color_name,
+                                               const bool  b_fill) {
      m_pcCQTOpenGLUserFunctions->DrawCircle(CVector3(
         boost::python::extract<Real>(boost::python::object(c_position_list[0])), 
         boost::python::extract<Real>(boost::python::object(c_position_list[1])), 
         boost::python::extract<Real>(boost::python::object(c_position_list[2]))),
         CQuaternion(), 
         f_radius, 
+        ActusensorsWrapper::CColorWrapper(str_color_name).m_cColor,
+        b_fill);
+}
+
+void CQTOpenGLUserFunctionsWrapper::DrawCylinder(const boost::python::list c_position_list, 
+                                               const boost::python::list c_orientation_list, 
+                                               const Real f_radius, 
+                                               const Real f_height,
+                                               const std::string str_color_name) {
+     m_pcCQTOpenGLUserFunctions->DrawCylinder(CVector3(
+        boost::python::extract<Real>(boost::python::object(c_position_list[0])), 
+        boost::python::extract<Real>(boost::python::object(c_position_list[1])), 
+        boost::python::extract<Real>(boost::python::object(c_position_list[2]))),
+        CQuaternion(), 
+        f_radius,
+        f_height, 
         ActusensorsWrapper::CColorWrapper(str_color_name).m_cColor);
 }
+
 
 /****************************************/
 /****************************************/

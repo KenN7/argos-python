@@ -150,6 +150,8 @@ ActusensorsWrapper::CColorWrapper::CColorWrapper(const std::string str_color_nam
         m_cColor = argos::CColor::BLUE;
     else if (str_color_name == "green")
         m_cColor = argos::CColor::GREEN;
+    else if (str_color_name == "yellow")
+        m_cColor = argos::CColor::YELLOW;
     else if (str_color_name == "white")
         m_cColor = argos::CColor::WHITE;
 }
@@ -251,7 +253,8 @@ BOOST_PYTHON_MODULE(libpy_controller_interface) {
 
     // Export "LoopFunctionsWrapper" that contains loop functions
     class_<CQTOpenGLUserFunctionsWrapper, boost::noncopyable>("qtuser_wrapper", no_init)
-        .def("circle", &CQTOpenGLUserFunctionsWrapper::DrawCircle);
+        .def("circle", &CQTOpenGLUserFunctionsWrapper::DrawCircle)
+        .def("cylinder", &CQTOpenGLUserFunctionsWrapper::DrawCylinder);
 
     // Export "WheelsWrapper", wrapper of CCI_DifferentialSteeringActuator.
     class_<CWheelsWrapper, boost::noncopyable>("wheels_wrapper", no_init)
