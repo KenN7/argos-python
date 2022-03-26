@@ -47,7 +47,9 @@ class CVariableWrapper {
 
   void SetAttribute(const std::string& key, const std::string& valu);
   const std::string GetAttribute(const std::string& key);
+  const std::string GetAllAttributes();
   std::map<std::string, std::string> m_cAttributes;
+
 
 };
 
@@ -124,11 +126,13 @@ class CEPuckRangeAndBearingWrapper {
     // Send a buffer to all the emitters.
     // void SetData(const UInt8 un_data[argos::CCI_EPuckRangeAndBearingActuator::MAX_BYTES_SENT]);
     void SetData(const boost::python::list un_data);
+    boost::python::list GetData() const;
 
     // TODO: Set all bits at once
     // Return the readings obtained at this control step.
     // Each reading contains the range, the horizontal bearing, the vertical bearing and the data
     // table. The data table is exposed as a c_byte_array.
+    boost::python::list GetReadings() const;
     boost::python::list GetPackets() const;
 };
 

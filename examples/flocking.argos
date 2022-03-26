@@ -16,7 +16,7 @@
   <!-- *************** -->
   <controllers>
 
-    <python_controller id="python" library="/mnt/c/Users/albyr/Documents/argos-python/libpy_controller_interface.so">
+    <python_controller id="python" library="/home/eksander/geth-argos/argos-python/build/libpy_controller_interface.so">
       <actuators>
         <differential_steering implementation="default" />
         <leds                  implementation="default" medium="leds" />
@@ -25,14 +25,7 @@
         <footbot_light                       implementation="rot_z_only" show_rays="true" />
         <colored_blob_omnidirectional_camera implementation="rot_z_only" medium="leds" show_rays="true" />
       </sensors>
-      <params script="/mnt/c/Users/albyr/Documents/argos-python/examples/flocking_python.py">
-        <wheel_turning hard_turn_angle_threshold="90"
-                       soft_turn_angle_threshold="70"
-                       no_turn_angle_threshold="10"
-                       max_speed="10" />
-        <flocking target_distance="75"
-                  gain="1000"
-                  exponent="2" />
+      <params script="/home/geth-argos/argos-python/examples/flockingpython.py">
       </params>
     </python_controller>
 

@@ -1,14 +1,19 @@
 #ifndef PY_QTUSER_FUNCTION_H
 #define PY_QTUSER_FUNCTION_H
 
+#include <boost/make_shared.hpp>
+#include <boost/python.hpp>
+
+// #include <argos3/plugins/robots/e-puck/simulator/epuck_entity.h>
+// #include <argos3/core/simulator/loop_functions.h>
+#include <argos3/plugins/simulator/visualizations/qt-opengl/qtopengl_user_functions.h>
 #include <argos3/plugins/robots/e-puck/simulator/epuck_entity.h>
+
 // #include <py_controller.h>
 #include "py_wrapper.h"
-#include <boost/python.hpp>
-#include <argos3/plugins/simulator/visualizations/qt-opengl/qtopengl_user_functions.h>
-#include <boost/make_shared.hpp>
 
 using namespace argos;
+
 
 class CPyQTUserFunction : public CQTOpenGLUserFunctions {
 
@@ -20,7 +25,9 @@ class CPyQTUserFunction : public CQTOpenGLUserFunctions {
 
   virtual void Init(TConfigurationNode& t_node);
   void DrawInWorld();
-  void set_resources(std::string test_string);
+  void Destroy();
+  void Draw(CEPuckEntity& c_entity);
+
 
  private:
   

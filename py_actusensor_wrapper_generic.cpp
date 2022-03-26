@@ -15,7 +15,7 @@ void CQTOpenGLUserFunctionsWrapper::DrawCircle(const boost::python::list c_posit
                                                const Real f_radius, 
                                                const std::string str_color_name,
                                                const bool  b_fill) {
-     m_pcCQTOpenGLUserFunctions->DrawCircle(CVector3(
+    m_pcCQTOpenGLUserFunctions->DrawCircle(CVector3(
         boost::python::extract<Real>(boost::python::object(c_position_list[0])), 
         boost::python::extract<Real>(boost::python::object(c_position_list[1])), 
         boost::python::extract<Real>(boost::python::object(c_position_list[2]))),
@@ -26,11 +26,11 @@ void CQTOpenGLUserFunctionsWrapper::DrawCircle(const boost::python::list c_posit
 }
 
 void CQTOpenGLUserFunctionsWrapper::DrawCylinder(const boost::python::list c_position_list, 
-                                               const boost::python::list c_orientation_list, 
-                                               const Real f_radius, 
-                                               const Real f_height,
-                                               const std::string str_color_name) {
-     m_pcCQTOpenGLUserFunctions->DrawCylinder(CVector3(
+                                                 const boost::python::list c_orientation_list, 
+                                                 const Real f_radius, 
+                                                 const Real f_height,
+                                                 const std::string str_color_name) {
+    m_pcCQTOpenGLUserFunctions->DrawCylinder(CVector3(
         boost::python::extract<Real>(boost::python::object(c_position_list[0])), 
         boost::python::extract<Real>(boost::python::object(c_position_list[1])), 
         boost::python::extract<Real>(boost::python::object(c_position_list[2]))),
@@ -40,6 +40,44 @@ void CQTOpenGLUserFunctionsWrapper::DrawCylinder(const boost::python::list c_pos
         ActusensorsWrapper::CColorWrapper(str_color_name).m_cColor);
 }
 
+void CQTOpenGLUserFunctionsWrapper::DrawRay(const boost::python::list c_start,
+                                            const boost::python::list c_end,
+                                            const std::string str_color_name,
+                                            const Real f_width) {
+    CVector3 c_stt_vec;
+    CVector3 c_end_vec;
+
+    c_stt_vec = CVector3(boost::python::extract<Real>(boost::python::object(c_start[0])), 
+                         boost::python::extract<Real>(boost::python::object(c_start[1])), 
+                         boost::python::extract<Real>(boost::python::object(c_start[2])));
+
+    c_end_vec = CVector3(boost::python::extract<Real>(boost::python::object(c_end[0])), 
+                         boost::python::extract<Real>(boost::python::object(c_end[1])), 
+                         boost::python::extract<Real>(boost::python::object(c_end[2])));
+
+    m_pcCQTOpenGLUserFunctions->DrawRay(CRay3(c_stt_vec, c_end_vec), 
+                                        ActusensorsWrapper::CColorWrapper(str_color_name).m_cColor,
+                                        f_width);
+}
+
+void CQTOpenGLUserFunctionsWrapper::DrawText(const boost::python::list c_position,
+                                             const std::string str_text,
+                                             const std::string str_color_name) {
+
+    CVector3 c_pos_vec;
+    c_pos_vec = CVector3(boost::python::extract<Real>(boost::python::object(c_position[0])), 
+                         boost::python::extract<Real>(boost::python::object(c_position[1])), 
+                         boost::python::extract<Real>(boost::python::object(c_position[2])));
+
+}
+
+void CQTOpenGLUserFunctionsWrapper::CloseWindow() {
+  m_pcCQTOpenGLUserFunctions->GetMainWindow().close();
+
+    // NOT WORKING; CORE DUMP
+    // m_pcCQTOpenGLUserFunctions->DrawText(CVector3(0,0,1),
+    //                                      "sdsd");
+}
 
 /****************************************/
 /****************************************/

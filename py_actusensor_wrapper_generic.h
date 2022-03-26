@@ -59,6 +59,19 @@ class CQTOpenGLUserFunctionsWrapper {
       const Real f_radius,
       const Real f_height,  
       const std::string str_color_name);
+
+    void DrawRay(
+      const boost::python::list c_start,
+      const boost::python::list c_end,
+      const std::string str_color_name,
+      const Real f_width);
+
+    void DrawText(
+      const boost::python::list c_position,
+      const std::string str_text,
+      const std::string str_color_name); 
+
+    void CloseWindow();
 };
 
 // Wrapper for the Differential Steering Actuator.

@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# This is the main control loop running in each argos robot
+
 import math
 
 NO_TURN = 0
@@ -21,7 +24,7 @@ def init():
     turning_mechanism = NO_TURN
     robot.colored_blob_omnidirectional_camera.enable()
     robot.leds.set_single_color(12, "red")
-    robot.logprint("started aggregation_1_python")
+    robot.logprint("started aggregation 1 python")
 
 def controlstep():
     global max_speed, NO_TURN, SOFT_TURN, HARD_TURN, no_turn_angle_threshold, soft_turn_angle_threshold, hard_turn_angle_threshold, turning_mechanism

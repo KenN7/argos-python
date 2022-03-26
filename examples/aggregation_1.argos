@@ -14,7 +14,7 @@
   <controllers>
 
    
-    <python_controller id="python" library="/mnt/c/Users/albyr/Documents/argos-python/libpy_controller_interface.so">
+    <python_controller id="python" library="/home/eksander/geth-argos/argos-python/build/libpy_controller_interface.so">
       <!-- Normal actuator/sensor configuration follows -->
       <actuators>
         <differential_steering implementation="default" />
@@ -28,7 +28,7 @@
       <!-- No required configuration -->
       
       <!-- Optionally, you can pass a script as a controller parameter: -->
-      <params script="/mnt/c/Users/albyr/Documents/argos-python/examples/aggregation_1_python.py" />
+      <params script="/home/eksander/geth-argos/argos-python/examples/aggregation_1_python.py"/>
     </python_controller>
 
   </controllers>
@@ -37,7 +37,7 @@
   <!-- * Arena configuration * -->
   <!-- *********************** -->
   <arena size="5, 5, 1" center="0,0,0.5">
-    <floor id="f" source="image" path="/mnt/c/Users/albyr/Documents/argos-python/examples/one_spot.png" />
+    <floor id="f" source="image" path="/home/eksander/geth-argos/argos-python/examples/one_spot.png" />
 
     <box id="bn" size="0.1, 5, 0.2" movable="false">
       <body position="2.5,0,0"  orientation="0,0,0" />

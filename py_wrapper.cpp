@@ -154,7 +154,38 @@ ActusensorsWrapper::CColorWrapper::CColorWrapper(const std::string str_color_nam
         m_cColor = argos::CColor::YELLOW;
     else if (str_color_name == "white")
         m_cColor = argos::CColor::WHITE;
+    else if (str_color_name == "gray10")
+        m_cColor = argos::CColor::GRAY10;
+    else if (str_color_name == "gray20")
+        m_cColor = argos::CColor::GRAY20;
+    else if (str_color_name == "gray30")
+        m_cColor = argos::CColor::GRAY30;
+    else if (str_color_name == "gray40")
+        m_cColor = argos::CColor::GRAY40;
+    else if (str_color_name == "gray50")
+        m_cColor = argos::CColor::GRAY50;
+    else if (str_color_name == "gray60")
+        m_cColor = argos::CColor::GRAY60;
+    else if (str_color_name == "gray70")
+        m_cColor = argos::CColor::GRAY70;
+    else if (str_color_name == "gray80")
+        m_cColor = argos::CColor::GRAY80;
+    else if (str_color_name == "gray90")
+        m_cColor = argos::CColor::GRAY90;
+    else if (str_color_name == "magenta")
+        m_cColor = argos::CColor::MAGENTA;
+    else if (str_color_name == "cyan")
+        m_cColor = argos::CColor::CYAN;
+    else if (str_color_name == "orange")
+        m_cColor = argos::CColor::ORANGE;
+    else if (str_color_name == "brown")
+        m_cColor = argos::CColor::BROWN;
+    else if (str_color_name == "purple")
+        m_cColor = argos::CColor::PURPLE;
+    else
+        m_cColor = argos::CColor::WHITE;
 }
+
 // Create a color by providing its RGB values.
 ActusensorsWrapper::CColorWrapper::CColorWrapper(const UInt8 un_red, const UInt8 un_green,
                                                  const UInt8 un_blue) {
@@ -249,12 +280,16 @@ BOOST_PYTHON_MODULE(libpy_controller_interface) {
         .def("set_byzantine_style", &CVariableWrapper::SetByzantineStyle)
         .def("get_byzantine_style", &CVariableWrapper::GetByzantineStyle)
         .def("set_attribute", &CVariableWrapper::SetAttribute)
-        .def("get_attribute", &CVariableWrapper::GetAttribute);   
+        .def("get_attribute", &CVariableWrapper::GetAttribute)  
+        .def("get_all_attributes", &CVariableWrapper::GetAllAttributes);
 
     // Export "LoopFunctionsWrapper" that contains loop functions
     class_<CQTOpenGLUserFunctionsWrapper, boost::noncopyable>("qtuser_wrapper", no_init)
         .def("circle", &CQTOpenGLUserFunctionsWrapper::DrawCircle)
-        .def("cylinder", &CQTOpenGLUserFunctionsWrapper::DrawCylinder);
+        .def("cylinder", &CQTOpenGLUserFunctionsWrapper::DrawCylinder)
+        .def("ray", &CQTOpenGLUserFunctionsWrapper::DrawRay)
+        .def("text", &CQTOpenGLUserFunctionsWrapper::DrawText)
+        .def("close_window", &CQTOpenGLUserFunctionsWrapper::CloseWindow);
 
     // Export "WheelsWrapper", wrapper of CCI_DifferentialSteeringActuator.
     class_<CWheelsWrapper, boost::noncopyable>("wheels_wrapper", no_init)
@@ -325,7 +360,10 @@ BOOST_PYTHON_MODULE(libpy_controller_interface) {
                                                              no_init)
         .def("clear_data", &CEPuckRangeAndBearingWrapper::ClearPackets)
         .def("set_data", &CEPuckRangeAndBearingWrapper::SetData)
-        .def("get_readings", &CEPuckRangeAndBearingWrapper::GetPackets);
+        .def("get_data", &CEPuckRangeAndBearingWrapper::GetData)
+        .def("get_readings", &CEPuckRangeAndBearingWrapper::GetReadings)
+        .def("get_packets", &CEPuckRangeAndBearingWrapper::GetPackets);
+
 
     // Export GroundSensorWrapper, wrapper of CCI_FootBotMotorGroundSensor.
     class_<CGroundSensorWrapper, boost::noncopyable>("m_cGroundSensorWrapper", no_init)

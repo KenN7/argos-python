@@ -44,6 +44,25 @@ void CVariableWrapper::SetAttribute(const std::string& key, const std::string& v
 
 }
 
+const std::string CVariableWrapper::GetAllAttributes() {
+
+  std::map<std::string, std::string>::iterator it = m_cAttributes.begin();
+  std::string json = "{";
+
+  // while (it != m_cAttributes.end())
+    for (std::pair<std::string, std::string> attr : m_cAttributes) 
+    {
+        std::string key = attr.first;
+        std::string value = attr.second;
+        json.append("\"" + key + "\"" + ": " + "\"" + value+ "\"" + ", ");
+    }
+    if (!json.empty())
+        json.pop_back();
+        json.pop_back();
+    json.append("}");
+    return json;
+}
+
 // void CVariableWrapper::SetAttribute(const std::string& key, const std::int& value) {
 //   m_cAttributes[key] = value;
 
@@ -157,38 +176,83 @@ void CEPuckRangeAndBearingWrapper::SetData(const boost::python::list un_data) {
           boost::python::extract<UInt8>(boost::python::object(un_data[2])),
           boost::python::extract<UInt8>(boost::python::object(un_data[3]))};
     //const UInt8 unData[3] = {0, 0, 0};
-    std::cout << m_pcEPuckRABA << "raba" << std::endl;
+    // std::cout << m_pcEPuckRABA << "raba" << std::endl;
     m_pcEPuckRABA->SetData(unData);
 }
 // TODO: Set all bits at once
 // Return the readings obtained at this control step.
 // Each reading contains the range, the horizontal bearing, the vertical bearing and the data table.
 // The data table is exposed as a c_byte_array.
+
+
 boost::python::list CEPuckRangeAndBearingWrapper::GetPackets() const {
     if (m_pcEPuckRABS == nullptr) {
         ActusensorsWrapper::Logprint("RABS not implemented or not stated in XML config.");
         return {};
     }
 
-
-    boost::python::list outerList;
+    boost::python::list packets_list;
 
     for (size_t i = 0; i < m_pcEPuckRABS->GetPackets().size(); ++i) {
-        boost::python::list innerList;    
 
-        for (size_t j = 0; j < sizeof(m_pcEPuckRABS->GetPackets()[i]->Data)/sizeof(*m_pcEPuckRABS->GetPackets()[i]->Data); ++j) {
-            innerList.append((int) m_pcEPuckRABS->GetPackets()[i]->Data[j]);
-        }
-    // Extract range: m_pcEPuckRABS->GetPackets()[i]->Range
-    innerList.append(m_pcEPuckRABS->GetPackets()[i]->Range);
-    //innerList.append(m_pcEPuckRABS->GetPackets()[i]->Bearing);
-    //innerList.append(m_pcEPuckRABS->GetPackets()[i]->VerticalBearing);
+        packets_list.append(m_pcEPuckRABS->GetPackets()[i]);
 
-    outerList.append(innerList);
     }
 
-    return outerList;
+    return packets_list;
 }
+
+
+
+boost::python::list CEPuckRangeAndBearingWrapper::GetReadings() const {
+    if (m_pcEPuckRABS == nullptr) {
+        ActusensorsWrapper::Logprint("RABS not implemented or not stated in XML config.");
+        return {};
+    }
+
+    boost::python::list readings_list;
+    
+
+    for (size_t i = 0; i < m_pcEPuckRABS->GetPackets().size(); ++i) {
+        boost::python::list data_list;    
+        boost::python::list reading_list;
+
+        for (size_t j = 0; j < sizeof(m_pcEPuckRABS->GetPackets()[i]->Data)/sizeof(*m_pcEPuckRABS->GetPackets()[i]->Data); ++j) {
+            data_list.append((int) m_pcEPuckRABS->GetPackets()[i]->Data[j]);
+        }
+
+        reading_list.append(data_list);
+        reading_list.append(m_pcEPuckRABS->GetPackets()[i]->Range/100);
+        reading_list.append(m_pcEPuckRABS->GetPackets()[i]->Bearing.GetValue());
+        //readings_list.append(m_pcEPuckRABS->GetPackets()[i]->VerticalBearing);
+
+        readings_list.append(reading_list);
+    }
+
+    return readings_list;
+}
+
+boost::python::list CEPuckRangeAndBearingWrapper::GetData() const {
+    if (m_pcEPuckRABS == nullptr) {
+        ActusensorsWrapper::Logprint("RABS not implemented or not stated in XML config.");
+        return {};
+    }
+
+    boost::python::list readings_list;
+
+        for (size_t i = 0; i < m_pcEPuckRABS->GetPackets().size(); ++i) {
+        boost::python::list data_list;    
+
+            for (size_t j = 0; j < sizeof(m_pcEPuckRABS->GetPackets()[i]->Data)/sizeof(*m_pcEPuckRABS->GetPackets()[i]->Data); ++j) {
+                data_list.append((int) m_pcEPuckRABS->GetPackets()[i]->Data[j]);
+            }
+
+            readings_list.append(data_list);
+
+    }
+        return readings_list;
+}
+
 
 /****************************************/
 /****************************************/

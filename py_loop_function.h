@@ -1,12 +1,14 @@
 #ifndef PY_LOOP_FUNCTION_H
 #define PY_LOOP_FUNCTION_H
 
+#include <boost/make_shared.hpp>
+#include <boost/python.hpp>
+
 #include <argos3/plugins/robots/e-puck/simulator/epuck_entity.h>
+#include <argos3/core/simulator/loop_functions.h>
+
 #include <py_controller.h>
 #include <py_qtuser_function.h>
-#include <boost/python.hpp>
-#include <argos3/core/simulator/loop_functions.h>
-#include <boost/make_shared.hpp>
 
 using namespace argos;
 

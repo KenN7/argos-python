@@ -1,4 +1,5 @@
 #include "py_qtuser_function.h"
+#include <string>
 
 using namespace argos;
 using namespace boost::python;
@@ -14,6 +15,7 @@ BOOST_PYTHON_MODULE(libpy_qtuser_function_interface) {
 
 }
 
+
 CPyQTUserFunction::CPyQTUserFunction() {
     // init python
   PyImport_AppendInittab("libpy_qtuser_function_interface", INIT_MODULE_QTUSER_FUNCTION);
@@ -24,10 +26,12 @@ CPyQTUserFunction::CPyQTUserFunction() {
     // init main module and namespace
   m_qtuser_main = import("__main__");
   m_qtuser_namesp = m_qtuser_main.attr("__dict__");
+
+  // This is just to draw the ID of the robot in the robot reference frame
+  RegisterUserFunction<CPyQTUserFunction,CEPuckEntity>(&CPyQTUserFunction::Draw);
 }
 
 void CPyQTUserFunction::Init(TConfigurationNode& t_node) {
-
 
   m_environment = boost::make_shared<ActusensorsWrapper>();
 
@@ -54,6 +58,7 @@ void CPyQTUserFunction::Init(TConfigurationNode& t_node) {
     // Import the wrapper's lib
     // PyRun_SimpleString("import libpy_qtuser_function_interface as lib");
     // object lib = import("libpy_qtuser_function_interface");
+
     m_qtuser_namesp["environment"] = m_environment;
 
     // Launch Python init function
@@ -65,10 +70,16 @@ void CPyQTUserFunction::Init(TConfigurationNode& t_node) {
 
 }
 
-void CPyQTUserFunction::set_resources(std::string test_string) {
-std::cout << "test string: set_resources" << std::endl;
+void CPyQTUserFunction::Destroy() {
+  
+  // Launch Python destroy function
+  try {
+    object destroy_f = m_qtuser_main.attr("destroy");
+    destroy_f();
+  } catch (error_already_set) {
+    PyErr_Print();
+  }
 }
-
 
 
 void CPyQTUserFunction::DrawInWorld() {
@@ -85,13 +96,20 @@ void CPyQTUserFunction::DrawInWorld() {
   }
 }
 
-// void CPyQTUserFunction::DrawInWorld() {
-// 	DrawCircle(
-// 	CVector3(0.0f, 0.0f, 0.01f), 
-// 	CQuaternion(),
-// 	0.1,
-// 	CColor::RED);
-// }
+
+// This is just to draw the ID of the robot in the robot reference frame
+void CPyQTUserFunction::Draw(CEPuckEntity& c_entity) {
+   /* The position of the text is expressed wrt the reference point of the epuck
+    * For a epuck, the reference point is the center of its base.
+    * See also the description in
+    * $ argos3 -q epuck
+    */
+
+   DrawText(CVector3(0.0, 0.0, 0.13),   // position
+            std::to_string(stoi(c_entity.GetId().substr(2)) + 1),
+            CColor::BLUE); // text
+
+}
 
 
 REGISTER_QTOPENGL_USER_FUNCTIONS(CPyQTUserFunction, "py_qtuser_function")

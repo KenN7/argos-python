@@ -62,9 +62,9 @@ void CPyLoopFunction::Init(TConfigurationNode& t_node) {
 
   // TODO: Iterate over nodes / params / parameters  and make them
   // available in Python
-  int numByzantine;
-  GetNodeAttributeOrDefault(tParams, "num_byzantine", numByzantine, 0);
-  m_loop_namesp["num_byzantine"]  = numByzantine;
+  // int numByzantine;
+  // GetNodeAttributeOrDefault(tParams, "num_byzantine", numByzantine, 0);
+  // m_loop_namesp["num_byzantine"]  = numByzantine;
   
 
   // Iterate over all robots and add them to a boost list
