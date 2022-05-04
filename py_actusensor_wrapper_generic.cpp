@@ -15,29 +15,41 @@ void CQTOpenGLUserFunctionsWrapper::DrawCircle(const boost::python::list c_posit
                                                const Real f_radius, 
                                                const std::string str_color_name,
                                                const bool  b_fill) {
-    m_pcCQTOpenGLUserFunctions->DrawCircle(CVector3(
-        boost::python::extract<Real>(boost::python::object(c_position_list[0])), 
-        boost::python::extract<Real>(boost::python::object(c_position_list[1])), 
-        boost::python::extract<Real>(boost::python::object(c_position_list[2]))),
-        CQuaternion(), 
+    m_pcCQTOpenGLUserFunctions->DrawCircle(
+        CVector3(boost::python::extract<Real>(boost::python::object(c_position_list[0])), 
+                 boost::python::extract<Real>(boost::python::object(c_position_list[1])), 
+                 boost::python::extract<Real>(boost::python::object(c_position_list[2]))),
+        CQuaternion(), // Implement orientation
         f_radius, 
         ActusensorsWrapper::CColorWrapper(str_color_name).m_cColor,
         b_fill);
 }
 
-void CQTOpenGLUserFunctionsWrapper::DrawCylinder(const boost::python::list c_position_list, 
-                                                 const boost::python::list c_orientation_list, 
-                                                 const Real f_radius, 
-                                                 const Real f_height,
-                                                 const std::string str_color_name) {
-    m_pcCQTOpenGLUserFunctions->DrawCylinder(CVector3(
-        boost::python::extract<Real>(boost::python::object(c_position_list[0])), 
-        boost::python::extract<Real>(boost::python::object(c_position_list[1])), 
-        boost::python::extract<Real>(boost::python::object(c_position_list[2]))),
-        CQuaternion(), 
-        f_radius,
-        f_height, 
-        ActusensorsWrapper::CColorWrapper(str_color_name).m_cColor);
+void CQTOpenGLUserFunctionsWrapper::DrawPolygon(const boost::python::list c_position_list, 
+                                                const boost::python::list c_orientation_list, 
+                                                const boost::python::list vec_points_list, 
+                                                const std::string str_color_name,
+                                                const bool  b_fill) {
+  
+    std::vector<CVector2> vec_point_vector;
+    boost::python::list vec_point;
+
+    for (size_t i = 0; i < boost::python::len(vec_points_list); ++i) {
+
+            vec_point = boost::python::extract<boost::python::list>(boost::python::object(vec_points_list[i]));
+
+            vec_point_vector.push_back(CVector2(boost::python::extract<Real>(boost::python::object(vec_point[0])),
+                                                boost::python::extract<Real>(boost::python::object(vec_point[1]))));
+        }
+
+    m_pcCQTOpenGLUserFunctions->DrawPolygon(
+        CVector3(boost::python::extract<Real>(boost::python::object(c_position_list[0])), 
+                 boost::python::extract<Real>(boost::python::object(c_position_list[1])), 
+                 boost::python::extract<Real>(boost::python::object(c_position_list[2]))),
+        CQuaternion(), // Implement orientation
+        vec_point_vector, 
+        ActusensorsWrapper::CColorWrapper(str_color_name).m_cColor,
+        b_fill);
 }
 
 void CQTOpenGLUserFunctionsWrapper::DrawRay(const boost::python::list c_start,
@@ -59,6 +71,37 @@ void CQTOpenGLUserFunctionsWrapper::DrawRay(const boost::python::list c_start,
                                         ActusensorsWrapper::CColorWrapper(str_color_name).m_cColor,
                                         f_width);
 }
+
+void CQTOpenGLUserFunctionsWrapper::DrawBox(const boost::python::list c_position_list, 
+                                            const boost::python::list c_orientation_list, 
+                                            const boost::python::list c_size_list, 
+                                            const std::string str_color_name) {
+    m_pcCQTOpenGLUserFunctions->DrawBox(
+        CVector3(boost::python::extract<Real>(boost::python::object(c_position_list[0])), 
+                 boost::python::extract<Real>(boost::python::object(c_position_list[1])), 
+                 boost::python::extract<Real>(boost::python::object(c_position_list[2]))),
+        CQuaternion(), // Implement orientation
+        CVector3(boost::python::extract<Real>(boost::python::object(c_size_list[0])), 
+                 boost::python::extract<Real>(boost::python::object(c_size_list[1])), 
+                 boost::python::extract<Real>(boost::python::object(c_size_list[2]))), 
+        ActusensorsWrapper::CColorWrapper(str_color_name).m_cColor);
+}
+
+void CQTOpenGLUserFunctionsWrapper::DrawCylinder(const boost::python::list c_position_list, 
+                                                 const boost::python::list c_orientation_list, 
+                                                 const Real f_radius, 
+                                                 const Real f_height,
+                                                 const std::string str_color_name) {
+    m_pcCQTOpenGLUserFunctions->DrawCylinder(
+        CVector3(boost::python::extract<Real>(boost::python::object(c_position_list[0])), 
+                 boost::python::extract<Real>(boost::python::object(c_position_list[1])), 
+                 boost::python::extract<Real>(boost::python::object(c_position_list[2]))),
+        CQuaternion(), // Implement orientation
+        f_radius,
+        f_height, 
+        ActusensorsWrapper::CColorWrapper(str_color_name).m_cColor);
+}
+
 
 void CQTOpenGLUserFunctionsWrapper::DrawText(const boost::python::list c_position,
                                              const std::string str_text,

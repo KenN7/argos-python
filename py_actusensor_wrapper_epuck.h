@@ -2,6 +2,7 @@
 #define PY_ACTUSENSOR_WRAPPER_EPUCK_H
 
 #include <boost/python.hpp>
+#include <boost/variant.hpp>
 #include <boost/python/suite/indexing/map_indexing_suite.hpp>
 
 #include <argos3/core/control_interface/ci_controller.h>
@@ -37,36 +38,17 @@ class CVariableWrapper {
   const std::string GetId();
   std::string m_cId;
 
-  void SetConsensus(const bool consensus);
-  const bool GetConsensus();
-  bool m_cConsensus;
-
-  void SetByzantineStyle(const int byzantineStyle);
-  const int GetByzantineStyle();
-  int m_cByzantineStyle = 0;
-
-  void SetAttribute(const std::string& key, const std::string& valu);
+  void SetAttribute(const std::string& key, const std::string& value);
   const std::string GetAttribute(const std::string& key);
   const std::string GetAllAttributes();
   std::map<std::string, std::string> m_cAttributes;
 
+  // void SetAttribute(const std::string& key, const bool& value);
+  // const boost::variant<std::string, bool> GetAttribute(const std::string& key);
+  // std::map<std::string, boost::variant<std::string, bool>> m_cAttributes;
+
 
 };
-
-/****************************************/
-/****************************************/
-
-// // Wrapper for loop functions
-// class CLoopFunctionsWrapper {
-//   public:
-//     CLoopFunctionsWrapper();
-//     ~CLoopFunctionsWrapper(){};
-//     argos::CQTOpenGLUserFunctions* m_pcCLoopFunctions;
-
-//  void DrawCircle(const boost::python::list c_position_list, const boost::python::list c_orientation_list, const Real f_radius);
-// };
-
-// // virtual void CQTOpenGLUserFunctions::DrawInWorld();
 
 /****************************************/
 /****************************************/

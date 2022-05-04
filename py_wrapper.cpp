@@ -18,7 +18,6 @@ void EnvironmentWrapper::Logprint(const std::string& str_message) {
     std::cout << str_message << std::endl;
 }
 
-
 /****************************************/
 /****************************************/
 
@@ -26,10 +25,6 @@ ActusensorsWrapper::ActusensorsWrapper() {}
 
 void ActusensorsWrapper::SetId(const std::string id) {
     m_cVariableWrapper.m_cId = id;
-}
-
-bool ActusensorsWrapper::GetConsensus() {
-    return m_cVariableWrapper.m_cConsensus;
 }
 
 void ActusensorsWrapper::Logprint(const std::string& str_message) {
@@ -182,6 +177,10 @@ ActusensorsWrapper::CColorWrapper::CColorWrapper(const std::string str_color_nam
         m_cColor = argos::CColor::BROWN;
     else if (str_color_name == "purple")
         m_cColor = argos::CColor::PURPLE;
+    else if (str_color_name == "custom")
+        m_cColor = argos::CColor(70,160,70,0);
+    else if (str_color_name == "custom2")
+        m_cColor = argos::CColor(160,110,110,0);
     else
         m_cColor = argos::CColor::WHITE;
 }
@@ -273,12 +272,7 @@ BOOST_PYTHON_MODULE(libpy_controller_interface) {
 
     // Export "VariableWrapper" that contains a robot's variables
     class_<CVariableWrapper, boost::noncopyable>("variable_wrapper", no_init)
-        .def("set_id", &CVariableWrapper::SetId)
         .def("get_id", &CVariableWrapper::GetId)
-        .def("set_consensus", &CVariableWrapper::SetConsensus)
-        .def("get_consensus", &CVariableWrapper::GetConsensus)    
-        .def("set_byzantine_style", &CVariableWrapper::SetByzantineStyle)
-        .def("get_byzantine_style", &CVariableWrapper::GetByzantineStyle)
         .def("set_attribute", &CVariableWrapper::SetAttribute)
         .def("get_attribute", &CVariableWrapper::GetAttribute)  
         .def("get_all_attributes", &CVariableWrapper::GetAllAttributes);
@@ -286,8 +280,10 @@ BOOST_PYTHON_MODULE(libpy_controller_interface) {
     // Export "LoopFunctionsWrapper" that contains loop functions
     class_<CQTOpenGLUserFunctionsWrapper, boost::noncopyable>("qtuser_wrapper", no_init)
         .def("circle", &CQTOpenGLUserFunctionsWrapper::DrawCircle)
-        .def("cylinder", &CQTOpenGLUserFunctionsWrapper::DrawCylinder)
         .def("ray", &CQTOpenGLUserFunctionsWrapper::DrawRay)
+        .def("polygon", &CQTOpenGLUserFunctionsWrapper::DrawPolygon)
+        .def("cylinder", &CQTOpenGLUserFunctionsWrapper::DrawCylinder)
+        .def("box", &CQTOpenGLUserFunctionsWrapper::DrawBox)
         .def("text", &CQTOpenGLUserFunctionsWrapper::DrawText)
         .def("close_window", &CQTOpenGLUserFunctionsWrapper::CloseWindow);
 

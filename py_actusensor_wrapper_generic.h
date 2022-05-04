@@ -53,6 +53,19 @@ class CQTOpenGLUserFunctionsWrapper {
       const std::string str_color_name,
       const bool  b_fill=true);
 
+    void DrawPolygon(
+      const boost::python::list c_position_list, 
+      const boost::python::list c_orientation_list, 
+      const boost::python::list vec_points, 
+      const std::string str_color_name,
+      const bool  b_fill);
+    
+    void DrawRay(
+      const boost::python::list c_start,
+      const boost::python::list c_end,
+      const std::string str_color_name,
+      const Real f_width);
+
     void DrawCylinder(
       const boost::python::list c_position_list, 
       const boost::python::list c_orientation_list, 
@@ -60,11 +73,11 @@ class CQTOpenGLUserFunctionsWrapper {
       const Real f_height,  
       const std::string str_color_name);
 
-    void DrawRay(
-      const boost::python::list c_start,
-      const boost::python::list c_end,
-      const std::string str_color_name,
-      const Real f_width);
+    void DrawBox(
+      const boost::python::list c_position_list, 
+      const boost::python::list c_orientation_list, 
+      const boost::python::list c_size_list, 
+      const std::string str_color_name);
 
     void DrawText(
       const boost::python::list c_position,

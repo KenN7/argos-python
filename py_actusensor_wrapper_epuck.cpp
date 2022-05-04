@@ -16,40 +16,18 @@ void CVariableWrapper::SetId(const std::string id) {
   m_cId = id;
 }
 
-const bool CVariableWrapper::GetConsensus() {
-  return m_cConsensus;
+void CVariableWrapper::SetAttribute(const std::string& key, const std::string& value) {
+  m_cAttributes[key] = value;
 }
-
-void CVariableWrapper::SetConsensus(const bool consensus) {
-  m_cConsensus = consensus;
-
-}
-
-const int CVariableWrapper::GetByzantineStyle() {
-  return m_cByzantineStyle;
-}
-
-void CVariableWrapper::SetByzantineStyle(const int byzantineStyle) {
-  m_cByzantineStyle = byzantineStyle;
-
-}
-
 
 const std::string CVariableWrapper::GetAttribute(const std::string& key) {
   return m_cAttributes[key];
 }
 
-void CVariableWrapper::SetAttribute(const std::string& key, const std::string& value) {
-  m_cAttributes[key] = value;
-
-}
-
 const std::string CVariableWrapper::GetAllAttributes() {
-
   std::map<std::string, std::string>::iterator it = m_cAttributes.begin();
   std::string json = "{";
 
-  // while (it != m_cAttributes.end())
     for (std::pair<std::string, std::string> attr : m_cAttributes) 
     {
         std::string key = attr.first;
@@ -63,9 +41,11 @@ const std::string CVariableWrapper::GetAllAttributes() {
     return json;
 }
 
-// void CVariableWrapper::SetAttribute(const std::string& key, const std::int& value) {
+// void CVariableWrapper::SetAttribute(const std::string& key, const bool& value) {
 //   m_cAttributes[key] = value;
-
+// }
+// const boost::variant<std::string, bool> CVariableWrapper::GetAttribute(const std::string& key) {
+//   return m_cAttributes[key];
 // }
 
 
