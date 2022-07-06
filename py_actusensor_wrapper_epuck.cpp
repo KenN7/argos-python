@@ -94,7 +94,7 @@ CEPuckWheelsWrapper::CEPuckWheelsWrapper() {}
 void CEPuckWheelsWrapper::SetSpeed(const Real f_left_wheel_speed, const Real f_right_wheel_speed) {
     if (m_pcEPuckWheels == nullptr) {
         ActusensorsWrapper::Logprint(
-            "Differential Steering Actuator not implemented or not stated in XML config.");
+            "E-puck Wheels not implemented or not stated in XML config.");
         return;
     }
     m_pcEPuckWheels->SetLinearVelocity(f_left_wheel_speed, f_right_wheel_speed);

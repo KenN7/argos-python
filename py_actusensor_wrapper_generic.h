@@ -105,6 +105,7 @@ class CDifferentialSteeringSensorWrapper {
     argos::CCI_DifferentialSteeringSensor* m_pcDifferentialSteeringSensor;
     // Set the speed of the two wheels.
     boost::python::list GetReading() const;
+    boost::python::list GetDistances() const;
 };
 
 /****************************************/

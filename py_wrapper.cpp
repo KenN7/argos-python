@@ -293,7 +293,8 @@ BOOST_PYTHON_MODULE(libpy_controller_interface) {
 
     // Export "DifferentialSteeringSensorWrapper", wrapper of CCI_DifferentialSteeringSensor.
     class_<CDifferentialSteeringSensorWrapper, boost::noncopyable>("differential_steering_sensor_wrapper", no_init)
-        .def("get_readings", &CDifferentialSteeringSensorWrapper::GetReading);
+        .def("get_readings", &CDifferentialSteeringSensorWrapper::GetReading)
+        .def("get_distances", &CDifferentialSteeringSensorWrapper::GetDistances);
  
     // Export "EPuckWheelsWrapper", wrapper of CCI_EPuckWheelsActuator.
     class_<CEPuckWheelsWrapper, boost::noncopyable>("epuck_wheels_wrapper", no_init)

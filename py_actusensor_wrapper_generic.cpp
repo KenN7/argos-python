@@ -159,6 +159,19 @@ boost::python::list CDifferentialSteeringSensorWrapper::GetReading() const {
 
 }
 
+boost::python::list CDifferentialSteeringSensorWrapper::GetDistances() const {
+    if (m_pcDifferentialSteeringSensor == nullptr) {
+        ActusensorsWrapper::Logprint(
+            "Differential Steering Sensor not implemented or not stated in XML config.");
+        return {};
+    }
+    // Probably there is an better way to convert SReadings to boost::python::list
+    boost::python::list readings;
+    readings.append((Real) m_pcDifferentialSteeringSensor->GetReading().CoveredDistanceLeftWheel);
+    readings.append((Real) m_pcDifferentialSteeringSensor->GetReading().CoveredDistanceRightWheel);
+
+    return readings;
+}
 
 /****************************************/
 /****************************************/
