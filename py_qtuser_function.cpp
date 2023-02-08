@@ -44,7 +44,7 @@ void CPyQTUserFunction::Init(TConfigurationNode& t_node) {
   //   THROW_ARGOSEXCEPTION("QTUSER function: Error loading python script \"" << strScriptFileName << "\""
   //     << std::endl);
   // }
-  strScriptFileName = "/home/eksander/geth-argos/MarketForaging/loop_functions/qtuser_function.py";
+  strScriptFileName = "/home/eksander/geth-argos/FraudForaging/loop_functions/qtuser_function.py";
   // exec user script
   try {
     m_qtuser_script = exec_file(strScriptFileName.c_str(), m_qtuser_namesp, m_qtuser_namesp);

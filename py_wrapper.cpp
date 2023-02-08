@@ -85,47 +85,61 @@ void ActusensorsWrapper::CreateActu(const std::string str_name, CCI_Actuator* pc
 // Initialize the sensor specified by the provided name.
 void ActusensorsWrapper::CreateSensor(const std::string str_name, CCI_Sensor* pc_sensor,
                                       TConfigurationNode& t_node) {
-    if (str_name == "footbot_proximity") {
-        m_cProximitySensorWrapper.m_pcProximity = (CCI_FootBotProximitySensor*)pc_sensor;
-        m_cProximitySensorWrapper.m_pcProximity->Init(t_node);
-    } else if (str_name == "colored_blob_omnidirectional_camera") {
-        m_cOmnidirectionalCameraWrapper.m_pcOmniCam =
-            (CCI_ColoredBlobOmnidirectionalCameraSensor*)pc_sensor;
+
+    // Generic sensors.
+    if (str_name == "colored_blob_omnidirectional_camera") {
+        m_cOmnidirectionalCameraWrapper.m_pcOmniCam = (CCI_ColoredBlobOmnidirectionalCameraSensor*)pc_sensor;
         // m_cOmnidirectionalCameraWrapper.m_pcOmniCam->Init(t_node);
+
+    } else if (str_name == "colored_blob_perspective_camera") {
+        m_cPerspectiveCameraWrapper.m_pcPerspCam = (CCI_ColoredBlobPerspectiveCameraSensor*)pc_sensor;
+        // m_cPerspectiveCameraWrapper.m_pcPerspCam->Init(t_node);
+
     } else if (str_name == "range_and_bearing") {
-        m_cRangeAndBearingWrapper.m_pcRABS = (CCI_RangeAndBearingSensor*)pc_sensor;
+        m_cRangeAndBearingWrapper.m_pcRABS = (CCI_RangeAndBearingSensor*)pc_sensor;    
         // m_cRangeAndBearingWrapper.m_pcRABS->Init(t_node);
+
     } else if (str_name == "differential_steering") {
         m_cDifferentialSteeringSensor.m_pcDifferentialSteeringSensor = (CCI_DifferentialSteeringSensor*)pc_sensor;
     } else if (str_name == "positioning") {
         m_cPositioningWrapper.m_pcPositioning = (CCI_PositioningSensor*)pc_sensor;
-    } else if (str_name == "footbot_motor_ground") {
+    } 
+
+    // Footbot sensors.
+    else if (str_name == "footbot_motor_ground") {
         m_cGroundSensorWrapper.m_pcGround = (CCI_FootBotMotorGroundSensor*)pc_sensor;
         m_cGroundSensorWrapper.m_pcGround->Init(t_node);
+
+    } else if (str_name == "footbot_proximity") {
+        m_cProximitySensorWrapper.m_pcProximity = (CCI_FootBotProximitySensor*)pc_sensor;
+        m_cProximitySensorWrapper.m_pcProximity->Init(t_node);
+
     } else if (str_name == "footbot_base_ground") {
-        m_cBaseGroundSensorWrapper.m_pcBaseGround =
-            dynamic_cast<CCI_FootBotBaseGroundSensor*>(pc_sensor);
+        m_cBaseGroundSensorWrapper.m_pcBaseGround = dynamic_cast<CCI_FootBotBaseGroundSensor*>(pc_sensor);
         m_cBaseGroundSensorWrapper.m_pcBaseGround->Init(t_node);
+
     } else if (str_name == "footbot_light") {
         m_cLightSensorWrapper.m_pcLight = (CCI_FootBotLightSensor*)pc_sensor;
         m_cLightSensorWrapper.m_pcLight->Init(t_node);
+
     } else if (str_name == "footbot_distance_scanner") {
         m_cDistanceScannerWrapper.m_pcScannerSensor = (CCI_FootBotDistanceScannerSensor*)pc_sensor;
         m_cDistanceScannerWrapper.m_pcScannerSensor->Init(t_node);
+
     } else if (str_name == "footbot_turret_encoder") {
-        m_cTurretWrapper.m_pcTurretSensor =
-            dynamic_cast<CCI_FootBotTurretEncoderSensor*>(pc_sensor);
+        m_cTurretWrapper.m_pcTurretSensor = dynamic_cast<CCI_FootBotTurretEncoderSensor*>(pc_sensor);
         m_cTurretWrapper.m_pcTurretSensor->Init(t_node);
     }
+
     // E-Puck sensors.
     else if (str_name == "epuck_proximity") {
-        m_cEPuckProximitySensorWrapper.m_pcEPuckProximity =
-            dynamic_cast<CCI_EPuckProximitySensor*>(pc_sensor);
+        m_cEPuckProximitySensorWrapper.m_pcEPuckProximity = dynamic_cast<CCI_EPuckProximitySensor*>(pc_sensor);
         m_cEPuckProximitySensorWrapper.m_pcEPuckProximity->Init(t_node);
+
     } else if (str_name == "epuck_ground") {
-        m_cEPuckGroundSensorWrapper.m_pcEPuckGround =
-            dynamic_cast<CCI_EPuckGroundSensor*>(pc_sensor);
+        m_cEPuckGroundSensorWrapper.m_pcEPuckGround = dynamic_cast<CCI_EPuckGroundSensor*>(pc_sensor);
         m_cEPuckGroundSensorWrapper.m_pcEPuckGround->Init(t_node);
+
     } else if (str_name == "epuck_range_and_bearing") {
         m_cEPuckRangeAndBearingWrapper.m_pcEPuckRABS = (CCI_EPuckRangeAndBearingSensor*)pc_sensor;
         // m_cRangeAndBearingWrapper.m_pcRABA->Init(t_node);
@@ -253,6 +267,8 @@ BOOST_PYTHON_MODULE(libpy_controller_interface) {
         .add_property("differential_steering", &ActusensorsWrapper::m_cDifferentialSteeringSensor)
         .add_property("colored_blob_omnidirectional_camera",
                       &ActusensorsWrapper::m_cOmnidirectionalCameraWrapper)
+        .add_property("colored_blob_perspective_camera",
+              &ActusensorsWrapper::m_cPerspectiveCameraWrapper)
         .add_property("proximity", &ActusensorsWrapper::m_cProximitySensorWrapper)
         .add_property("position", &ActusensorsWrapper::m_cPositioningWrapper)
         .add_property("leds", &ActusensorsWrapper::m_cLedsWrapper)
@@ -314,7 +330,13 @@ BOOST_PYTHON_MODULE(libpy_controller_interface) {
         .def("get_readings", &COmnidirectionalCameraWrapper::GetReadings)
         .def("get_counter", &COmnidirectionalCameraWrapper::GetCounter);
 
- // Export "FootBotProximitySensorWrapper", wrapper of CCI_FootBotProximitySensor.
+    class_<CPerspectiveCameraWrapper, boost::noncopyable>("perspective_camera_wrapper",
+                                                              no_init)
+        .def("enable", &CPerspectiveCameraWrapper::Enable)
+        .def("disable", &CPerspectiveCameraWrapper::Disable)
+        .def("get_readings", &CPerspectiveCameraWrapper::GetReadings);
+
+    // Export "PositionSensorWrapper", wrapper of CCI_PositionSensor.
     class_<CPositioningSensorWrapper, boost::noncopyable>("positioning_wrapper",
                                                                no_init)
         .def("get_position", &CPositioningSensorWrapper::GetPosition)

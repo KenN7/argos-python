@@ -217,7 +217,29 @@ boost::python::list COmnidirectionalCameraWrapper::GetReadings() const {
             "Omnidirectional Camera Sensor not implemented or not stated in XML config.");
         return {};
     }
-    return ActusensorsWrapper::ToPythonList(m_pcOmniCam->GetReadings().BlobList);
+
+    boost::python::list readings;
+    
+    for (size_t i = 0; i < m_pcOmniCam->GetReadings().BlobList.size(); ++i) {
+        boost::python::list color;
+        boost::python::list reading;
+
+        color.append(m_pcOmniCam->GetReadings().BlobList[i]->Color.GetRed());
+        color.append(m_pcOmniCam->GetReadings().BlobList[i]->Color.GetGreen());
+        color.append(m_pcOmniCam->GetReadings().BlobList[i]->Color.GetBlue());
+
+        reading.append(color);
+        reading.append(m_pcOmniCam->GetReadings().BlobList[i]->Angle.GetValue());
+        reading.append(m_pcOmniCam->GetReadings().BlobList[i]->Distance);
+
+        readings.append(reading);
+    }
+    
+
+    return readings;
+
+    // In the way below I was unable to read color on python. angle.value() and distance are ok
+    // return ActusensorsWrapper::ToPythonList(m_pcOmniCam->GetReadings().BlobList);
 }
 // Enable the camera.
 void COmnidirectionalCameraWrapper::Enable() {
@@ -247,6 +269,58 @@ const int COmnidirectionalCameraWrapper::GetCounter() const {
     }
     return m_pcOmniCam->GetReadings().Counter;
 }
+
+/****************************************/
+/****************************************/
+
+CPerspectiveCameraWrapper::CPerspectiveCameraWrapper() {}
+
+boost::python::list CPerspectiveCameraWrapper::GetReadings() const {
+    if (m_pcPerspCam == nullptr) {
+        ActusensorsWrapper::Logprint(
+            "Perspective Camera Sensor not implemented or not stated in XML config.");
+        return {};
+    }
+
+    // boost::python::list readings;
+    // for (size_t i = 0; i < m_pcPerspCam->GetReadings().BlobList.size(); ++i) {
+    //     boost::python::list color;
+    //     boost::python::list reading;
+
+    //     color.append(m_pcPerspCam->GetReadings().BlobList[i]->Color.GetRed());
+    //     color.append(m_pcPerspCam->GetReadings().BlobList[i]->Color.GetGreen());
+    //     color.append(m_pcPerspCam->GetReadings().BlobList[i]->Color.GetBlue());
+
+    //     reading.append(color);
+    //     reading.append(m_pcPerspCam->GetReadings().BlobList[i]->Angle.GetValue());
+    //     reading.append(m_pcPerspCam->GetReadings().BlobList[i]->Distance);
+
+    //     readings.append(reading);
+    // }
+    // return readings;
+
+    // In the way below I was unable to read color on python. angle.value() and distance are ok
+    return ActusensorsWrapper::ToPythonList(m_pcPerspCam->GetReadings().BlobList);
+}
+// Enable the camera.
+void CPerspectiveCameraWrapper::Enable() {
+    if (m_pcPerspCam == nullptr) {
+        ActusensorsWrapper::Logprint(
+            "Perspective Camera Sensor not implemented or not stated in XML config.");
+        return;
+    }
+    m_pcPerspCam->Enable();
+}
+// Disable the camera.
+void CPerspectiveCameraWrapper::Disable() {
+    if (m_pcPerspCam == nullptr) {
+        ActusensorsWrapper::Logprint(
+            "Perspective Camera Sensor not implemented or not stated in XML config.");
+        return;
+    }
+    m_pcPerspCam->Disable();
+}
+
 
 /****************************************/
 /****************************************/

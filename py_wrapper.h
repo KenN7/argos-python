@@ -71,6 +71,7 @@ class ActusensorsWrapper {
     // CLoopFunctionsWrapper m_cCLoopFunctionsWrapper;
 
     COmnidirectionalCameraWrapper m_cOmnidirectionalCameraWrapper;
+    CPerspectiveCameraWrapper m_cPerspectiveCameraWrapper;
     CLedsActuatorWrapper m_cLedsWrapper;
     CRangeAndBearingWrapper m_cRangeAndBearingWrapper;
 

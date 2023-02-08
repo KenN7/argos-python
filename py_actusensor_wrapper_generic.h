@@ -22,6 +22,8 @@
 #include <argos3/plugins/robots/generic/control_interface/ci_positioning_sensor.h>
 /* Definition of the omni camera sensor */
 #include <argos3/plugins/robots/generic/control_interface/ci_colored_blob_omnidirectional_camera_sensor.h>
+/* Definition of the perspective camera sensor */
+#include <argos3/plugins/robots/generic/control_interface/ci_colored_blob_perspective_camera_sensor.h>
 
 #include <argos3/plugins/simulator/visualizations/qt-opengl/qtopengl_user_functions.h>
 
@@ -147,6 +149,29 @@ class COmnidirectionalCameraWrapper {
     // Return the number of readings obtained so far, i.e. the number of control steps from which
     // the recording started.
     const int GetCounter() const;
+};
+
+/****************************************/
+/****************************************/
+
+// Wrapper for the Perspective Camera.
+// It is possible to enable/disable the camera, get the number of readings, and get the readings of
+// the camera.
+class CPerspectiveCameraWrapper {
+  public:
+    CPerspectiveCameraWrapper();
+    ~CPerspectiveCameraWrapper(){};
+    argos::CCI_ColoredBlobPerspectiveCameraSensor* m_pcPerspCam;
+    // Get the readings from the camera, obtained at this control step.
+    // Each reading is exposed as a "perspective_camera_packet",
+    // from which it is possible to obtain distance, angle and color of each reading.
+    boost::python::list GetReadings() const;
+
+    // Enable the camera.
+    void Enable();
+
+    // Disable the camera.
+    void Disable();
 };
 
 /****************************************/
