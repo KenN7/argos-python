@@ -67,10 +67,12 @@ set(PYLOOPFUNCTION_SOURCES
 
 set(PYQTUSERFUNCTION_HEADERS
   py_qtuser_function.h 
+  py_environment_wrapper.h
   )
 
 set(PYQTUSERFUNCTION_SOURCES
   py_qtuser_function.cpp
+  py_environment_wrapper.cpp
   )
 
 add_library (

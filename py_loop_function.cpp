@@ -60,31 +60,26 @@ void CPyLoopFunction::Init(TConfigurationNode& t_node) {
   }
 
 
-  // TODO: Iterate over nodes / params / parameters  and make them
-  // available in Python
-  // int numByzantine;
-  // GetNodeAttributeOrDefault(tParams, "num_byzantine", numByzantine, 0);
-  // m_loop_namesp["num_byzantine"]  = numByzantine;
-  
-
   // Iterate over all robots and add them to a boost list
   boost::python::list allRobots;    
   CSpace::TMapPerType& m_cEpuck = GetSpace().GetEntitiesByType("epuck");
   for(CSpace::TMapPerType::iterator it = m_cEpuck.begin(); it != m_cEpuck.end(); ++it)
   {
-      /* Get handle to e-puck entity and controller */
+    /* Get handle to e-puck entity and controller */
     CEPuckEntity& cEpuck = *any_cast<CEPuckEntity*>(it->second);
 
     CPyController& cController =  dynamic_cast<CPyController&>(cEpuck.GetControllableEntity().GetController());
 
     allRobots.append(cController.getActusensors());
-    m_environment = boost::make_shared<ActusensorsWrapper>();
-
   }
-
   m_loop_namesp["allrobots"]  = allRobots;
-  m_loop_namesp["environment"]  = m_environment;
-  //m_loop_namesp["params"]  = tParams;
+
+
+  // To-do: find way to access environment handle to access CPyQTUserFunction from loop function
+  /* Get handle to environment */
+  // cEnvironment = dynamic_cast<CPyQTUserFunction&>();
+  // m_environment = cEnvironment.getEnvironment();
+  // m_loop_namesp["environment"]  = m_environment;
   
   try {
     // Import the wrapper's lib

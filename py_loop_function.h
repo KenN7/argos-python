@@ -10,6 +10,8 @@
 #include <py_controller.h>
 #include <py_qtuser_function.h>
 
+
+
 using namespace argos;
 
 class CPyLoopFunction : public CLoopFunctions {
@@ -40,8 +42,7 @@ class CPyLoopFunction : public CLoopFunctions {
     boost::python::object m_loop_namesp;
     boost::python::object m_loop_script;
     PyThreadState* m_loop_interpreter;
-   
-    boost::shared_ptr<ActusensorsWrapper> m_environment;
+    boost::shared_ptr<EnvironmentWrapper> m_environment;
 };
 
 #endif

@@ -4,14 +4,20 @@
 using namespace argos;
 using namespace boost::python;
 
+#define INIT_MODULE_LOOP_FUNCTION PyInit_libpy_loop_function_interface
+extern "C" PyObject* INIT_MODULE_LOOP_FUNCTION();
+
+// TODO: I had to add these lines and the line PyImport_AppendInittab("libpy_controller_interface", INIT_MODULE_CONTROLLER)
+// in this file, otherwise I god an error that libpy_controller_interface is not a built-in module
+#define INIT_MODULE_CONTROLLER PyInit_libpy_controller_interface
+extern "C" PyObject* INIT_MODULE_CONTROLLER();
+
+// TODO: I had to add these lines and the line PyImport_AppendInittab("libpy_qtuser_function_interface", INIT_MODULE_QTUSER_FUNCTION)
+// in this file, otherwise I god an error that libpy_qtuser_function_interface is not a built-in module
 #define INIT_MODULE_QTUSER_FUNCTION PyInit_libpy_qtuser_function_interface
 extern "C" PyObject* INIT_MODULE_QTUSER_FUNCTION();
 
 BOOST_PYTHON_MODULE(libpy_qtuser_function_interface) {
-
-  // // Export "LoopFunctionsWrapper" that contains loop functions
-  //   class_<CPyQTUserFunction, boost::shared_ptr<CPyQTUserFunction>, boost::noncopyable>("environment", no_init)
-  //     .def("set_resources", &CPyQTUserFunction::set_resources);   
 
 }
 
@@ -32,19 +38,16 @@ CPyQTUserFunction::CPyQTUserFunction() {
 }
 
 void CPyQTUserFunction::Init(TConfigurationNode& t_node) {
+  
+  TConfigurationNode& tParams = GetNode(t_node, "params");
 
-  m_environment = boost::make_shared<ActusensorsWrapper>();
-
-  // TConfigurationNode& tParams = GetNode(t_node, "params");
-    
   /* Load script */
   std::string strScriptFileName;
-  // GetNodeAttributeOrDefault(tParams, "script", strScriptFileName, strScriptFileName);
-  // if (strScriptFileName == "") {
-  //   THROW_ARGOSEXCEPTION("QTUSER function: Error loading python script \"" << strScriptFileName << "\""
-  //     << std::endl);
-  // }
-  strScriptFileName = "/home/eksander/geth-argos/FraudForaging/loop_functions/qtuser_function.py";
+  GetNodeAttributeOrDefault(tParams, "script", strScriptFileName, strScriptFileName);
+  if (strScriptFileName == "") {
+    THROW_ARGOSEXCEPTION("QTUSER function: Error loading python script \"" << strScriptFileName << "\""
+      << std::endl);
+  }
   // exec user script
   try {
     m_qtuser_script = exec_file(strScriptFileName.c_str(), m_qtuser_namesp, m_qtuser_namesp);
@@ -54,12 +57,13 @@ void CPyQTUserFunction::Init(TConfigurationNode& t_node) {
     PyErr_Print();
   }
 
+  m_environment = boost::make_shared<EnvironmentWrapper>();
+  m_qtuser_namesp["environment"] = m_environment;
+
   try {
     // Import the wrapper's lib
     // PyRun_SimpleString("import libpy_qtuser_function_interface as lib");
     // object lib = import("libpy_qtuser_function_interface");
-
-    m_qtuser_namesp["environment"] = m_environment;
 
     // Launch Python init function
     object init_f = m_qtuser_main.attr("init");
@@ -88,9 +92,6 @@ void CPyQTUserFunction::DrawInWorld() {
     object draw_in_world_f = m_qtuser_main.attr("DrawInWorld");
     draw_in_world_f();
 
-    // object color_f = m_qtuser_main.attr("color");
-    // std::cout << color_f << std::endl;
-//
   } catch (error_already_set) {
     PyErr_Print();
   }
@@ -105,10 +106,15 @@ void CPyQTUserFunction::Draw(CEPuckEntity& c_entity) {
     * $ argos3 -q epuck
     */
 
+
    DrawText(CVector3(0.0, 0.0, 0.13),   // position
             std::to_string(stoi(c_entity.GetId().substr(2)) + 1),
             CColor::BLUE); // text
 
+}
+
+boost::shared_ptr<EnvironmentWrapper>  CPyQTUserFunction::getEnvironment() {
+    return m_environment;
 }
 
 

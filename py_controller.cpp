@@ -126,7 +126,6 @@ void CPyController::ControlStep() {
 
 
 boost::shared_ptr<ActusensorsWrapper>  CPyController::getActusensors() {
-
     return m_actusensors;
 }
 

@@ -18,6 +18,8 @@ void EnvironmentWrapper::Logprint(const std::string& str_message) {
     std::cout << str_message << std::endl;
 }
 
+
+
 /****************************************/
 /****************************************/
 
@@ -247,28 +249,22 @@ Real ActusensorsWrapper::EPuckGroundReadingsGetItem(
 
 BOOST_PYTHON_MODULE(libpy_controller_interface) {
 
-    //  class_<EnvironmentWrapper, boost::shared_ptr<EnvironmentWrapper>, boost::noncopyable>("environment", no_init)
-    // .def("logprint", &EnvironmentWrapper::Logprint)
-    // .staticmethod("logprint")
-    // .add_property("qt_draw", &EnvironmentWrapper::m_cCQTOpenGLUserFunctionsWrapper);
+    // Export the main "environment" class with the draw functions and variables
+     class_<EnvironmentWrapper, boost::shared_ptr<EnvironmentWrapper>, boost::noncopyable>("environment", no_init)
+        .def("logprint", &EnvironmentWrapper::Logprint)
+        .staticmethod("logprint")
+        .add_property("qt_draw", &EnvironmentWrapper::m_cCQTOpenGLUserFunctionsWrapper)
+        .add_property("variables", &EnvironmentWrapper::m_cVariableWrapper);
 
-    // class_<CQTOpenGLUserFunctionsWrapper, boost::noncopyable>("qtuser_wrapper", no_init)
-    //     .def("circle", &CQTOpenGLUserFunctionsWrapper::DrawCircle);
-
-    // Export the main "robot" class, and define the various actuators and sensors as property of
-    // the class.
-    class_<ActusensorsWrapper, boost::shared_ptr<ActusensorsWrapper>, boost::noncopyable>("robot",
-                                                                                          no_init)
+    // Export the main "robot" class with the sensors, actuators and variables
+    class_<ActusensorsWrapper, boost::shared_ptr<ActusensorsWrapper>, boost::noncopyable>("robot", no_init)
         .def("logprint", &ActusensorsWrapper::Logprint)
         .staticmethod("logprint")
         .add_property("variables", &ActusensorsWrapper::m_cVariableWrapper)
-        .add_property("qt_draw", &ActusensorsWrapper::m_cCQTOpenGLUserFunctionsWrapper)
         .add_property("wheels", &ActusensorsWrapper::m_cWheelsWrapper)
         .add_property("differential_steering", &ActusensorsWrapper::m_cDifferentialSteeringSensor)
-        .add_property("colored_blob_omnidirectional_camera",
-                      &ActusensorsWrapper::m_cOmnidirectionalCameraWrapper)
-        .add_property("colored_blob_perspective_camera",
-              &ActusensorsWrapper::m_cPerspectiveCameraWrapper)
+        .add_property("colored_blob_omnidirectional_camera", &ActusensorsWrapper::m_cOmnidirectionalCameraWrapper)
+        .add_property("colored_blob_perspective_camera", &ActusensorsWrapper::m_cPerspectiveCameraWrapper)
         .add_property("proximity", &ActusensorsWrapper::m_cProximitySensorWrapper)
         .add_property("position", &ActusensorsWrapper::m_cPositioningWrapper)
         .add_property("leds", &ActusensorsWrapper::m_cLedsWrapper)
@@ -282,19 +278,13 @@ BOOST_PYTHON_MODULE(libpy_controller_interface) {
         .add_property("epuck_wheels", &ActusensorsWrapper::m_cEPuckWheelsWrapper)
         .add_property("epuck_proximity", &ActusensorsWrapper::m_cEPuckProximitySensorWrapper)
         .add_property("epuck_ground", &ActusensorsWrapper::m_cEPuckGroundSensorWrapper)
-        .add_property("epuck_range_and_bearing",
-                      &ActusensorsWrapper::m_cEPuckRangeAndBearingWrapper)
+        .add_property("epuck_range_and_bearing", &ActusensorsWrapper::m_cEPuckRangeAndBearingWrapper)
         .add_property("epuck_leds", &ActusensorsWrapper::m_cEPuckLedsWrapper);
 
-    // Export "VariableWrapper" that contains a robot's variables
-    class_<CVariableWrapper, boost::noncopyable>("variable_wrapper", no_init)
-        .def("get_id", &CVariableWrapper::GetId)
-        .def("set_attribute", &CVariableWrapper::SetAttribute)
-        .def("get_attribute", &CVariableWrapper::GetAttribute)  
-        .def("get_all_attributes", &CVariableWrapper::GetAllAttributes);
-
-    // Export "LoopFunctionsWrapper" that contains loop functions
+    // Export "QTOpenGLUserFunctionsWrapper" that contains qtuser draw functions
     class_<CQTOpenGLUserFunctionsWrapper, boost::noncopyable>("qtuser_wrapper", no_init)
+        .def("set_draw_list", &CQTOpenGLUserFunctionsWrapper::SetDrawList)
+        .def("get_draw_list", &CQTOpenGLUserFunctionsWrapper::GetDrawList)  
         .def("circle", &CQTOpenGLUserFunctionsWrapper::DrawCircle)
         .def("ray", &CQTOpenGLUserFunctionsWrapper::DrawRay)
         .def("polygon", &CQTOpenGLUserFunctionsWrapper::DrawPolygon)
@@ -303,6 +293,13 @@ BOOST_PYTHON_MODULE(libpy_controller_interface) {
         .def("text", &CQTOpenGLUserFunctionsWrapper::DrawText)
         .def("close_window", &CQTOpenGLUserFunctionsWrapper::CloseWindow);
 
+    // Export "VariableWrapper" that contains a robot's variables
+    class_<CVariableWrapper, boost::noncopyable>("variable_wrapper", no_init)
+        .def("get_id", &CVariableWrapper::GetId)
+        .def("set_attribute", &CVariableWrapper::SetAttribute)
+        .def("get_attribute", &CVariableWrapper::GetAttribute)  
+        .def("get_all_attributes", &CVariableWrapper::GetAllAttributes);
+        
     // Export "WheelsWrapper", wrapper of CCI_DifferentialSteeringActuator.
     class_<CWheelsWrapper, boost::noncopyable>("wheels_wrapper", no_init)
         .def("set_speed", &CWheelsWrapper::SetSpeed);
