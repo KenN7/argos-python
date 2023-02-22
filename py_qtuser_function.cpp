@@ -87,31 +87,50 @@ void CPyQTUserFunction::Destroy() {
 
 
 void CPyQTUserFunction::DrawInWorld() {
-  // launch python reset function
+
+  // keeping this one temporarily for backwards compatibility
   try {
     object draw_in_world_f = m_qtuser_main.attr("DrawInWorld");
     draw_in_world_f();
 
   } catch (error_already_set) {
+    // std::cout << "please rename DrawInWorld to draw_in_world in loop_functiopqtuser_function.py" << std::endl;
+  }
+
+  // launch python draw function
+  try {
+    object draw_in_world_f = m_qtuser_main.attr("draw_in_world");
+    draw_in_world_f();
+
+  } catch (error_already_set) {
     PyErr_Print();
   }
+
 }
 
 
-// This is just to draw the ID of the robot in the robot reference frame
 void CPyQTUserFunction::Draw(CEPuckEntity& c_entity) {
-   /* The position of the text is expressed wrt the reference point of the epuck
-    * For a epuck, the reference point is the center of its base.
-    * See also the description in
-    * $ argos3 -q epuck
-    */
+  /* The position of the drawings is expressed wrt the reference point of the epuck
+  */
 
+  // Get robot actusensors and export to Python
+  CPyController& cController = dynamic_cast<CPyController&>(c_entity.GetControllableEntity().GetController());
+  m_qtuser_namesp["robot"]  = cController.getActusensors();
 
-   DrawText(CVector3(0.0, 0.0, 0.13),   // position
-            std::to_string(stoi(c_entity.GetId().substr(2)) + 1),
-            CColor::BLUE); // text
+  // Launch Python draw function
+  try {
+    object destroy_f = m_qtuser_main.attr("draw_in_robot");
+    destroy_f();
+  } catch (error_already_set) {
+    PyErr_Print();
+  }
 
+  // Draw the robot ID from here, because DrawText from Python will give segfault
+  DrawText(CVector3(0.0, 0.0, 0.13),   // position
+        std::to_string(stoi(c_entity.GetId().substr(2)) + 1),
+        CColor::BLUE); // text
 }
+
 
 boost::shared_ptr<EnvironmentWrapper>  CPyQTUserFunction::getEnvironment() {
     return m_environment;

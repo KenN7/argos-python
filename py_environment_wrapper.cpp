@@ -1,5 +1,6 @@
 #include "py_environment_wrapper.h"
 #include "py_wrapper.h"
+#include <string>
 
 using namespace argos;
 
@@ -111,21 +112,22 @@ void CQTOpenGLUserFunctionsWrapper::DrawCylinder(const boost::python::list c_pos
 }
 
 
+// NOT WORKING DrawText; CORE DUMP
 void CQTOpenGLUserFunctionsWrapper::DrawText(const boost::python::list c_position,
                                              const std::string str_text,
                                              const std::string str_color_name) {
 
-    CVector3 c_pos_vec;
-    c_pos_vec = CVector3(boost::python::extract<Real>(boost::python::object(c_position[0])), 
-                         boost::python::extract<Real>(boost::python::object(c_position[1])), 
-                         boost::python::extract<Real>(boost::python::object(c_position[2])));
 
+    m_pcCQTOpenGLUserFunctions->DrawText(
+        CVector3(boost::python::extract<Real>(boost::python::object(c_position[0])), 
+                 boost::python::extract<Real>(boost::python::object(c_position[1])), 
+                 boost::python::extract<Real>(boost::python::object(c_position[2]))),   
+        str_text,   
+        ActusensorsWrapper::CColorWrapper(str_color_name).m_cColor); 
 }
 
+// NOT WORKING CloseWindow; CORE DUMP
 void CQTOpenGLUserFunctionsWrapper::CloseWindow() {
   m_pcCQTOpenGLUserFunctions->GetMainWindow().close();
 
-    // NOT WORKING; CORE DUMP
-    // m_pcCQTOpenGLUserFunctions->DrawText(CVector3(0,0,1),
-    //                                      "sdsd");
 }
