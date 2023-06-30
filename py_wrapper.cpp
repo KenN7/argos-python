@@ -325,6 +325,7 @@ BOOST_PYTHON_MODULE(libpy_controller_interface) {
         .def("enable", &COmnidirectionalCameraWrapper::Enable)
         .def("disable", &COmnidirectionalCameraWrapper::Disable)
         .def("get_readings", &COmnidirectionalCameraWrapper::GetReadings)
+        .def("set_fov", &COmnidirectionalCameraWrapper::setFOV)
         .def("get_counter", &COmnidirectionalCameraWrapper::GetCounter);
 
     class_<CPerspectiveCameraWrapper, boost::noncopyable>("perspective_camera_wrapper",

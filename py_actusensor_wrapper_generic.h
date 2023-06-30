@@ -97,9 +97,14 @@ class COmnidirectionalCameraWrapper {
     // Disable the camera.
     void Disable();
 
-    // Return the number of readings obtained so far, i.e. the number of control steps from which
-    // the recording started.
+    // Set the field of vision.
+    void setFOV(double max_angle);
+
+    // Return the number of readings obtained so far
     const int GetCounter() const;
+
+  private:
+    double m_maxAngle;
 };
 
 /****************************************/

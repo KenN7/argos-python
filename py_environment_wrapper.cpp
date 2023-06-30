@@ -61,9 +61,29 @@ void CQTOpenGLUserFunctionsWrapper::DrawPolygon(const boost::python::list c_posi
         b_fill);
 }
 
+// void CQTOpenGLUserFunctionsWrapper::DrawRay(const boost::python::list c_start,
+//                                             const boost::python::list c_end,
+//                                             const std::string str_color_name,
+//                                             const Real f_width) {
+//     CVector3 c_stt_vec;
+//     CVector3 c_end_vec;
+
+//     c_stt_vec = CVector3(boost::python::extract<Real>(boost::python::object(c_start[0])), 
+//                          boost::python::extract<Real>(boost::python::object(c_start[1])), 
+//                          boost::python::extract<Real>(boost::python::object(c_start[2])));
+
+//     c_end_vec = CVector3(boost::python::extract<Real>(boost::python::object(c_end[0])), 
+//                          boost::python::extract<Real>(boost::python::object(c_end[1])), 
+//                          boost::python::extract<Real>(boost::python::object(c_end[2])));
+
+//     m_pcCQTOpenGLUserFunctions->DrawRay(CRay3(c_stt_vec, c_end_vec), 
+//                                         ActusensorsWrapper::CColorWrapper(str_color_name).m_cColor,
+//                                         f_width);
+// }
+
 void CQTOpenGLUserFunctionsWrapper::DrawRay(const boost::python::list c_start,
                                             const boost::python::list c_end,
-                                            const std::string str_color_name,
+                                            const boost::python::object str_color_name,
                                             const Real f_width) {
     CVector3 c_stt_vec;
     CVector3 c_end_vec;
@@ -76,9 +96,25 @@ void CQTOpenGLUserFunctionsWrapper::DrawRay(const boost::python::list c_start,
                          boost::python::extract<Real>(boost::python::object(c_end[1])), 
                          boost::python::extract<Real>(boost::python::object(c_end[2])));
 
-    m_pcCQTOpenGLUserFunctions->DrawRay(CRay3(c_stt_vec, c_end_vec), 
-                                        ActusensorsWrapper::CColorWrapper(str_color_name).m_cColor,
-                                        f_width);
+    if (boost::python::extract<std::string>(str_color_name).check()) {
+        // Handle string color name
+        std::string color_name = boost::python::extract<std::string>(str_color_name);
+        m_pcCQTOpenGLUserFunctions->DrawRay(CRay3(c_stt_vec, c_end_vec),
+                                            ActusensorsWrapper::CColorWrapper(color_name).m_cColor,
+                                            f_width);
+    } else if (boost::python::extract<boost::python::list>(str_color_name).check()) {
+        // Handle RGB array
+        boost::python::list rgb_list = boost::python::extract<boost::python::list>(str_color_name);
+        Real r = boost::python::extract<Real>(rgb_list[0]);
+        Real g = boost::python::extract<Real>(rgb_list[1]);
+        Real b = boost::python::extract<Real>(rgb_list[2]);
+        m_pcCQTOpenGLUserFunctions->DrawRay(CRay3(c_stt_vec, c_end_vec),
+                                            ActusensorsWrapper::CColorWrapper(r,g,b).m_cColor,
+                                            f_width);
+    } else {
+        // Invalid argument type for color
+        // Handle the error accordingly
+    }
 }
 
 void CQTOpenGLUserFunctionsWrapper::DrawBox(const boost::python::list c_position_list, 

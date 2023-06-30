@@ -65,7 +65,7 @@ namespace argos {
 	    void DrawRay(
 	      const boost::python::list c_start,
 	      const boost::python::list c_end,
-	      const std::string str_color_name,
+	      const boost::python::object str_color_name,
 	      const Real f_width);
 
 	    void DrawCylinder(

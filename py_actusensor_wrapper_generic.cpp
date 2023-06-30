@@ -90,8 +90,12 @@ Real CPositioningSensorWrapper::GetOrientation() const {
 
 /****************************************/
 /****************************************/
+COmnidirectionalCameraWrapper::COmnidirectionalCameraWrapper()
+    : m_maxAngle(3.14) {}
 
-COmnidirectionalCameraWrapper::COmnidirectionalCameraWrapper() {}
+void COmnidirectionalCameraWrapper::setFOV(double max_angle) {
+    m_maxAngle = max_angle;
+}
 
 boost::python::list COmnidirectionalCameraWrapper::GetReadings() const {
     if (m_pcOmniCam == nullptr) {
@@ -101,28 +105,28 @@ boost::python::list COmnidirectionalCameraWrapper::GetReadings() const {
     }
 
     boost::python::list readings;
-    
+
     for (size_t i = 0; i < m_pcOmniCam->GetReadings().BlobList.size(); ++i) {
-        boost::python::list color;
-        boost::python::list reading;
+        double angle = m_pcOmniCam->GetReadings().BlobList[i]->Angle.GetValue();
+        if (angle < m_maxAngle && angle > -m_maxAngle) {
+            boost::python::list color;
+            boost::python::list reading;
 
-        color.append(m_pcOmniCam->GetReadings().BlobList[i]->Color.GetRed());
-        color.append(m_pcOmniCam->GetReadings().BlobList[i]->Color.GetGreen());
-        color.append(m_pcOmniCam->GetReadings().BlobList[i]->Color.GetBlue());
+            color.append(m_pcOmniCam->GetReadings().BlobList[i]->Color.GetRed());
+            color.append(m_pcOmniCam->GetReadings().BlobList[i]->Color.GetGreen());
+            color.append(m_pcOmniCam->GetReadings().BlobList[i]->Color.GetBlue());
 
-        reading.append(color);
-        reading.append(m_pcOmniCam->GetReadings().BlobList[i]->Angle.GetValue());
-        reading.append(m_pcOmniCam->GetReadings().BlobList[i]->Distance);
+            reading.append(color);
+            reading.append(angle);
+            reading.append(m_pcOmniCam->GetReadings().BlobList[i]->Distance);
 
-        readings.append(reading);
+            readings.append(reading);
+        }
     }
-    
 
     return readings;
-
-    // In the way below I was unable to read color on python. angle.value() and distance are ok
-    // return ActusensorsWrapper::ToPythonList(m_pcOmniCam->GetReadings().BlobList);
 }
+
 // Enable the camera.
 void COmnidirectionalCameraWrapper::Enable() {
     if (m_pcOmniCam == nullptr) {
