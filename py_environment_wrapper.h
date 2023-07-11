@@ -52,7 +52,7 @@ namespace argos {
 	      const boost::python::list c_position_list, 
 	      const boost::python::list c_orientation_list, 
 	      const Real f_radius, 
-	      const std::string str_color_name,
+	      const boost::python::object color_str_list,
 	      const bool  b_fill=true);
 
 	    void DrawPolygon(
@@ -79,7 +79,7 @@ namespace argos {
 	      const boost::python::list c_position_list, 
 	      const boost::python::list c_orientation_list, 
 	      const boost::python::list c_size_list, 
-	      const std::string str_color_name);
+	      const boost::python::object str_color_name);
 
 	    void DrawText(
 	      const boost::python::list c_position,
