@@ -14,7 +14,13 @@ link_directories(${PYTHON_LIBRARIES})
 # add_definitions(${LUA_CONST})
 
 # find_package(Boost 1.61.0 COMPONENTS python3)
-find_package(Boost COMPONENTS python3)
+
+# Try Boost with python38 (for Ubuntu 22.04)
+find_package(Boost COMPONENTS python38 QUIET)
+if(NOT Boost_FOUND)
+    # Fallback for Ubuntu 20.04
+    find_package(Boost COMPONENTS python3 REQUIRED)
+endif()
 
 
 include_directories (${Boost_INCLUDE_DIRS})
