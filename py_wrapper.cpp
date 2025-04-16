@@ -261,6 +261,7 @@ BOOST_PYTHON_MODULE(libpy_controller_interface) {
         .def("logprint", &ActusensorsWrapper::Logprint)
         .staticmethod("logprint")
         .add_property("variables", &ActusensorsWrapper::m_cVariableWrapper)
+        .add_property("param", &ActusensorsWrapper::m_cVariableWrapper)
         .add_property("wheels", &ActusensorsWrapper::m_cWheelsWrapper)
         .add_property("differential_steering", &ActusensorsWrapper::m_cDifferentialSteeringSensor)
         .add_property("colored_blob_omnidirectional_camera", &ActusensorsWrapper::m_cOmnidirectionalCameraWrapper)
@@ -298,7 +299,10 @@ BOOST_PYTHON_MODULE(libpy_controller_interface) {
         .def("get_id", &CVariableWrapper::GetId)
         .def("set_attribute", &CVariableWrapper::SetAttribute)
         .def("get_attribute", &CVariableWrapper::GetAttribute)  
-        .def("get_all_attributes", &CVariableWrapper::GetAllAttributes);
+        .def("get_all_attributes", &CVariableWrapper::GetAllAttributes)       
+        .def("set", &CVariableWrapper::SetAttribute)
+        .def("get", &CVariableWrapper::GetAttribute)  
+        .def("get_all", &CVariableWrapper::GetAllAttributes);
         
     // Export "WheelsWrapper", wrapper of CCI_DifferentialSteeringActuator.
     class_<CWheelsWrapper, boost::noncopyable>("wheels_wrapper", no_init)

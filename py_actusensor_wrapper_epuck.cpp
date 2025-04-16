@@ -16,42 +16,25 @@ void CVariableWrapper::SetId(const std::string id) {
   m_cId = id;
 }
 
-void CVariableWrapper::SetAttribute(const std::string& key, const std::string& value) {
-  m_cAttributes[key] = value;
+void CVariableWrapper::SetAttribute(const std::string& key, const boost::python::object& value) {
+    m_cAttributes[key] = value;
 }
 
-const std::string CVariableWrapper::GetAttribute(const std::string& key) {
-  return m_cAttributes[key];
-}
-
-const std::string CVariableWrapper::GetAllAttributes() {
-  std::map<std::string, std::string>::iterator it = m_cAttributes.begin();
-  std::string json = "{";
-
-    for (std::pair<std::string, std::string> attr : m_cAttributes) 
-    {
-        std::string key = attr.first;
-        std::string value = attr.second;
-        json.append("\"" + key + "\"" + ": " + "\"" + value+ "\"" + ", ");
+boost::python::object CVariableWrapper::GetAttribute(const std::string& key) {
+    auto it = m_cAttributes.find(key);
+    if (it != m_cAttributes.end()) {
+        return it->second;
     }
-    if (!json.empty())
-        json.pop_back();
-        json.pop_back();
-    json.append("}");
-    return json;
+    return boost::python::object(); // None
 }
 
-// void CVariableWrapper::SetAttribute(const std::string& key, const bool& value) {
-//   m_cAttributes[key] = value;
-// }
-// const boost::variant<std::string, bool> CVariableWrapper::GetAttribute(const std::string& key) {
-//   return m_cAttributes[key];
-// }
-
-
-// // Ideally this function gets a atributes dictionary
-// void CVariableWrapper::SetAttribute(const boost::python::dict key) {
-// }
+boost::python::dict CVariableWrapper::GetAllAttributes() {
+    boost::python::dict result;
+    for (const auto& pair : m_cAttributes) {
+        result[pair.first] = pair.second;
+    }
+    return result;
+}
 
 
 /****************************************/

@@ -31,24 +31,23 @@ namespace argos {
 // Wrapper for getting the values of a robot's variables
 class CVariableWrapper {
   public:
-    CVariableWrapper();
-    ~CVariableWrapper(){};
+      CVariableWrapper();
+      ~CVariableWrapper() {}
+  
+      void SetId(const std::string id);
+      const std::string GetId();
+  
+      void SetAttribute(const std::string& key, const boost::python::object& value); 
+      boost::python::object GetAttribute(const std::string& key);
+  
+      boost::python::dict GetAllAttributes(); 
+  
+      std::string m_cId;
 
-  void SetId(const std::string id);
-  const std::string GetId();
-  std::string m_cId;
-
-  void SetAttribute(const std::string& key, const std::string& value);
-  const std::string GetAttribute(const std::string& key);
-  const std::string GetAllAttributes();
-  std::map<std::string, std::string> m_cAttributes;
-
-  // void SetAttribute(const std::string& key, const bool& value);
-  // const boost::variant<std::string, bool> GetAttribute(const std::string& key);
-  // std::map<std::string, boost::variant<std::string, bool>> m_cAttributes;
-
-
-};
+  private:
+      
+      std::map<std::string, boost::python::object> m_cAttributes;
+  };
 
 /****************************************/
 /****************************************/
