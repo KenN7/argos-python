@@ -15,14 +15,14 @@
   <!-- * Controllers * -->
   <!-- *************** -->
   <controllers>
-    <python_controller id="fsc" library="/mnt/c/Users/albyr/Documents/argos-python/libpy_controller_interface.so">
+    <python_controller id="fsc" library="../../build/libpy_controller_interface.so">
       <actuators>
         <leds implementation="default" medium="leds" />
       </actuators>
       <sensors>
         <colored_blob_omnidirectional_camera implementation="rot_z_only" medium="leds" show_rays="true" />
       </sensors>
-      <params script="/mnt/c/Users/albyr/Documents/argos-python/examples/synchronization_python.py"/>
+      <params script="../controllers/synchronization_python.py"/>
     </python_controller>
   </controllers>
 

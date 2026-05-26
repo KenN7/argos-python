@@ -16,7 +16,7 @@
   <!-- *************** -->
   <controllers>
 
-    <python_controller id="python" library="/mnt/c/Users/albyr/Documents/argos-python/libpy_controller_interface.so">
+    <python_controller id="python" library="../../build/libpy_controller_interface.so">
       <actuators>
         <differential_steering implementation="default" />
         <footbot_gripper       implementation="default" />
@@ -25,7 +25,7 @@
       <sensors>
         <footbot_turret_encoder  implementation="default" /> 
       </sensors> 
-      <params script="/mnt/c/Users/albyr/Documents/argos-python/examples/gripping_python.py" />/>
+      <params script="../controllers/gripping_python.py" />
     </python_controller>
 
   </controllers>

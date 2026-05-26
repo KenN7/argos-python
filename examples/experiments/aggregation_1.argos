@@ -14,21 +14,21 @@
   <controllers>
 
    
-    <python_controller id="python" library="/home/eksander/geth-argos/argos-python/build/libpy_controller_interface.so">
+    <python_controller id="python" library="../../build/libpy_controller_interface.so">
       <!-- Normal actuator/sensor configuration follows -->
       <actuators>
-        <epuck_wheels implementation="default" />
-        <epuck_range_and_bearing implementation="medium" />
+        <differential_steering implementation="default" />
+        <range_and_bearing implementation="default" />
       </actuators>
       <sensors>
-        <epuck_proximity implementation="default" show_rays="true" />
-        <epuck_ground implementation="rot_z_only" />
-        <epuck_range_and_bearing implementation="medium" medium="rab" />
+        <footbot_proximity implementation="default" show_rays="true" />
+        <footbot_base_ground implementation="rot_z_only" />
+        <range_and_bearing implementation="medium" medium="rab" />
       </sensors>
       <!-- No required configuration -->
       
       <!-- Optionally, you can pass a script as a controller parameter: -->
-      <params script="/home/eksander/geth-argos/argos-python/examples/aggregation_epuck.py" />
+      <params script="../controllers/aggregation_1_python.py"/>
     </python_controller>
 
   </controllers>
@@ -37,7 +37,7 @@
   <!-- * Arena configuration * -->
   <!-- *********************** -->
   <arena size="5, 5, 1" center="0,0,0.5">
-    <floor id="f" source="image" path="/home/eksander/geth-argos/argos-python/examples/one_spot.png" />
+    <floor id="f" source="image" path="floors/one_spot.png" />
 
     <box id="bn" size="0.1, 5, 0.2" movable="false">
       <body position="2.5,0,0"  orientation="0,0,0" />
@@ -56,10 +56,10 @@
       <position method="uniform" min="-2,-2.5,0" max="2,2.5,0" /> 
       <orientation method="gaussian" mean="0,0,0" std_dev="360,0,0" /> 
       <entity quantity="1" max_trials="100"> 
-        <e-puck id="fb" 
+        <foot-bot id="fb" 
                   rab_range = "1">
           <controller config="python" />
-        </e-puck>
+        </foot-bot>
       </entity> 
     </distribute> 
 
