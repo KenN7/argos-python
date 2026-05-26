@@ -25,7 +25,7 @@
         <footbot_light                       implementation="rot_z_only" show_rays="true" />
         <colored_blob_omnidirectional_camera implementation="rot_z_only" medium="leds" show_rays="true" />
       </sensors>
-      <params script="../controllers/flockingpython.py">
+      <params script="../controllers/flocking.py">
       </params>
     </python_controller>
 

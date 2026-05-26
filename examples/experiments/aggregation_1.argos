@@ -28,7 +28,7 @@
       <!-- No required configuration -->
       
       <!-- Optionally, you can pass a script as a controller parameter: -->
-      <params script="../controllers/aggregation_1_python.py"/>
+      <params script="../controllers/aggregation_1.py"/>
     </python_controller>
 
   </controllers>

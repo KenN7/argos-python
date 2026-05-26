@@ -25,7 +25,7 @@
       <sensors>
         <footbot_turret_encoder  implementation="default" /> 
       </sensors> 
-      <params script="../controllers/gripping_python.py" />
+      <params script="../controllers/gripping.py" />
     </python_controller>
 
   </controllers>

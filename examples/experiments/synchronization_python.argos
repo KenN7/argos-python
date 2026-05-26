@@ -22,7 +22,7 @@
       <sensors>
         <colored_blob_omnidirectional_camera implementation="rot_z_only" medium="leds" show_rays="true" />
       </sensors>
-      <params script="../controllers/synchronization_python.py"/>
+      <params script="../controllers/synchronization.py"/>
     </python_controller>
   </controllers>
 
