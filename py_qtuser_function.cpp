@@ -1,5 +1,6 @@
 #include "py_qtuser_function.h"
 #include "py_python_runtime.h"
+#include <cctype>
 #include <string>
 
 using namespace argos;
@@ -32,6 +33,41 @@ struct CQTUserFunctionModuleRegistrar {
 };
 
 CQTUserFunctionModuleRegistrar g_cQTUserFunctionModuleRegistrar;
+
+void CallIfDefined(boost::python::object& c_namespace, const std::string& str_function) {
+  if (PyMapping_HasKeyString(c_namespace.ptr(), str_function.c_str())) {
+    object cFunction = c_namespace[str_function];
+    if (!cFunction.is_none()) {
+      cFunction();
+    }
+  }
+}
+
+int GetTrailingNumber(const std::string& str_id) {
+  std::string::size_type unFirstDigit = str_id.size();
+  while (unFirstDigit > 0 && std::isdigit(str_id[unFirstDigit - 1])) {
+    --unFirstDigit;
+  }
+  if (unFirstDigit == str_id.size()) {
+    return 0;
+  }
+  return std::stoi(str_id.substr(unFirstDigit));
+}
+
+template <typename TRobotEntity>
+void DrawRobot(CPyQTUserFunction& c_user_function,
+               boost::python::object& c_namespace,
+               TRobotEntity& c_entity) {
+  CPyController& cController =
+    dynamic_cast<CPyController&>(c_entity.GetControllableEntity().GetController());
+  c_namespace["robot"] = cController.getActusensors();
+  CallIfDefined(c_namespace, "draw_in_robot");
+
+  // Draw the robot ID from here, because DrawText from Python will give segfault.
+  c_user_function.DrawText(CVector3(0.0, 0.0, 0.13),
+                           std::to_string(GetTrailingNumber(c_entity.GetId()) + 1),
+                           CColor::BLUE);
+}
 }
 
 CPyQTUserFunction::CPyQTUserFunction() {
@@ -42,6 +78,7 @@ CPyQTUserFunction::CPyQTUserFunction() {
 
   // This is just to draw the ID of the robot in the robot reference frame
   RegisterUserFunction<CPyQTUserFunction,CEPuckEntity>(&CPyQTUserFunction::Draw);
+  RegisterUserFunction<CPyQTUserFunction,CFootBotEntity>(&CPyQTUserFunction::Draw);
 }
 
 CPyQTUserFunction::~CPyQTUserFunction() {
@@ -104,22 +141,12 @@ void CPyQTUserFunction::Destroy() {
 void CPyQTUserFunction::DrawInWorld() {
   CPyGILGuard cGIL;
 
-  // keeping this one temporarily for backwards compatibility
   try {
-    object draw_in_world_f = m_qtuser_namesp["DrawInWorld"];
-    draw_in_world_f();
-
+    // Keep DrawInWorld temporarily for backwards compatibility.
+    CallIfDefined(m_qtuser_namesp, "DrawInWorld");
+    CallIfDefined(m_qtuser_namesp, "draw_in_world");
   } catch (error_already_set) {
-    // std::cout << "please rename DrawInWorld to draw_in_world in loop_functiopqtuser_function.py" << std::endl;
-  }
-
-  // launch python draw function
-  try {
-    object draw_in_world_f = m_qtuser_namesp["draw_in_world"];
-    draw_in_world_f();
-
-  } catch (error_already_set) {
-    PyErr_Print();
+    PyErr_Print();  
   }
 
 }
@@ -127,25 +154,20 @@ void CPyQTUserFunction::DrawInWorld() {
 
 void CPyQTUserFunction::Draw(CEPuckEntity& c_entity) {
   CPyGILGuard cGIL;
-  /* The position of the drawings is expressed wrt the reference point of the epuck
-  */
-
-  // Get robot actusensors and export to Python
-  CPyController& cController = dynamic_cast<CPyController&>(c_entity.GetControllableEntity().GetController());
-  m_qtuser_namesp["robot"]  = cController.getActusensors();
-
-  // Launch Python draw function
   try {
-    object destroy_f = m_qtuser_namesp["draw_in_robot"];
-    destroy_f();
+    DrawRobot(*this, m_qtuser_namesp, c_entity);
   } catch (error_already_set) {
     PyErr_Print();
   }
+}
 
-  // Draw the robot ID from here, because DrawText from Python will give segfault
-  DrawText(CVector3(0.0, 0.0, 0.13),   // position
-        std::to_string(stoi(c_entity.GetId().substr(2)) + 1),
-        CColor::BLUE); // text
+void CPyQTUserFunction::Draw(CFootBotEntity& c_entity) {
+  CPyGILGuard cGIL;
+  try {
+    DrawRobot(*this, m_qtuser_namesp, c_entity);
+  } catch (error_already_set) {
+    PyErr_Print();
+  }
 }
 
 
