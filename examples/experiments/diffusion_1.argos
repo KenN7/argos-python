@@ -1,0 +1,49 @@
+<?xml version="1.0" ?>
+<argos-configuration>
+  <framework>
+    <system threads="0" />
+    <experiment length="0" ticks_per_second="10" random_seed="124" />
+  </framework>
+
+  <controllers>
+    <python_controller id="fdc" library="../../build/libpy_controller_interface.so">
+      <actuators>
+        <differential_steering implementation="default" />
+      </actuators>
+      <sensors>
+        <footbot_proximity implementation="default" show_rays="true" />
+      </sensors>
+      <params script="../controllers/footbot_diffusion.py" />
+    </python_controller>
+  </controllers>
+
+  <arena size="3,3,1" center="0,0,0.5">
+    <!-- Four walls make a small obstacle-avoidance arena. -->
+    <box id="wall_north" size="2,0.1,0.125" movable="false">
+      <body position="0,1,0" orientation="0,0,0" />
+    </box>
+    <box id="wall_south" size="2,0.1,0.125" movable="false">
+      <body position="0,-1,0" orientation="0,0,0" />
+    </box>
+    <box id="wall_east" size="0.1,2,0.125" movable="false">
+      <body position="1,0,0" orientation="0,0,0" />
+    </box>
+    <box id="wall_west" size="0.1,2,0.125" movable="false">
+      <body position="-1,0,0" orientation="0,0,0" />
+    </box>
+
+    <foot-bot id="fb_0">
+      <body position="0,0,0" orientation="0,0,0" />
+      <controller config="fdc" />
+    </foot-bot>
+  </arena>
+
+  <physics_engines>
+    <dynamics2d id="dyn2d" />
+  </physics_engines>
+
+  <media />
+  <visualization>
+    <qt-opengl />
+  </visualization>
+</argos-configuration>

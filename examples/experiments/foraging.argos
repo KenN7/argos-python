@@ -1,0 +1,77 @@
+<?xml version="1.0" ?>
+<argos-configuration>
+  <framework>
+    <system threads="0" />
+    <experiment length="0" ticks_per_second="10" random_seed="17" />
+  </framework>
+
+  <controllers>
+    <python_controller id="forager" library="../../build/libpy_controller_interface.so">
+      <actuators>
+        <epuck_wheels implementation="default" />
+        <epuck_rgb_leds implementation="default" medium="leds" />
+      </actuators>
+      <sensors>
+        <positioning implementation="default" />
+        <epuck_proximity implementation="default" show_rays="false" />
+      </sensors>
+      <params script="../controllers/epuck_foraging.py" />
+    </python_controller>
+  </controllers>
+
+  <loop_functions library="../../build/libpy_loop_function_interface.so"
+                  label="py_loop_function">
+    <params script="../loop_functions/foraging/loop_function.py" />
+  </loop_functions>
+
+  <arena size="4,4,1" center="0,0,0.5">
+    <box id="wall_north" size="4,0.1,0.125" movable="false">
+      <body position="0,2,0" orientation="0,0,0" />
+    </box>
+    <box id="wall_south" size="4,0.1,0.125" movable="false">
+      <body position="0,-2,0" orientation="0,0,0" />
+    </box>
+    <box id="wall_east" size="0.1,4,0.125" movable="false">
+      <body position="2,0,0" orientation="0,0,0" />
+    </box>
+    <box id="wall_west" size="0.1,4,0.125" movable="false">
+      <body position="-2,0,0" orientation="0,0,0" />
+    </box>
+
+    <distribute>
+      <position method="uniform" min="-1,-1,0" max="1,1,0" />
+      <orientation method="uniform" min="0,0,0" max="360,0,0" />
+      <entity quantity="12" max_trials="100">
+        <e-puck id="ep">
+          <controller config="forager" />
+        </e-puck>
+      </entity>
+    </distribute>
+  </arena>
+
+  <physics_engines>
+    <dynamics2d id="dyn2d" />
+  </physics_engines>
+
+  <media>
+    <led id="leds" />
+  </media>
+
+  <visualization>
+    <qt-opengl autoplay="true">
+      <user_functions library="../../build/libpy_qtuser_function_interface.so"
+                      label="py_qtuser_function">
+        <params script="../loop_functions/foraging/qt_user.py" />
+      </user_functions>
+      <camera>
+        <placements>
+          <placement index="0"
+                     position="0,0,6"
+                     look_at="0,0,0"
+                     up="1,0,0"
+                     lens_focal_length="50" />
+        </placements>
+      </camera>
+    </qt-opengl>
+  </visualization>
+</argos-configuration>

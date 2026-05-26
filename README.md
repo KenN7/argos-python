@@ -1,27 +1,94 @@
-# argos-python
+# ARGoS Python Wrapper
 
-## How to use
-copy all files in the plugin folder of argos simulator
-then build.
+This repository lets you write [ARGoS3](https://github.com/ilpincy/argos3) controllers, loop functions, and Qt user functions in Python.
 
-### Building instructions
-You need at least boost, boost-libs, cmake, gcc, python3.
-Compliling tested on archlinux only.
-```bash
-cd argos-python
-cmake .
+ARGoS experiments can then be run without recompiling C++ every time experiment logic is changed.
+
+The wrapper is implemented in C++ and uses Boost.Python behind the scenes to
+bridge ARGoS interfaces into Python objects. 
+
+Note: This branch is distinct from other variants of the wrapper because it does not
+use Python subinterpreters. All Python scripts run in the main interpreter with
+separate namespaces. That improves compatibility with Python packages that do not fully
+support subinterpreters, including NumPy and ROS 2 Python libraries.
+
+## Dependencies
+
+- ARGoS3 installed on the system
+- Optional: e-puck plugins for the e-puck examples
+
+This branch has been developed on Ubuntu 22.04 with GCC 11 and Python 3.10.
+
+## Build
+
+```sh
+mkdir -p build
+cd build
+cmake ..
 make
 ```
-### Controller
-Now you use the python_controller in your .argos configuration like so :
+
+The build creates three shared libraries:
+
+- `build/libpy_controller_interface.so`
+- `build/libpy_loop_function_interface.so`
+- `build/libpy_qtuser_function_interface.so`
+
+## Using The Wrapper
+
+A Python controller is declared in the `<controllers>` section of an `.argos`
+file:
+
 ```xml
-<python_controller id="whatever" library="/path/to/compiled/libpy_controller_interface.so">
+<python_controller id="my_controller"
+                   library="../../build/libpy_controller_interface.so">
+  <params script="../controllers/my_controller.py" />
+</python_controller>
 ```
 
-don't forget to also add :
-```xml
-<params script="/path/to/script.py" />
-```
-at the end of controller section
+A Python loop function is declared at the top level:
 
-### python script
+```xml
+<loop_functions library="../../build/libpy_loop_function_interface.so"
+                label="py_loop_function">
+  <params script="../loop_functions/my_loop_function.py" />
+</loop_functions>
+```
+
+A Python Qt user function is declared inside `<qt-opengl>`:
+
+```xml
+<qt-opengl>
+  <user_functions library="../../build/libpy_qtuser_function_interface.so"
+                  label="py_qtuser_function">
+    <params script="../loop_functions/my_qt_user.py" />
+  </user_functions>
+</qt-opengl>
+```
+
+## Examples
+
+The `examples` folder contains a small subset of the `argos3-examples` experiments adapted to Python. 
+
+To run examples:
+
+```sh
+cd examples/experiments
+argos3 -c diffusion_1.argos
+```
+
+Included examples:
+
+- `diffusion_1.argos` and `diffusion_10.argos`: foot-bot diffusion.
+- `epuck_avoidance.argos`: e-puck obstacle avoidance.
+- `flocking.argos`: foot-bot light-following flocking.
+- `foraging.argos`: e-puck foraging with Python controller, loop function, and Qt user function.
+- `gripping.argos`: foot-bot gripper demo.
+- `synchronization.argos`: LED/camera synchronization.
+
+Python controllers live in `examples/controllers`. The foraging loop and Qt user
+functions live in `examples/loop_functions/foraging`.
+
+Note: If ARGoS is launched from a Snap-packaged editor terminal and Qt fails with a
+`/snap/core20/.../libpthread.so.0` symbol lookup error, run ARGoS from a normal
+system terminal or with a clean environment.
