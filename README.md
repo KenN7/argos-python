@@ -1,16 +1,10 @@
 # ARGoS Python Wrapper
 
-This repository lets you write [ARGoS3](https://github.com/ilpincy/argos3) controllers, loop functions, and Qt user functions in Python.
+This repository lets you write [ARGoS3](https://github.com/ilpincy/argos3) controllers, loop functions, and Qt user functions in Python, and then run experiments without recompiling C++.
 
-ARGoS experiments can then be run without recompiling C++ every time experiment logic is changed.
+The wrapper is implemented in C++ and uses Boost.Python to bridge ARGoS interfaces into Python objects. 
 
-The wrapper is implemented in C++ and uses Boost.Python behind the scenes to
-bridge ARGoS interfaces into Python objects. 
-
-Note: This branch is distinct from other variants of the wrapper because it does not
-use Python subinterpreters. All Python scripts run in the main interpreter with
-separate namespaces. That improves compatibility with Python packages that do not fully
-support subinterpreters, including NumPy and ROS 2 Python libraries.
+Note: This branch is distinct because it does not use Python subinterpreters. Scripts run in the main interpreter, improving compatibility with Python packages such as NumPy, ROS 2 Python libraries and many others.
 
 ## Dependencies
 
