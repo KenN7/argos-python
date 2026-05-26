@@ -7,6 +7,8 @@
 #include "py_controller.h"
 #include "py_python_runtime.h"
 
+#include <cctype>
+
 using namespace argos;
 using namespace boost::python;
 
@@ -23,6 +25,17 @@ struct CControllerModuleRegistrar {
 };
 
 CControllerModuleRegistrar g_cControllerModuleRegistrar;
+
+int GetTrailingNumber(const std::string& str_id) {
+    std::string::size_type unFirstDigit = str_id.size();
+    while (unFirstDigit > 0 && std::isdigit(str_id[unFirstDigit - 1])) {
+        --unFirstDigit;
+    }
+    if (unFirstDigit == str_id.size()) {
+        return 0;
+    }
+    return std::stoi(str_id.substr(unFirstDigit));
+}
 }
 
 CPyController::CPyController() {
@@ -77,8 +90,9 @@ m_actusensors->SetId(GetId());
 void CPyController::Init(TConfigurationNode& t_node) {
     CPyGILGuard cGIL;
 
-    robotId = stoi(GetId().substr(2));
+    robotId = GetTrailingNumber(GetId());
     timeStep = 0;
+    timeRate = 1;
 
     // get instances of actuators and sensors and pass them to the wrapper
     m_actusensors = boost::make_shared<ActusensorsWrapper>();
@@ -90,6 +104,11 @@ void CPyController::Init(TConfigurationNode& t_node) {
     std::string strScriptFileName;
     GetNodeAttributeOrDefault(t_node, "script", strScriptFileName, strScriptFileName);
     GetNodeAttributeOrDefault(t_node, "timeRate", timeRate, timeRate);
+    if (timeRate <= 0) {
+        THROW_ARGOSEXCEPTION("Invalid timeRate=\"" << timeRate
+          << "\" for python_controller \"" << GetId()
+          << "\". timeRate must be greater than 0.");
+    }
     if (strScriptFileName == "") {
         THROW_ARGOSEXCEPTION("Error loading python script \"" << strScriptFileName << "\""
           << std::endl);
