@@ -3,6 +3,8 @@ cmake_minimum_required (VERSION 3.0)
 
 project (pythonwrapper CXX)
 
+set(WRAPPER_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
+
 if(POLICY CMP0072)
   cmake_policy(SET CMP0072 NEW)
 endif()
@@ -43,49 +45,47 @@ link_directories(${ARGOS_LIBRARY_DIR})
 link_libraries(${ARGOS_LDFLAGS})
 
 # Set ARGoS include dir
-include_directories(${CMAKE_SOURCE_DIR} ${ARGOS_INCLUDE_DIRS} ${GSL_INCLUDE_DIR} ${LUA_INCLUDE_DIR})
+include_directories(${WRAPPER_SOURCE_DIR} ${ARGOS_INCLUDE_DIRS} ${GSL_INCLUDE_DIR} ${LUA_INCLUDE_DIR})
 
 # Set ARGoS link dir
 link_directories(${ARGOS_LIBRARY_DIRS})
 
-include_directories(${CMAKE_SOURCE_DIR}/controllers)
-
 set(PYCONTROLLER_HEADERS
-  py_controller.h
-  py_wrapper.h
-  py_actusensor_wrapper_generic.h
-  py_actusensor_wrapper_footbot.h
-  py_actusensor_wrapper_epuck.h
+  src/py_controller.h
+  src/py_wrapper.h
+  src/py_actusensor_wrapper_generic.h
+  src/py_actusensor_wrapper_footbot.h
+  src/py_actusensor_wrapper_epuck.h
   )
 
 set(PYCONTROLLER_SOURCES
-  py_python_runtime.cpp
-  py_controller.cpp
-  py_wrapper.cpp
-  py_actusensor_wrapper_generic.cpp
-  py_actusensor_wrapper_footbot.cpp
-  py_actusensor_wrapper_epuck.cpp
+  src/py_python_runtime.cpp
+  src/py_controller.cpp
+  src/py_wrapper.cpp
+  src/py_actusensor_wrapper_generic.cpp
+  src/py_actusensor_wrapper_footbot.cpp
+  src/py_actusensor_wrapper_epuck.cpp
   )
 
 set(PYLOOPFUNCTION_HEADERS
-  py_loop_function.h 
+  src/py_loop_function.h
   )
 
 set(PYLOOPFUNCTION_SOURCES
-  py_python_runtime.cpp
-  py_loop_function.cpp
+  src/py_python_runtime.cpp
+  src/py_loop_function.cpp
   )
 
 
 set(PYQTUSERFUNCTION_HEADERS
-  py_qtuser_function.h 
-  py_environment_wrapper.h
+  src/py_qtuser_function.h
+  src/py_environment_wrapper.h
   )
 
 set(PYQTUSERFUNCTION_SOURCES
-  py_python_runtime.cpp
-  py_qtuser_function.cpp
-  py_environment_wrapper.cpp
+  src/py_python_runtime.cpp
+  src/py_qtuser_function.cpp
+  src/py_environment_wrapper.cpp
   )
 
 add_library (
