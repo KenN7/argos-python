@@ -5,27 +5,7 @@
   <!-- * General configuration * -->
   <!-- ************************* -->
   <framework>
-    <!--
-        System configuration:
-        - threads: the number of slave threads to parallelize the
-          computation. For less than 100 robots thread management is not
-          beneficial, so here we set it to 0. When set to 0, it means that
-          the computation is not parallelized: the main thread does
-          everything.
-    -->
-    <system threads="0" />
-    <!--
-        Experiment configuration:
-        - length: total experiment time in seconds (0 means the experiment
-          has no time limit)
-        - ticks_per_second: number of ticks per second (int value)
-        - random_seed: seed of the main random number generator. If unset
-          or set to zero, this value is taken from the clock and a warning
-          message is displayed.
-    -->
-    <experiment length="0"
-                ticks_per_second="10"
-                random_seed="124" />
+    <experiment length="0" ticks_per_second="10" />
   </framework>
 
   <!-- *************** -->
@@ -33,23 +13,7 @@
   <!-- *************** -->
   <controllers>
 
-    <!-- 
-         Here you list the controllers to be used in the experiment.
-         The XML tag is set by the REGISTER_CONTROLLER(class, "tag") macro.
-         You find it in the .cpp file of your controller.
-         For this example, the macro is called in
-         controllers/footbot_diffusion.cpp:100.
-    -->
-
-    <!--
-        The attributes are:
-        - id: a unique a identifier for this controller, to be used in the
-          subsequent <arena> section to say which robots use which
-          controller
-        - library: the path to the compiled library containing you
-          controller.
-    -->
-    <python_controller id="fdc" library="../../build/libpy_controller_interface.so">
+    <python_controller id="fc" library="../../build/libpy_controller_interface.so">
       <!--
           The <actuators> section contains a list of the actuators used by
           this controller.
@@ -91,7 +55,7 @@
           controller's header file in
           controllers/footbot_diffusion/footbot_diffusion.h.
       -->
-      <params alpha="7.5" delta="0.1" velocity="5" script="../controllers/diffusion_controller_epuck.py"/>
+      <params script="../controllers/diffusion_controller_epuck.py" timeRate="1" />
     </python_controller>
 
   </controllers>
@@ -141,9 +105,9 @@
       </entity>
     </distribute> -->
 	
-	<e-puck id="fb_0">
+	<e-puck id="bc">
       <body position="0,0,0" orientation="0,0,0" />
-      <controller config="fdc"/>
+      <controller config="fc"/>
     </e-puck>
   </arena>
 

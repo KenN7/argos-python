@@ -32,6 +32,26 @@ struct CLoopFunctionModuleRegistrar {
 };
 
 CLoopFunctionModuleRegistrar g_cLoopFunctionModuleRegistrar;
+
+template <typename TRobotEntity>
+void AppendRobotControllers(CSpace& c_space,
+                            const std::string& str_entity_type,
+                            boost::python::list& c_all_robots) {
+  try {
+    CSpace::TMapPerType& cEntities = c_space.GetEntitiesByType(str_entity_type);
+    for(CSpace::TMapPerType::iterator it = cEntities.begin(); it != cEntities.end(); ++it) {
+      TRobotEntity& cRobot = *any_cast<TRobotEntity*>(it->second);
+      CPyController& cController =
+        dynamic_cast<CPyController&>(cRobot.GetControllableEntity().GetController());
+      c_all_robots.append(cController.getActusensors());
+    }
+  } catch (...) {
+    /*
+     * ARGoS throws when no entity map exists for a type. That is fine here:
+     * a loop function can be used with foot-bots, e-pucks, or a mix.
+     */
+  }
+}
 }
 
 CPyLoopFunction::CPyLoopFunction() {
@@ -70,18 +90,10 @@ void CPyLoopFunction::Init(TConfigurationNode& t_node) {
   }
 
 
-  // Iterate over all robots and add them to a boost list
-  boost::python::list allRobots;    
-  CSpace::TMapPerType& m_cEpuck = GetSpace().GetEntitiesByType("epuck");
-  for(CSpace::TMapPerType::iterator it = m_cEpuck.begin(); it != m_cEpuck.end(); ++it)
-  {
-    /* Get handle to e-puck entity and controller */
-    CEPuckEntity& cEpuck = *any_cast<CEPuckEntity*>(it->second);
-
-    CPyController& cController =  dynamic_cast<CPyController&>(cEpuck.GetControllableEntity().GetController());
-
-    allRobots.append(cController.getActusensors());
-  }
+  // Iterate over supported Python-controlled robots and add them to a boost list
+  boost::python::list allRobots;
+  AppendRobotControllers<CFootBotEntity>(GetSpace(), "foot-bot", allRobots);
+  AppendRobotControllers<CEPuckEntity>(GetSpace(), "epuck", allRobots);
   m_loop_namesp["allrobots"]  = allRobots;
 
 

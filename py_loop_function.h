@@ -5,6 +5,7 @@
 #include <boost/python.hpp>
 
 #include <argos3/plugins/robots/e-puck/simulator/epuck_entity.h>
+#include <argos3/plugins/robots/foot-bot/simulator/footbot_entity.h>
 #include <argos3/core/simulator/loop_functions.h>
 
 #include <py_controller.h>
