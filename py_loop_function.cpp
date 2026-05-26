@@ -1,4 +1,5 @@
 #include "py_loop_function.h"
+#include "py_python_runtime.h"
 
 using namespace argos;
 using namespace boost::python;
@@ -20,26 +21,35 @@ BOOST_PYTHON_MODULE(libpy_loop_function_interface) {
 
 }
 
+namespace {
+struct CLoopFunctionModuleRegistrar {
+    CLoopFunctionModuleRegistrar() {
+        if (!Py_IsInitialized()) {
+            PyImport_AppendInittab("libpy_loop_function_interface", INIT_MODULE_LOOP_FUNCTION);
+            PyImport_AppendInittab("libpy_controller_interface", INIT_MODULE_CONTROLLER);
+        }
+    }
+};
+
+CLoopFunctionModuleRegistrar g_cLoopFunctionModuleRegistrar;
+}
+
 CPyLoopFunction::CPyLoopFunction() {
-  // init python
+  CPyGILGuard cGIL;
+  m_loop_namesp = dict();
+  m_loop_namesp["__builtins__"] = import("builtins");
+  m_loop_namesp["__name__"] = "__argos_loop_function__";
+}
 
-  // TODO: Remove from loop function and only call in controller
-  // PyImport_AppendInittab("libpy_qtuser_function_interface", INIT_MODULE_QTUSER_FUNCTION); 
-  PyImport_AppendInittab("libpy_controller_interface", INIT_MODULE_CONTROLLER); 
-  // TODO: Remove from loop function and only call in controller
-
-  PyImport_AppendInittab("libpy_loop_function_interface", INIT_MODULE_LOOP_FUNCTION);
-  if (!Py_IsInitialized()) {
-    Py_Initialize();
-  }
-  m_loop_interpreter = Py_NewInterpreter();
-    // init main module and namespace
-  m_loop_main = import("__main__");
-  m_loop_namesp = m_loop_main.attr("__dict__");
+CPyLoopFunction::~CPyLoopFunction() {
+  CPyGILGuard cGIL;
+  m_loop_script = object();
+  m_loop_namesp = object();
 }
 
 
 void CPyLoopFunction::Init(TConfigurationNode& t_node) {
+  CPyGILGuard cGIL;
 
   TConfigurationNode& tParams = GetNode(t_node, "params");
   
@@ -83,12 +93,12 @@ void CPyLoopFunction::Init(TConfigurationNode& t_node) {
   
   try {
     // Import the wrapper's lib
-    PyRun_SimpleString("import libpy_loop_function_interface as lib");
     object lib = import("libpy_loop_function_interface");
+    m_loop_namesp["lib"] = lib;
     
 
     // Launch Python init function
-    object init_f = m_loop_main.attr("init");
+    object init_f = m_loop_namesp["init"];
     init_f();
   } catch (error_already_set) {
     PyErr_Print();
@@ -97,9 +107,10 @@ void CPyLoopFunction::Init(TConfigurationNode& t_node) {
 }
 
 void CPyLoopFunction::Reset() {
+  CPyGILGuard cGIL;
   // launch python reset function
   try {
-    object reset_f = m_loop_main.attr("reset");
+    object reset_f = m_loop_namesp["reset"];
     reset_f();
   } catch (error_already_set) {
     PyErr_Print();
@@ -107,10 +118,11 @@ void CPyLoopFunction::Reset() {
 }
 
 void CPyLoopFunction::Destroy() {
+  CPyGILGuard cGIL;
   
   // Launch Python destroy function
   try {
-    object destroy_f = m_loop_main.attr("destroy");
+    object destroy_f = m_loop_namesp["destroy"];
     destroy_f();
   } catch (error_already_set) {
     PyErr_Print();
@@ -118,10 +130,11 @@ void CPyLoopFunction::Destroy() {
 }
 
 void CPyLoopFunction::PreStep() {
+  CPyGILGuard cGIL;
 
   // Launch Python pre_step function
   try {
-    object pre_step_f = m_loop_main.attr("pre_step");
+    object pre_step_f = m_loop_namesp["pre_step"];
     pre_step_f();
   } catch (error_already_set) {
     PyErr_Print();
@@ -129,9 +142,10 @@ void CPyLoopFunction::PreStep() {
 }
 
 void CPyLoopFunction::PostStep() {
+  CPyGILGuard cGIL;
   // Launch Python post_step function
   try {
-    object post_step_f = m_loop_main.attr("post_step");
+    object post_step_f = m_loop_namesp["post_step"];
     post_step_f();
   } catch (error_already_set) {
     PyErr_Print();
@@ -139,10 +153,11 @@ void CPyLoopFunction::PostStep() {
 }
 
 bool CPyLoopFunction::IsExperimentFinished() {
+  CPyGILGuard cGIL;
 
 // Launch Python is_experiment_finished function
   try {
-    object is_experiment_finished_f = m_loop_main.attr("is_experiment_finished");
+    object is_experiment_finished_f = m_loop_namesp["is_experiment_finished"];
     return is_experiment_finished_f();
   } catch (error_already_set) {
     PyErr_Print();
@@ -152,10 +167,11 @@ bool CPyLoopFunction::IsExperimentFinished() {
 }
 
 CColor CPyLoopFunction::GetFloorColor() {
+  CPyGILGuard cGIL;
 
 // Launch Python is_experiment_finished function
   try {
-    object get_floor_color_f = m_loop_main.attr("get_floor_color");
+    object get_floor_color_f = m_loop_namesp["get_floor_color"];
 
     std::cout << "Testing GetFloorColor" << std::endl;
     return CColor::WHITE;
@@ -167,9 +183,10 @@ CColor CPyLoopFunction::GetFloorColor() {
 }
 
 void CPyLoopFunction::PostExperiment() {
+  CPyGILGuard cGIL;
   // Launch Python post_experiment function
   try {
-    object post_experiment_f = m_loop_main.attr("post_experiment");
+    object post_experiment_f = m_loop_namesp["post_experiment"];
     post_experiment_f();
   } catch (error_already_set) {
     PyErr_Print();

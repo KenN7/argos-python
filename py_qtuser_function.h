@@ -22,7 +22,7 @@ class CPyQTUserFunction : public CQTOpenGLUserFunctions {
 
    CPyQTUserFunction();
 
-   virtual ~CPyQTUserFunction () {}
+   virtual ~CPyQTUserFunction();
 
    virtual void Init(TConfigurationNode& t_node);
    void DrawInWorld();
@@ -32,10 +32,8 @@ class CPyQTUserFunction : public CQTOpenGLUserFunctions {
 
  private:
   
-    boost::python::object m_qtuser_main;
     boost::python::object m_qtuser_namesp;
     boost::python::object m_qtuser_script;
-    PyThreadState* m_qtuser_interpreter;
     boost::shared_ptr<EnvironmentWrapper> m_environment;
 
   };

@@ -17,7 +17,7 @@ class CPyController : public CCI_Controller {
 
   public:
     CPyController();
-    virtual ~CPyController() {}
+    virtual ~CPyController();
 
     /*
      * This function initializes the controller.
@@ -55,14 +55,8 @@ class CPyController : public CCI_Controller {
     void InitSensorsActuators(TConfigurationNode& t_node);
 
   private:
-    boost::python::object m_main;
     boost::python::object m_namesp;
     boost::python::object m_script;
-    PyThreadState* m_interpreter;
-    // Get the default thread state  
-    //PyThreadState* state;
-    PyInterpreterState* interpreterState;
-
 
     boost::shared_ptr<ActusensorsWrapper> m_actusensors;
     

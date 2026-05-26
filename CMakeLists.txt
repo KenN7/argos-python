@@ -59,6 +59,7 @@ set(PYCONTROLLER_HEADERS
   )
 
 set(PYCONTROLLER_SOURCES
+  py_python_runtime.cpp
   py_controller.cpp
   py_wrapper.cpp
   py_actusensor_wrapper_generic.cpp
@@ -71,6 +72,7 @@ set(PYLOOPFUNCTION_HEADERS
   )
 
 set(PYLOOPFUNCTION_SOURCES
+  py_python_runtime.cpp
   py_loop_function.cpp
   )
 
@@ -81,6 +83,7 @@ set(PYQTUSERFUNCTION_HEADERS
   )
 
 set(PYQTUSERFUNCTION_SOURCES
+  py_python_runtime.cpp
   py_qtuser_function.cpp
   py_environment_wrapper.cpp
   )

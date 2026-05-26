@@ -18,7 +18,7 @@ class CPyLoopFunction : public CLoopFunctions {
 
  public:
   CPyLoopFunction();
-  virtual ~CPyLoopFunction(){};
+  virtual ~CPyLoopFunction();
   
   virtual void Init(TConfigurationNode& t_node);
 
@@ -38,10 +38,8 @@ class CPyLoopFunction : public CLoopFunctions {
 
  private:
   
-    boost::python::object m_loop_main;
     boost::python::object m_loop_namesp;
     boost::python::object m_loop_script;
-    PyThreadState* m_loop_interpreter;
     boost::shared_ptr<EnvironmentWrapper> m_environment;
 };
 

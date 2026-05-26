@@ -1,4 +1,5 @@
 #include "py_qtuser_function.h"
+#include "py_python_runtime.h"
 #include <string>
 
 using namespace argos;
@@ -21,23 +22,36 @@ BOOST_PYTHON_MODULE(libpy_qtuser_function_interface) {
 
 }
 
+namespace {
+struct CQTUserFunctionModuleRegistrar {
+    CQTUserFunctionModuleRegistrar() {
+        if (!Py_IsInitialized()) {
+            PyImport_AppendInittab("libpy_qtuser_function_interface", INIT_MODULE_QTUSER_FUNCTION);
+        }
+    }
+};
+
+CQTUserFunctionModuleRegistrar g_cQTUserFunctionModuleRegistrar;
+}
 
 CPyQTUserFunction::CPyQTUserFunction() {
-    // init python
-  PyImport_AppendInittab("libpy_qtuser_function_interface", INIT_MODULE_QTUSER_FUNCTION);
-  if (!Py_IsInitialized()) {
-    Py_Initialize();
-  }
-  m_qtuser_interpreter = Py_NewInterpreter();
-    // init main module and namespace
-  m_qtuser_main = import("__main__");
-  m_qtuser_namesp = m_qtuser_main.attr("__dict__");
+  CPyGILGuard cGIL;
+  m_qtuser_namesp = dict();
+  m_qtuser_namesp["__builtins__"] = import("builtins");
+  m_qtuser_namesp["__name__"] = "__argos_qtuser_function__";
 
   // This is just to draw the ID of the robot in the robot reference frame
   RegisterUserFunction<CPyQTUserFunction,CEPuckEntity>(&CPyQTUserFunction::Draw);
 }
 
+CPyQTUserFunction::~CPyQTUserFunction() {
+  CPyGILGuard cGIL;
+  m_qtuser_script = object();
+  m_qtuser_namesp = object();
+}
+
 void CPyQTUserFunction::Init(TConfigurationNode& t_node) {
+  CPyGILGuard cGIL;
   
   TConfigurationNode& tParams = GetNode(t_node, "params");
 
@@ -66,7 +80,7 @@ void CPyQTUserFunction::Init(TConfigurationNode& t_node) {
     // object lib = import("libpy_qtuser_function_interface");
 
     // Launch Python init function
-    object init_f = m_qtuser_main.attr("init");
+    object init_f = m_qtuser_namesp["init"];
     init_f();
   } catch (error_already_set) {
     PyErr_Print();
@@ -75,10 +89,11 @@ void CPyQTUserFunction::Init(TConfigurationNode& t_node) {
 }
 
 void CPyQTUserFunction::Destroy() {
+  CPyGILGuard cGIL;
   
   // Launch Python destroy function
   try {
-    object destroy_f = m_qtuser_main.attr("destroy");
+    object destroy_f = m_qtuser_namesp["destroy"];
     destroy_f();
   } catch (error_already_set) {
     PyErr_Print();
@@ -87,10 +102,11 @@ void CPyQTUserFunction::Destroy() {
 
 
 void CPyQTUserFunction::DrawInWorld() {
+  CPyGILGuard cGIL;
 
   // keeping this one temporarily for backwards compatibility
   try {
-    object draw_in_world_f = m_qtuser_main.attr("DrawInWorld");
+    object draw_in_world_f = m_qtuser_namesp["DrawInWorld"];
     draw_in_world_f();
 
   } catch (error_already_set) {
@@ -99,7 +115,7 @@ void CPyQTUserFunction::DrawInWorld() {
 
   // launch python draw function
   try {
-    object draw_in_world_f = m_qtuser_main.attr("draw_in_world");
+    object draw_in_world_f = m_qtuser_namesp["draw_in_world"];
     draw_in_world_f();
 
   } catch (error_already_set) {
@@ -110,6 +126,7 @@ void CPyQTUserFunction::DrawInWorld() {
 
 
 void CPyQTUserFunction::Draw(CEPuckEntity& c_entity) {
+  CPyGILGuard cGIL;
   /* The position of the drawings is expressed wrt the reference point of the epuck
   */
 
@@ -119,7 +136,7 @@ void CPyQTUserFunction::Draw(CEPuckEntity& c_entity) {
 
   // Launch Python draw function
   try {
-    object destroy_f = m_qtuser_main.attr("draw_in_robot");
+    object destroy_f = m_qtuser_namesp["draw_in_robot"];
     destroy_f();
   } catch (error_already_set) {
     PyErr_Print();

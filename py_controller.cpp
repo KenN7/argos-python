@@ -5,6 +5,7 @@
  *
  */
 #include "py_controller.h"
+#include "py_python_runtime.h"
 
 using namespace argos;
 using namespace boost::python;
@@ -12,34 +13,47 @@ using namespace boost::python;
 #define INIT_MODULE_CONTROLLER PyInit_libpy_controller_interface
 extern "C" PyObject* INIT_MODULE_CONTROLLER();
 
-CPyController::CPyController() {
-    // init python
-    PyImport_AppendInittab("libpy_controller_interface", INIT_MODULE_CONTROLLER);
-    
-    Py_Initialize();
+namespace {
+struct CControllerModuleRegistrar {
+    CControllerModuleRegistrar() {
+        if (!Py_IsInitialized()) {
+            PyImport_AppendInittab("libpy_controller_interface", INIT_MODULE_CONTROLLER);
+        }
+    }
+};
 
-    m_interpreter = Py_NewInterpreter();
-    // init main module and namespace
-    m_main = import("__main__");
-    m_namesp = m_main.attr("__dict__");
+CControllerModuleRegistrar g_cControllerModuleRegistrar;
+}
+
+CPyController::CPyController() {
+    CPyGILGuard cGIL;
+    m_namesp = dict();
+    m_namesp["__builtins__"] = import("builtins");
+    m_namesp["__name__"] = "__argos_controller__";
+}
+
+CPyController::~CPyController() {
+    CPyGILGuard cGIL;
+    m_script = object();
+    m_namesp = object();
 }
 
 void CPyController::Destroy() {
+    CPyGILGuard cGIL;
     // launch python destroy function
     try {
-        object destroy = m_main.attr("destroy");
+        object destroy = m_namesp["destroy"];
         destroy();
     } catch (error_already_set) {
         PyErr_Print();
     }
-    // Py_EndInterpreter(m_interpreter);
-    // Py_Finalize(); //the documentation of boost says we should NOT use this ..
 }
 
 void CPyController::Reset() {
+    CPyGILGuard cGIL;
     // launch python reset function
     try {
-        object reset_f = m_main.attr("reset");
+        object reset_f = m_namesp["reset"];
         reset_f();
     } catch (error_already_set) {
         PyErr_Print();
@@ -61,6 +75,7 @@ m_actusensors->SetId(GetId());
 }
 
 void CPyController::Init(TConfigurationNode& t_node) {
+    CPyGILGuard cGIL;
 
     robotId = stoi(GetId().substr(2));
     timeStep = 0;
@@ -92,12 +107,12 @@ void CPyController::Init(TConfigurationNode& t_node) {
 
   try {
         // import the wrappers's lib
-    PyRun_SimpleString("import libpy_controller_interface as lib");
     object lib = import("libpy_controller_interface");
+    m_namesp["lib"] = lib;
     m_namesp["robot"] = m_actusensors;
 
         // launch python init function
-    object init_f = m_main.attr("init");
+    object init_f = m_namesp["init"];
     init_f();
 
 } catch (error_already_set) {
@@ -106,6 +121,7 @@ void CPyController::Init(TConfigurationNode& t_node) {
 }
 
 void CPyController::ControlStep() {
+    CPyGILGuard cGIL;
 
     timeStep++;
 
@@ -115,7 +131,7 @@ void CPyController::ControlStep() {
 
         try {
 
-        object controlstep = m_main.attr("controlstep");
+        object controlstep = m_namesp["controlstep"];
         controlstep();
 
         } catch (error_already_set) {

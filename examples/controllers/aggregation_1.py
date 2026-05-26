@@ -1,5 +1,9 @@
 import random, math
+import numpy as np
 
+print("OMG IT WORKS?")
+test = np.array([1,1,1])
+print(test)
 WALK = "WALK"
 AVOID = "AVOID"
 GO_FWD = "GO_FWD"
