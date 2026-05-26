@@ -1,6 +1,12 @@
-project (pythonwrapper CXX)
 # cmake_minimum_required (VERSION 2.8)
 cmake_minimum_required (VERSION 3.0)
+
+project (pythonwrapper CXX)
+
+if(POLICY CMP0072)
+  cmake_policy(SET CMP0072 NEW)
+endif()
+set(OpenGL_GL_PREFERENCE GLVND)
 
 set(BOOST_INCLUDEDIR /usr/include)
 
@@ -87,6 +93,17 @@ add_library (
  
 add_library (
     py_qtuser_function_interface SHARED ${PYQTUSERFUNCTION_HEADERS} ${PYQTUSERFUNCTION_SOURCES})
+
+set(PYTHONWRAPPER_TARGETS
+    py_controller_interface
+    py_loop_function_interface
+    py_qtuser_function_interface)
+
+foreach(target ${PYTHONWRAPPER_TARGETS})
+  target_compile_definitions(${target} PRIVATE
+      BOOST_ALLOW_DEPRECATED_HEADERS
+      BOOST_BIND_GLOBAL_PLACEHOLDERS)
+endforeach()
 
   target_link_libraries (py_controller_interface
     py_loop_function_interface
